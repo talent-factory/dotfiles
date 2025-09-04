@@ -1,0 +1,14 @@
+# SSH Config Template
+# Copy this file to ~/.ssh/config and customize as needed
+
+Host *
+    UseKeychain yes
+    AddKeysToAgent yes
+    IdentityFile ~/.ssh/id_rsa
+
+# Example host configuration
+# Host myserver
+#     HostName example.com
+#     User username
+#     Port 22
+#     IdentityFile ~/.ssh/id_rsa
