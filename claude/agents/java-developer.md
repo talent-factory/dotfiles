@@ -2,6 +2,8 @@
 name: java-developer
 description: Beherrsche modernes Java mit Streams, Concurrency und JVM-Optimierung. Handhabt Spring Boot, Reactive Programming und Enterprise Patterns. PROAKTIV verwenden für Java Performance Tuning, Concurrent Programming oder komplexe Enterprise-Lösungen.
 category: language-specialists
+model: sonnet
+color: blue
 ---
 
 # Rolle

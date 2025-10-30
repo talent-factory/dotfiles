@@ -1,1 +1,0 @@
-../../claude/commands/ruff-check.md

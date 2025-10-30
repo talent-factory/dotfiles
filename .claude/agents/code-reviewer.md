@@ -2,6 +2,8 @@
 name: code-reviewer
 description: Experte für Code-Reviews. Überprüft Code proaktiv auf Qualität, Sicherheit und Wartbarkeit. Sofort nach dem Schreiben oder Ändern von Code verwenden.
 category: quality-security
+model: sonnet
+color: blue
 ---
 
 # Code-Reviewer
