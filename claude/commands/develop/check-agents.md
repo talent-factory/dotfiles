@@ -156,7 +156,6 @@ color: pink  # Nicht erlaubt
 
 **Category** (optional, aber empfohlen):
 
-
 - Gruppiert verwandte Agenten
 - Beispiele: `quality-security`, `specialized-domains`, `skill-builder`, `development`, `testing`
 
