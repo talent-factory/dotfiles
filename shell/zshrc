@@ -7,9 +7,13 @@ export PATH=/Users/daniel/.gem/ruby/2.6.0/bin:$PATH
 
 alias iks='ssh -i ~/.ssh/iks.pem rocky@86.119.49.137'
 
-# VULTR CLI Access
-export VULTR_API_KEY=***REMOVED***
-
+# Load environment variables from ~/.env
+# This file should contain sensitive data like API keys
+if [ -f ~/.env ]; then
+    set -a  # automatically export all variables
+    source ~/.env
+    set +a  # stop auto-export
+fi
 
 # Start SSH Agent quietly
 if [ -z "$SSH_AUTH_SOCK" ]; then
@@ -142,8 +146,6 @@ alias claude-clean='CLAUDE_CONFIG_DIR=/tmp/claude-clean claude'
 
 alias python=python3
 alias pip=pip3
-
-export GEMINI_API_KEY="***REMOVED***"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

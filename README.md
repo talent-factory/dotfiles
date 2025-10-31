@@ -13,6 +13,8 @@ dotfiles/
 ├── install.sh              # Installations-Script mit automatischen Backups
 ├── README.md               # Diese Datei
 ├── CLAUDE.md               # Claude Code Dokumentation
+├── .env.example            # Environment Variables Template (API Keys)
+├── .gitignore              # Git Ignore Rules
 │
 ├── .claude/                # Claude Code Konfigurationen
 │   ├── agents/             # Spezialisierte Agenten
@@ -116,7 +118,23 @@ Das `install.sh` Script wird:
 
 ### Nach der Installation
 
-1. **Terminal neu starten** oder Shell-Konfiguration laden:
+1. **Environment Variables konfigurieren**:
+
+   ```bash
+   # .env Datei aus Template erstellen
+   cp ~/.dotfiles/.env.example ~/.env
+
+   # API Keys hinzufügen
+   vim ~/.env
+   ```
+
+   Fügen Sie Ihre persönlichen API Keys in `~/.env` ein:
+   - `VULTR_API_KEY` - Vultr CLI Access
+   - `GEMINI_API_KEY` - Google Gemini API
+
+   ⚠️ **Wichtig**: Die `~/.env` Datei wird NICHT versioniert und enthält sensible Daten!
+
+2. **Terminal neu starten** oder Shell-Konfiguration laden:
 
    ```bash
    source ~/.zshrc  # Für ZSH
@@ -124,14 +142,14 @@ Das `install.sh` Script wird:
    source ~/.bashrc # Für Bash
    ```
 
-2. **Claude Code verifizieren**:
+3. **Claude Code verifizieren**:
 
    Öffnen Sie Claude Code und überprüfen Sie, dass die Commands verfügbar sind:
    - `/commit`
    - `/create-pr`
    - `/project:create-prd`
 
-3. **SSH-Konfiguration anpassen** (falls benötigt):
+4. **SSH-Konfiguration anpassen** (falls benötigt):
 
    ```bash
    vim ~/.ssh/config
@@ -230,15 +248,34 @@ SSH-Konfigurationen werden aus Sicherheitsgründen speziell behandelt:
 
 Folgende Dateien werden bewusst NICHT versioniert:
 
+- **`.env`** - Environment Variables mit API Keys ⚠️ KRITISCH
 - `.claude/settings.local.json` - Lokale Claude-Einstellungen
 - `*.local` - Alle lokalen Konfigurationen
 - SSH Private Keys
-- API Keys und Credentials
+- Andere API Keys und Credentials
+
+### Environment Variables (.env)
+
+**Wichtig**: API Keys und sensible Daten gehören NICHT ins Repository!
+
+- ✅ `.env.example` ist im Repository (ohne echte Keys)
+- ❌ `.env` ist in `.gitignore` und wird NICHT committet
+- ✅ Jeder Nutzer erstellt seine eigene `~/.env` Datei lokal
+
+**Setup**:
+```bash
+# Template kopieren
+cp ~/.dotfiles/.env.example ~/.env
+
+# Eigene API Keys einfügen
+vim ~/.env
+```
 
 ### .gitignore
 
 Das Repository enthält ein umfassendes `.gitignore` für:
 
+- Environment Variables (`.env`, `.env.local`)
 - Claude lokale Einstellungen
 - OS-generierte Dateien (.DS_Store)
 - Editor-Backup-Dateien
@@ -282,6 +319,34 @@ ls -lt ~/.dotfiles_backup_* | head -1
 # Datei wiederherstellen
 cp ~/.dotfiles_backup_<timestamp>/.zshrc ~/
 ```
+
+### Environment Variables werden nicht geladen
+
+1. **Prüfen ob .env existiert**:
+
+   ```bash
+   ls -la ~/.env
+   ```
+
+2. **Aus Template erstellen**:
+
+   ```bash
+   cp ~/.dotfiles/.env.example ~/.env
+   vim ~/.env  # API Keys hinzufügen
+   ```
+
+3. **Shell neu laden**:
+
+   ```bash
+   source ~/.zshrc
+   ```
+
+4. **Variablen überprüfen**:
+
+   ```bash
+   echo $VULTR_API_KEY
+   echo $GEMINI_API_KEY
+   ```
 
 ## Wartung
 

@@ -110,6 +110,20 @@ Nach der Installation in Claude Code prüfen:
 # Oder in der Command-Palette nach "commit", "create-pr" oder "create-prd" suchen
 ```
 
+### Environment Variables Setup
+
+⚠️ **Wichtig**: API Keys werden über `~/.env` verwaltet und sind NICHT im Repository!
+
+```bash
+# .env aus Template erstellen
+cp ~/.dotfiles/.env.example ~/.env
+
+# API Keys hinzufügen
+vim ~/.env
+```
+
+Die Shell-Konfiguration lädt automatisch alle Variablen aus `~/.env`.
+
 ## Commands
 
 ### `/commit` - Professionelle Git-Commits

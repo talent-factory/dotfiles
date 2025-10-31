@@ -17,3 +17,8 @@ Thumbs.db
 
 # Local configuration files
 *.local
+
+# Environment variables (contains sensitive data like API keys)
+.env
+.env.local
+.env.*.local
