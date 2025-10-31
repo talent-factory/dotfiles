@@ -375,7 +375,7 @@ black $(git diff --name-only main...)
 
 Oder: Separater Formatierungs-Commit
 
-```
+```text
 💎 style: Projekt-weite Code-Formatierung mit Black
 
 Alle Python-Dateien mit Black 23.9.1 formatiert.

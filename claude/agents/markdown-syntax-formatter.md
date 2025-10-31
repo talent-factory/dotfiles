@@ -2,6 +2,7 @@
 name: markdown-syntax-formatter
 category: specialized-domains
 description: Konvertiert Text mit visueller Formatierung in ordnungsgemässe Markdown Syntax, behebt Markdown Formatting Issues und stellt konsistente Document Structure sicher. Handhabt Lists, Headings, Code Blocks und Emphasis Markers.
+color: yellow
 ---
 
 # Rolle

@@ -244,7 +244,6 @@ user = User.query.get(id)
 # Nachher
 user = UserService.get_by_id(id)  # Mit Caching
 ```
-```
 
 ## PR-Titel Best Practices
 
@@ -252,7 +251,7 @@ user = UserService.get_by_id(id)  # Mit Caching
 
 ✅ **Gut**:
 
-```
+```text
 ✨ feat: Rate Limiting für API-Endpoints implementiert
 🐛 fix: Memory Leak in WebSocket-Connections behoben
 ♻️ refactor: User Service in Microservices aufgeteilt
@@ -260,7 +259,7 @@ user = UserService.get_by_id(id)  # Mit Caching
 
 ❌ **Schlecht**:
 
-```
+```text
 updates
 fix stuff
 changes
@@ -310,7 +309,7 @@ PR for feature
 
 **CODEOWNERS** (`.github/CODEOWNERS`):
 
-```
+```text
 # Backend
 /src/api/**        @backend-team @senior-dev
 
@@ -399,7 +398,7 @@ gh pr ready <pr-number>
 
 **Beispiel für Stacked PRs**:
 
-```
+```text
 PR #1: ♻️ refactor: User Service Refactoring
 PR #2: ✨ feat: Rate Limiting (base on #1)
 PR #3: 🧪 test: Integration Tests (base on #2)
@@ -423,7 +422,7 @@ Squash and Merge: ✨ feat: Rate Limiting implementiert
 
 **Resultat**: Alle Commits werden in main übernommen
 
-```
+```text
 ✨ feat: Rate Limiting Middleware
 🧪 test: Rate Limiting Tests
 📚 docs: Rate Limiting Dokumentation

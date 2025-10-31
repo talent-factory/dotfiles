@@ -138,7 +138,7 @@ modified: README.md               # Docs
 
 Kann in separate Commits aufteilen:
 
-```
+```text
 ✨ feat: Login-Funktionalität verbessert
 ├─ src/auth/login.py
 └─ tests/test_auth.py
@@ -176,7 +176,7 @@ Kann in separate Commits aufteilen:
 
 **Beispiele**:
 
-```
+```text
 feature/user-authentication-2024-10-30
 bugfix/memory-leak-fix-2024-10-30
 refactor/api-restructure-2024-10-30
@@ -188,7 +188,7 @@ Der Branch-Name wird aus den Commit-Nachrichten abgeleitet:
 
 **Commits**:
 
-```
+```text
 ✨ feat: Benutzer-Dashboard hinzugefügt
 🧪 test: Dashboard Tests implementiert
 ```
@@ -201,7 +201,7 @@ Der Branch-Name wird aus den Commit-Nachrichten abgeleitet:
 
 **Lösung**: Automatisches Suffix
 
-```
+```text
 feature/neue-funktion-2024-10-30
 feature/neue-funktion-2024-10-30-v2
 feature/neue-funktion-2024-10-30-v3
@@ -255,7 +255,7 @@ git log --oneline origin/main..HEAD
 
 **Single Commit**: Commit-Nachricht als Titel
 
-```
+```text
 ✨ feat: Benutzer-Dashboard hinzugefügt
 ```
 
@@ -263,7 +263,7 @@ git log --oneline origin/main..HEAD
 
 **Multiple Commits**: Zusammenfassung erstellen
 
-```
+```text
 ✨ feat: Login-System implementiert
 🧪 test: Login-Tests hinzugefügt
 📚 docs: Login-Dokumentation erstellt
@@ -319,7 +319,7 @@ git rebase -i HEAD~5
 
 **Commits dokumentieren das "Warum"**:
 
-```
+```text
 ✨ feat: Rate Limiting für API-Endpoints
 
 Implementiert Token-Bucket-Algorithmus für API-Rate-Limiting.
@@ -332,7 +332,7 @@ Grund: Schutz vor API-Missbrauch und DoS-Angriffen.
 
 **Ein Branch = Ein Feature**
 
-```
+```text
 ✅ feature/user-authentication
 ✅ bugfix/login-memory-leak
 ❌ feature/multiple-unrelated-things

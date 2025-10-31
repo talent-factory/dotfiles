@@ -8,7 +8,7 @@
 
 ✅ **Gute atomare Commits**:
 
-```
+```text
 ✨ feat: Benutzer-Authentifizierung hinzugefügt
 🧪 test: Tests für Authentifizierung hinzugefügt
 📚 docs: Auth-API Dokumentation erstellt
@@ -16,7 +16,7 @@
 
 ❌ **Schlechter monolithischer Commit**:
 
-```
+```text
 ✨ feat: Auth, Tests, Docs, Bugfixes und Refactoring
 ```
 
@@ -37,7 +37,7 @@
 
 ✅ **Gut**:
 
-```
+```text
 🐛 fix: Speicherleck in WebSocket-Verbindungen behoben
 
 WebSocket-Connections wurden nicht korrekt geschlossen,
@@ -49,7 +49,7 @@ Lösung: Explicit cleanup in finally-Block implementiert.
 
 ❌ **Schlecht**:
 
-```
+```text
 fix: bug
 ```
 
@@ -77,7 +77,7 @@ fix: bug
 
 **Grund**: Bessere Lesbarkeit in Git-Tools
 
-```
+```text
 ✨ feat: User Dashboard mit Metriken                    # ✅ 48 Zeichen
 ✨ feat: Implementierung eines umfassenden...           # ❌ zu lang
 ```
@@ -219,7 +219,7 @@ git pull origin main
 
 **Lösung**: Kontext hinzufügen
 
-```
+```text
 📚 docs: Typo in API-Dokumentation korrigiert
 
 Der Endpoint-Name war falsch dokumentiert (/api/user statt /api/users),
@@ -248,9 +248,9 @@ git rebase -i HEAD~5          # Interaktives Rebase
 
 **Feature-Branches**:
 
-```
-feature/user-authentication   # ✅ Beschreibend
-feat/auth                    # ✅ Kürzer, aber klar
+```text
+feature/user-authentication # ✅ Beschreibend
+feat/auth                   # ✅ Kürzer, aber klar
 user-auth-123               # ✅ Mit Ticket-Nummer
 fix-login                   # ❌ Zu generisch
 new-stuff                   # ❌ Nicht aussagekräftig
@@ -283,7 +283,7 @@ git config commit.template ~/.gitmessage
 
 **Template** (`~/.gitmessage`):
 
-```
+```text
 # <emoji> <type>: <subject>
 
 # [optional body]

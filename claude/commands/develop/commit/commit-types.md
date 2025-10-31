@@ -10,7 +10,7 @@ Emoji Conventional Commit Format für konsistente Git-Historie.
 
 **Beispiele**:
 
-```
+```text
 ✨ feat: Benutzer-Dashboard mit Metriken hinzugefügt
 ✨ feat: OAuth2 Authentifizierung implementiert
 ✨ feat: Dark Mode Toggle zu Einstellungen hinzugefügt
@@ -22,7 +22,7 @@ Emoji Conventional Commit Format für konsistente Git-Historie.
 
 **Beispiele**:
 
-```
+```text
 🐛 fix: Speicherleck in Datenbank-Connection behoben
 🐛 fix: Falscher Response-Code bei 404-Errors korrigiert
 🐛 fix: Race Condition in async Handler gelöst
@@ -34,7 +34,7 @@ Emoji Conventional Commit Format für konsistente Git-Historie.
 
 **Beispiele**:
 
-```
+```text
 📚 docs: API-Dokumentation für v2 Endpoints aktualisiert
 📚 docs: README mit Installationsanleitung ergänzt
 📚 docs: JSDoc Kommentare für Core-Module hinzugefügt
@@ -46,7 +46,7 @@ Emoji Conventional Commit Format für konsistente Git-Historie.
 
 **Beispiele**:
 
-```
+```text
 💎 style: Prettier Formatierung auf gesamtes Projekt angewendet
 💎 style: Einrückung in Config-Dateien korrigiert
 💎 style: Trailing Whitespace entfernt
@@ -58,7 +58,7 @@ Emoji Conventional Commit Format für konsistente Git-Historie.
 
 **Beispiele**:
 
-```
+```text
 ♻️ refactor: User Service in kleinere Module aufgeteilt
 ♻️ refactor: Dependency Injection für bessere Testbarkeit
 ♻️ refactor: Deprecated API durch moderne Alternative ersetzt
@@ -70,7 +70,7 @@ Emoji Conventional Commit Format für konsistente Git-Historie.
 
 **Beispiele**:
 
-```
+```text
 ⚡ perf: Datenbank-Queries mit Indexing optimiert
 ⚡ perf: Lazy Loading für große Komponenten implementiert
 ⚡ perf: Caching-Layer für API-Responses hinzugefügt
@@ -82,7 +82,7 @@ Emoji Conventional Commit Format für konsistente Git-Historie.
 
 **Beispiele**:
 
-```
+```text
 🧪 test: Unit Tests für Authentication Service hinzugefügt
 🧪 test: E2E Tests für Checkout-Flow erweitert
 🧪 test: Flaky Test in CI/CD Pipeline stabilisiert
@@ -94,7 +94,7 @@ Emoji Conventional Commit Format für konsistente Git-Historie.
 
 **Beispiele**:
 
-```
+```text
 🔧 chore: Dependencies auf neueste Versionen aktualisiert
 🔧 chore: ESLint Konfiguration verschärft
 🔧 chore: Build-Script für Production optimiert
@@ -108,7 +108,7 @@ Emoji Conventional Commit Format für konsistente Git-Historie.
 
 **Beispiele**:
 
-```
+```text
 🚀 ci: GitHub Actions Workflow für automatisches Deployment
 🚀 ci: Test-Coverage Report zu Pipeline hinzugefügt
 🚀 ci: Docker Build-Stage optimiert
@@ -120,7 +120,7 @@ Emoji Conventional Commit Format für konsistente Git-Historie.
 
 **Beispiele**:
 
-```
+```text
 🔒 security: SQL Injection Schwachstelle behoben
 🔒 security: CSRF-Protection für Forms implementiert
 🔒 security: Abhängigkeiten mit bekannten CVEs aktualisiert
@@ -132,7 +132,7 @@ Emoji Conventional Commit Format für konsistente Git-Historie.
 
 **Beispiele**:
 
-```
+```text
 🌐 i18n: Deutsche Übersetzung für UI-Komponenten hinzugefügt
 🌐 i18n: Datumsformatierung für verschiedene Locales
 🌐 i18n: Sprachauswahl-Dropdown implementiert
@@ -144,7 +144,7 @@ Emoji Conventional Commit Format für konsistente Git-Historie.
 
 **Beispiele**:
 
-```
+```text
 ♿ a11y: ARIA-Labels für Screen Reader hinzugefügt
 ♿ a11y: Keyboard-Navigation für Dropdown-Menüs
 ♿ a11y: Farbkontraste nach WCAG 2.1 AA angepasst
@@ -156,7 +156,7 @@ Emoji Conventional Commit Format für konsistente Git-Historie.
 
 **Beispiele**:
 
-```
+```text
 📦 deps: React von 18.2 auf 18.3 aktualisiert
 📦 deps: Sicherheitsupdate für lodash durchgeführt
 📦 deps: Entwicklungs-Dependencies aktualisiert
@@ -166,7 +166,7 @@ Emoji Conventional Commit Format für konsistente Git-Historie.
 
 ### Commit-Nachricht Format
 
-```
+```text
 <emoji> <type>: <kurze Beschreibung>
 
 [optionaler Body mit Details]
@@ -178,14 +178,14 @@ Emoji Conventional Commit Format für konsistente Git-Historie.
 
 ✅ **Richtig**:
 
-```
+```text
 ✨ feat: Füge Benutzer-Dashboard hinzu
 🐛 fix: Behebe Speicherleck in API
 ```
 
 ❌ **Falsch**:
 
-```
+```text
 ✨ feat: Dashboard hinzugefügt
 🐛 fix: Speicherleck behoben
 ```
@@ -197,7 +197,7 @@ Emoji Conventional Commit Format für konsistente Git-Historie.
 
 ### Breaking Changes kennzeichnen
 
-```
+```text
 ♻️ refactor: API v2 Endpoints eingeführt
 
 BREAKING CHANGE: Alte v1 Endpoints sind deprecated.
