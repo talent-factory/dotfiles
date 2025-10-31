@@ -9,6 +9,8 @@ Umfassende Dokumentation der Claude Code Integration mit Commands, Agenten und B
 - [Commands](#commands)
   - [/commit](#commit---professionelle-git-commits)
   - [/create-pr](#create-pr---pull-requests-erstellen)
+  - [/develop:check-agents](#developcheck-agents---agent-validation)
+  - [/develop:check-commands](#developcheck-commands---command-validation)
   - [/project:create-prd](#projectcreate-prd---product-requirements-documents)
 - [Agenten](#agenten)
 - [Skill-Builder System](#skill-builder-system)
@@ -20,7 +22,7 @@ Umfassende Dokumentation der Claude Code Integration mit Commands, Agenten und B
 
 Dieses Repository enthält eine professionelle Claude Code Konfiguration mit:
 
-- **3 Haupt-Commands** für Development und Product Management
+- **5 Haupt-Commands** für Development und Product Management
 - **Progressive Disclosure Pattern** für optimale Performance
 - **~2.800 Zeilen Best Practices Dokumentation**
 - **4 PRD-Templates** (MVP, Standard, Major Initiative, Technical)
@@ -105,9 +107,11 @@ Nach der Installation in Claude Code prüfen:
 # Commands sollten verfügbar sein:
 /commit
 /create-pr
+/develop:check-agents
+/develop:check-commands
 /project:create-prd
 
-# Oder in der Command-Palette nach "commit", "create-pr" oder "create-prd" suchen
+# Oder in der Command-Palette nach "commit", "create-pr", "check-agents", "check-commands" oder "create-prd" suchen
 ```
 
 ### Environment Variables Setup
@@ -279,6 +283,183 @@ Erstellt automatisch einen neuen Branch, analysiert Änderungen und erstellt ein
   - Branch-Probleme
   - GitHub CLI Issues
   - Merge-Konflikte
+
+---
+
+### `/develop:check-agents` - Agent Validation
+
+Validiert Claude Code Agenten auf YAML-Struktur (inkl. **color-Attribut**), Markdown-Syntax und Best Practices.
+
+**Location**: `claude/commands/develop/check-agents.md`
+
+#### Features
+
+- ✅ **YAML-Frontmatter Validierung** (name, description, **color**)
+- ✅ **Color-Attribut Pflicht** - 8 erlaubte Farben mit semantischer Bedeutung
+- ✅ **Markdown-Struktur Check** (H1-Überschriften, CommonMark)
+- ✅ **Best Practices Validation** (Naming, Category, Model)
+- ✅ **Bulk-Validierung** - Alle Agenten auf einmal prüfen
+- ✅ **Auto-Fix Option** - Intelligente Farb-Vorschläge
+
+#### Verwendung
+
+```bash
+# Spezifischen Agenten prüfen
+/develop:check-agents claude/agents/code-reviewer.md
+
+# Interaktive Auswahl / Bulk-Check
+/develop:check-agents
+```
+
+#### Color-Attribut (Required)
+
+Alle Agenten **müssen** ein `color`-Attribut haben:
+
+| Farbe | Verwendung | Beispiele |
+|-------|------------|-----------|
+| `blue` | Code/Development | code-reviewer, developer |
+| `green` | Testing/Validation | test-automator, validator |
+| `red` | Security/Critical | security-auditor |
+| `yellow` | Documentation | documenter, formatter |
+| `purple` | Research/Analysis | researcher, analyst |
+| `orange` | Build/Deployment | deployer, ci-specialist |
+| `cyan` | Data/Database | data-engineer, db-optimizer |
+| `magenta` | UI/UX | ui-designer, ux-specialist |
+
+#### Validierungs-Checks
+
+**YAML-Frontmatter**:
+- `name` (required, lowercase mit Bindestrichen)
+- `description` (required, 1-200 Zeichen)
+- `color` (required, eine der 8 erlaubten Farben)
+- `category` (optional, empfohlen)
+- `model` (optional: sonnet/opus/haiku)
+- `tools` (optional)
+
+**Markdown-Struktur**:
+- Mindestens eine H1-Überschrift
+- Valides CommonMark-Format
+- Empfohlene Abschnitte: Rolle, Aktivierung, Prozess
+
+**Best Practices**:
+- Name in lowercase mit Bindestrichen
+- Name stimmt mit Dateinamen überein
+- Color passt zur Agent-Funktion
+
+#### Example Reports
+
+**Compliant Agent**:
+```markdown
+## Validation Report: code-reviewer
+
+✅ YAML-Frontmatter: Valid
+✅ Color-Attribut: blue (valid ✓)
+✅ Markdown-Struktur: Valid
+✅ Best Practices: Compliant
+
+✨ Agent is fully compliant!
+```
+
+**Missing Color**:
+```markdown
+## Validation Report: markdown-syntax-formatter
+
+❌ Color-Attribut: MISSING
+💡 Recommended: color: yellow (documentation agent)
+
+### Quick fix:
+Add to YAML frontmatter:
+color: yellow
+```
+
+**Bulk Report**:
+```markdown
+## Bulk Validation: 6 agents
+
+✅ Compliant: 2 (33%)
+❌ Missing color: 4 (67%)
+
+Agents needing color:
+- markdown-syntax-formatter.md → yellow
+- skill-documenter-agent.md → yellow
+- skill-generator-agent.md → blue
+- skill-validator-agent.md → green
+```
+
+#### Use Cases
+
+- **Vor dem Commit**: Agenten validieren
+- **Neue Agenten**: Color-Attribut nicht vergessen
+- **Bulk-Check**: Alle Agenten auf Compliance prüfen
+- **Migration**: Bestehende Agenten mit color ausstatten
+
+---
+
+### `/develop:check-commands` - Command Validation
+
+Validiert Claude Code Commands auf Struktur, Dokumentation und Best Practices.
+
+**Location**: `claude/commands/develop/check-commands.md`
+
+#### Features
+
+- ✅ **YAML-Frontmatter Validierung** (required & optional fields)
+- ✅ **Markdown-Struktur Check** (H1-Überschriften, Links)
+- ✅ **Dokumentations-Prüfung** (Progressive Disclosure, Detail-Dateien)
+- ✅ **Best Practices Validation** (Naming, Category, Description)
+- ✅ **Detaillierte Reports** mit Fehlerbeschreibungen und Fixes
+
+#### Verwendung
+
+```bash
+# Spezifischen Command prüfen
+/develop:check-commands claude/commands/develop/commit.md
+
+# Interaktive Auswahl
+/develop:check-commands
+```
+
+#### Validierungs-Checks
+
+**YAML-Frontmatter**:
+- `description` (required, 1-100 Zeichen)
+- `category` (required, muss existierendem Ordner entsprechen)
+- `allowed-tools` (optional, Array)
+
+**Markdown-Struktur**:
+- Mindestens eine H1-Überschrift
+- Valides CommonMark-Format
+- Keine kaputten Links
+
+**Dokumentation**:
+- Progressive Disclosure für >250 Zeilen Commands
+- Detail-Dateien im Unterordner
+- Referenzen auf Detail-Dateien gültig
+
+**Best Practices**:
+- Lowercase Dateinamen mit Bindestrichen
+- Prägnante Descriptions (1-100 chars)
+- Korrekte Kategorie-Zuordnung
+
+#### Example Report
+
+```markdown
+## Validation Report: /develop:commit
+
+✅ YAML-Frontmatter: Valid
+✅ Markdown-Struktur: Valid
+✅ Dokumentation: Complete
+✅ Best Practices: Compliant
+✅ Progressive Disclosure: Implemented (84 lines main, 4 detail files)
+
+✨ Command is fully compliant!
+```
+
+#### Use Cases
+
+- **Vor dem Commit**: Commands validieren
+- **Nach Änderungen**: Integrität sicherstellen
+- **Neue Commands**: Initiales Setup überprüfen
 
 ---
 
