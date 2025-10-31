@@ -13,6 +13,7 @@ dotfiles/
 ├── install.sh              # Installations-Script mit automatischen Backups
 ├── README.md               # Diese Datei
 ├── CLAUDE.md               # Claude Code Dokumentation
+├── SECURITY.md             # Sicherheits-Dokumentation (Git-Historie-Bereinigung)
 ├── .env.example            # Environment Variables Template (API Keys)
 ├── .gitignore              # Git Ignore Rules
 │
@@ -354,7 +355,7 @@ cp ~/.dotfiles_backup_<timestamp>/.zshrc ~/
 
 ```bash
 cd ~/.dotfiles
-git pull origin main
+git pull origin develop
 ./install.sh  # Nur bei Struktur-Änderungen nötig
 ```
 
@@ -366,6 +367,20 @@ git add .
 git commit -m "feat: Beschreibung der Änderung"
 git push
 ```
+
+### ⚠️ Wichtig: Force-Push erforderlich (Einmalig)
+
+Nach der Git-Historie-Bereinigung (API Keys entfernt) ist ein **einmaliger Force-Push** erforderlich:
+
+```bash
+git push origin develop --force
+```
+
+**Warum?** Die Git-Historie wurde mit `git-filter-repo` umgeschrieben, um API Keys zu entfernen. Details siehe [SECURITY.md](SECURITY.md).
+
+**Nach dem Force-Push**:
+- Alte API Keys bei Anbietern rotieren (Vultr, Google)
+- Diese Warnung kann aus der README entfernt werden
 
 ## Weiterführende Dokumentation
 
