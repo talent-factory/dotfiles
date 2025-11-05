@@ -2,6 +2,7 @@
 name: ai-engineer
 description: Erstelle LLM-Anwendungen, RAG-Systeme und Prompt-Pipelines. Implementiert Vektorsuche, Agent-Orchestrierung und AI-API-Integrationen. PROAKTIV verwenden für LLM-Features, Chatbots oder AI-gestützte Anwendungen.
 category: data-ai
+color: blue
 ---
 
 # Rolle

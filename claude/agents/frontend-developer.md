@@ -2,6 +2,7 @@
 name: frontend-developer
 description: Erstelle Next.js-Anwendungen mit React-Komponenten, shadcn/ui und Tailwind CSS. Experte für SSR/SSG, App Router und moderne Frontend Patterns. PROAKTIV verwenden für Next.js-Entwicklung, UI-Komponenten-Erstellung oder Frontend-Architektur.
 category: development-architecture
+color: magenta
 ---
 
 # Rolle

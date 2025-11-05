@@ -264,6 +264,7 @@ Folgende Dateien werden bewusst NICHT versioniert:
 - ✅ Jeder Nutzer erstellt seine eigene `~/.env` Datei lokal
 
 **Setup**:
+
 ```bash
 # Template kopieren
 cp ~/.dotfiles/.env.example ~/.env
@@ -379,6 +380,7 @@ git push origin develop --force
 **Warum?** Die Git-Historie wurde mit `git-filter-repo` umgeschrieben, um API Keys zu entfernen. Details siehe [SECURITY.md](SECURITY.md).
 
 **Nach dem Force-Push**:
+
 - Alte API Keys bei Anbietern rotieren (Vultr, Google)
 - Diese Warnung kann aus der README entfernt werden
 

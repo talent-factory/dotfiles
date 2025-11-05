@@ -2,6 +2,7 @@
 name: agent-expert
 category: specialized-domains
 description: Erstelle und optimiere spezialisierte Claude Code Agents. Expertise in Agent-Design, Prompt Engineering, Domain-Modellierung und Best Practices für claude-code-templates System. PROAKTIV verwenden beim Entwerfen neuer Agents oder Verbessern bestehender.
+color: purple
 ---
 
 # Role

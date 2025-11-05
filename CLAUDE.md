@@ -12,6 +12,7 @@ Umfassende Dokumentation der Claude Code Integration mit Commands, Agenten und B
   - [/develop:check-agents](#developcheck-agents---agent-validation)
   - [/develop:check-commands](#developcheck-commands---command-validation)
   - [/project:create-prd](#projectcreate-prd---product-requirements-documents)
+  - [/project:create-plan](#projectcreate-plan---projektplanung-aus-prd)
 - [Agenten](#agenten)
 - [Skill-Builder System](#skill-builder-system)
 - [Progressive Disclosure](#progressive-disclosure)
@@ -22,12 +23,13 @@ Umfassende Dokumentation der Claude Code Integration mit Commands, Agenten und B
 
 Dieses Repository enthält eine professionelle Claude Code Konfiguration mit:
 
-- **5 Haupt-Commands** für Development und Product Management
+- **6 Haupt-Commands** für Development und Product Management
 - **Progressive Disclosure Pattern** für optimale Performance
-- **~2.800 Zeilen Best Practices Dokumentation**
+- **~5.500 Zeilen Best Practices Dokumentation**
 - **4 PRD-Templates** (MVP, Standard, Major Initiative, Technical)
+- **Linear-Integration** für EPIC-basierte Projektplanung
 - **Skill-Builder System** mit 4 spezialisierten Agenten
-- **Industry-Standard Methoden** (SMART, MoSCoW, Risiko-Matrix)
+- **Industry-Standard Methoden** (SMART, MoSCoW, Risiko-Matrix, Story Points)
 
 ### Architektur
 
@@ -51,7 +53,9 @@ Dieses Repository enthält eine professionelle Claude Code Konfiguration mit:
     │   └── create-pr/           # 2.067 Zeilen (Details)
     ├── project/
     │   ├── create-prd.md        # 232 Zeilen (Haupt-Command)
-    │   └── create-prd/          # 2.213 Zeilen (Details)
+    │   ├── create-prd/          # 2.213 Zeilen (Details)
+    │   ├── create-plan.md       # 266 Zeilen (Haupt-Command)
+    │   └── create-plan/         # 2.492 Zeilen (Details)
     └── skills/
         ├── build-skill.md
         ├── package-skill.md
@@ -110,8 +114,9 @@ Nach der Installation in Claude Code prüfen:
 /develop:check-agents
 /develop:check-commands
 /project:create-prd
+/project:create-plan
 
-# Oder in der Command-Palette nach "commit", "create-pr", "check-agents", "check-commands" oder "create-prd" suchen
+# Oder in der Command-Palette nach "commit", "create-pr", "check-agents", "check-commands", "create-prd" oder "create-plan" suchen
 ```
 
 ### Environment Variables Setup
@@ -567,6 +572,170 @@ Erstellt professionelle Product Requirements Documents nach Industry-Best-Practi
 
 ---
 
+### `/project:create-plan` - Projektplanung aus PRD
+
+Erstellt einen strukturierten Projektplan aus einem PRD-Dokument und verwaltet Tasks als EPIC mit zugehörigen Issues in Linear.
+
+**Location**: `claude/commands/project/create-plan.md`
+
+#### Features
+
+- ✅ **PRD-basierte Planung** mit vollständiger Analyse
+- ✅ **Linear EPIC-Erstellung** für PRD-Features
+- ✅ **Task-Breakdown** in atomare, umsetzbare Tasks
+- ✅ **Agent-Empfehlungen** für jeden Task-Typ
+- ✅ **Duplikat-Vermeidung** durch intelligente Checks
+- ✅ **Konsistenz-Validierung** vor Speicherung
+- ✅ **Story Point Estimation** mit T-Shirt Sizing
+- ✅ **Dependency-Management** zwischen Tasks
+
+#### Verwendung
+
+```bash
+# Standard: PRD.md im aktuellen Verzeichnis
+/project:create-plan
+
+# Mit spezifischem PRD
+/project:create-plan --prd docs/requirements/feature-x.md
+
+# Interaktiver Modus
+/project:create-plan --interactive
+```
+
+#### Rolle & Expertise
+
+Der Command agiert als **Scrum Master, Product Owner und Entwicklungsleiter** mit:
+- MSc Computer Science Expertise
+- Best Practices von renommierten Universitäten
+- Agile Methoden (Scrum, Kanban, User Story Mapping)
+- Linear Integration für EPIC-basierte Projekt-Strukturierung
+
+#### Workflow
+
+1. **PRD einlesen**
+   - Standard: `PRD.md` im aktuellen Verzeichnis
+   - Custom: Über `--prd <Pfad>` angegeben
+   - Validierung: Struktur, Ziele, Priorisierung (MoSCoW)
+
+2. **EPIC in Linear erstellen**
+   - PRD als EPIC speichern
+   - Executive Summary, Business Value, Success Metrics
+   - Duplikat-Check für bestehende EPICs
+   - Interaktive Bestätigung bei Konflikten
+
+3. **Task-Breakdown durchführen**
+   - Atomare, actionable Tasks aus PRD ableiten
+   - Akzeptanzkriterien definieren
+   - Story Points schätzen (1, 2, 3, 5, 8)
+   - Agent-Empfehlungen zuweisen
+
+4. **Issues in Linear erstellen**
+   - Jeder Task als Issue unter EPIC
+   - Priority basierend auf MoSCoW
+   - Labels für Technology Stack & Type
+   - Dependencies verknüpfen
+
+5. **Konsistenz-Check**
+   - Keine Duplikate oder Redundanzen
+   - Konsistentes Gesamtbild
+   - Dependencies korrekt verknüpft
+   - Priorisierung logisch
+
+#### Agent-Empfehlungen
+
+Automatische Zuordnung von KI-Agenten basierend auf Task-Typ:
+
+| Task-Typ | Empfohlene Agenten |
+|----------|-------------------|
+| **Java Backend** | `java-developer` |
+| **Python Backend** | `python-expert` |
+| **React/Next.js Frontend** | `frontend-developer` |
+| **AI/ML Features** | `ai-engineer` |
+| **Code Review** | `code-reviewer` |
+| **Documentation** | `markdown-syntax-formatter` |
+| **Testing** | `test-automator` |
+| **Agent Development** | `agent-expert` |
+
+**Details**: [create-plan/agent-mapping.md](claude/commands/project/create-plan/agent-mapping.md)
+
+#### Task-Kriterien
+
+**Gute Tasks erfüllen ATOMIC**:
+- **A**ctionable: Sofort umsetzbar
+- **T**estable: Akzeptanzkriterien definiert
+- **O**wnable: Einer Person zuweisbar
+- **M**easurable: Story Points (2-8 SP)
+- **I**ndependent: Minimal Dependencies
+- **C**omplete: In sich abgeschlossen
+
+#### Linear-Integration
+
+**Verwendete Features**:
+- **Projects/EPICs**: PRD-basierte Features
+- **Issues**: Individuelle Tasks
+- **Labels**: Technology, Type, Priority
+- **Estimates**: Story Points
+- **Dependencies**: Task-Verknüpfungen
+- **Custom Fields**: Agent Recommendations
+
+#### Beispiel-Workflow
+
+```bash
+# 1. PRD erstellen
+/project:create-prd "Dark Mode Toggle"
+
+# 2. Plan aus PRD generieren
+/project:create-plan --prd PRD.md
+
+# Output:
+# ✅ PRD eingelesen: PRD.md
+# ✅ EPIC erstellt: "Dark Mode Toggle" (LIN-123)
+# ✅ 8 Tasks generiert:
+#    - LIN-124: UI Toggle Component (3 SP) [frontend-developer]
+#    - LIN-125: Theme State Management (5 SP) [frontend-developer]
+#    - LIN-126: CSS Variables Setup (2 SP) [frontend-developer]
+#    - LIN-127: Local Storage Persistence (2 SP) [frontend-developer]
+#    - LIN-128: Unit Tests (3 SP) [test-automator]
+#    - LIN-129: Integration Tests (3 SP) [test-automator]
+#    - LIN-130: Documentation (2 SP) [markdown-syntax-formatter]
+#    - LIN-131: Code Review (1 SP) [code-reviewer]
+# ✅ Dependencies verknüpft
+# ✅ Labels hinzugefügt: feature, ui, accessibility
+```
+
+#### Detail-Dokumentation
+
+- **[Linear Integration](claude/commands/project/create-plan/linear-integration.md)** (557 Zeilen)
+  - Linear-API-Verwendung
+  - EPIC/Issue-Struktur
+  - Custom Fields Setup
+  - Label-Strategie
+  - Duplikat-Erkennung
+
+- **[Task Breakdown](claude/commands/project/create-plan/task-breakdown.md)** (626 Zeilen)
+  - Task-Sizing Strategien
+  - Abhängigkeiten identifizieren
+  - Story Point Estimation
+  - Cross-Cutting Concerns
+  - Task-Templates
+
+- **[Agent Mapping](claude/commands/project/create-plan/agent-mapping.md)** (647 Zeilen)
+  - Verfügbare KI-Agenten
+  - Expertise-Mapping
+  - Task-Typ → Agent
+  - Multi-Agent-Workflows
+  - Custom Agent Integration
+
+- **[Best Practices](claude/commands/project/create-plan/best-practices.md)** (662 Zeilen)
+  - PRD-zentrierte Planung
+  - Atomic Task Guidelines
+  - Akzeptanzkriterien definieren
+  - Duplikat-Vermeidung
+  - Estimation Best Practices
+  - Qualitätskriterien
+
+---
+
 ## Agenten
 
 ### Code-Reviewer Agent
@@ -763,8 +932,9 @@ commit.md (85 Zeilen)
 | commit.md | 136 Zeilen | 85 Zeilen | -38% |
 | create-pr.md | 195 Zeilen | 115 Zeilen | -41% |
 | create-prd.md | 48 Zeilen | 232 Zeilen | +384% (erweitert) |
+| create-plan.md | N/A | 266 Zeilen | Neu |
 
-**Gesamt-Dokumentation**: ~11.700 Zeilen (inkl. Details)
+**Gesamt-Dokumentation**: ~14.500 Zeilen (inkl. Details)
 
 ---
 
@@ -989,6 +1159,19 @@ Bei Problemen:
 
 ## Änderungshistorie
 
+### Version 2.1.0 (November 2024)
+
+**Hauptänderungen**:
+- ✨ `/project:create-plan` Command hinzugefügt
+- ✨ Linear-Integration für EPIC-basierte Projektplanung
+- ✨ Agent-Empfehlungs-System für Task-Zuordnung
+- ✨ Task-Breakdown mit Story Points & Dependencies
+- ✨ 4 neue Agenten mit color-Attribut (ai-engineer, command-expert, frontend-developer, agent-expert)
+- 📚 +2.758 Zeilen Dokumentation (create-plan)
+- 📚 14.500+ Zeilen Gesamt-Dokumentation
+
+**Migration**: Automatisch via `install.sh`
+
 ### Version 2.0.0 (Oktober 2024)
 
 **Hauptänderungen**:
@@ -1010,6 +1193,6 @@ Bei Problemen:
 
 ---
 
-**Version**: 2.0.0
-**Zuletzt aktualisiert**: Oktober 2024
+**Version**: 2.1.0
+**Zuletzt aktualisiert**: November 2024
 **Maintainer**: Daniel

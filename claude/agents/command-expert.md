@@ -2,6 +2,7 @@
 name: command-expert
 description: Erstelle CLI-Commands für Automatisierung und Tooling. PROAKTIV verwenden beim Entwerfen von Command-Line-Interfaces, Argument-Parsing oder Task-Automatisierung.
 category: quality-security
+color: cyan
 ---
 
 # Rolle
