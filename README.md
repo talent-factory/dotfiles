@@ -283,6 +283,159 @@ Das Repository enthält ein umfassendes `.gitignore` für:
 - Editor-Backup-Dateien
 - Lokale Konfigurationen
 
+## Branch-Strategie & Contributing
+
+Dieses Repository ist **public**, aber mit Branch-Protection-Rules gesichert.
+
+### Branch-Modell
+
+```
+main (production)
+  ↑
+  PR (nur Owner)
+  ↑
+develop (integration)
+  ↑
+  PR (alle Entwickler)
+  ↑
+feature/* (feature branches)
+```
+
+### Branches
+
+**`main`** (Production Branch):
+- Spiegelt Production-Stand
+- **Protected**: Nur Owner kann mergen
+- Requires Pull Request von `develop`
+- Requires Code Owner Review
+- Linear History enforced
+- No direct pushes
+- No force pushes
+- No deletions
+
+**`develop`** (Integration Branch):
+- Aktiver Entwicklungs-Branch
+- **Protected**: Requires Pull Request
+- Requires 1 Approval
+- No direct pushes (außer Owner)
+- No force pushes
+- No deletions
+
+**`feature/*`** (Feature Branches):
+- Für neue Features und Fixes
+- Frei erstellbar von allen Entwicklern
+- Naming: `feature/beschreibung-des-features`
+- Merge via Pull Request zu `develop`
+
+### Workflow für Entwickler
+
+#### 1. Feature-Branch erstellen
+
+```bash
+# Von develop branchen
+git checkout develop
+git pull origin develop
+
+# Feature-Branch erstellen
+git checkout -b feature/mein-neues-feature
+```
+
+#### 2. Entwicklung
+
+```bash
+# Änderungen machen
+# ...
+
+# Committen (mit /commit Command)
+/commit
+
+# Pushen
+git push origin feature/mein-neues-feature
+```
+
+#### 3. Pull Request erstellen
+
+```bash
+# Via GitHub CLI
+gh pr create --base develop --head feature/mein-neues-feature \
+  --title "✨ feat: Mein neues Feature" \
+  --body "Beschreibung des Features"
+
+# Oder via GitHub Web UI
+```
+
+#### 4. Review & Merge
+
+- PR wird von Owner oder Team reviewed
+- Nach Approval: Owner merged in `develop`
+- Feature-Branch kann gelöscht werden
+
+### Workflow für Owner
+
+#### Develop → Main Release
+
+```bash
+# Develop ist bereit für Production
+git checkout develop
+git pull origin develop
+
+# Pull Request develop → main erstellen
+gh pr create --base main --head develop \
+  --title "🚀 release: Version X.Y.Z" \
+  --body "Release notes..."
+
+# Nach Review: Merge via GitHub
+# → Main branch wird automatisch aktualisiert
+```
+
+### Zugriffsrechte
+
+| Rolle | `feature/*` | `develop` | `main` |
+|-------|-------------|-----------|--------|
+| **Owner** | Erstellen, Pushen, Mergen | Direkt Pushen*, Mergen | Direkt Pushen*, Mergen |
+| **Entwickler** | Erstellen, Pushen | PR erstellen | ❌ Kein Zugriff |
+| **Public** | Fork & PR | ❌ Kein Push | ❌ Kein Push |
+
+\* Owner kann Branch Protection Rules umgehen, sollte dies aber nur in Notfällen tun.
+
+### Best Practices
+
+**DO ✅**:
+- Feature-Branches von `develop` branchen
+- Aussagekräftige Branch-Namen: `feature/dark-mode-toggle`
+- Regelmäßig von `develop` pullen/rebasen
+- PRs klein halten (< 400 Zeilen)
+- `/commit` Command für Commits verwenden
+- PRs beschreibend dokumentieren
+
+**DON'T ❌**:
+- Nicht direkt in `develop` oder `main` pushen
+- Keine langen Feature-Branches (> 1 Woche)
+- Keine force pushes auf shared branches
+- Keine work-in-progress PRs ohne `[WIP]` Prefix
+
+### PR-Template
+
+```markdown
+## Beschreibung
+[Kurze Beschreibung der Änderungen]
+
+## Änderungstyp
+- [ ] ✨ Feature
+- [ ] 🐛 Bugfix
+- [ ] 📚 Dokumentation
+- [ ] ♻️ Refactoring
+
+## Checklist
+- [ ] Code reviewed (selbst)
+- [ ] Tests hinzugefügt/aktualisiert
+- [ ] Dokumentation aktualisiert
+- [ ] Keine Breaking Changes (oder dokumentiert)
+
+## Test-Plan
+[Wie wurde getestet?]
+```
+
 ## Troubleshooting
 
 ### Symlinks funktionieren nicht
