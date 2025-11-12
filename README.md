@@ -107,6 +107,20 @@ Das Installations-Script erstellt automatisch Backups existierender Dateien bevo
    ./install.sh
    ```
 
+3. **Simulation (optional)**:
+
+   Vor der eigentlichen Installation können Sie eine Simulation durchführen, um zu sehen, welche Änderungen vorgenommen würden:
+
+   ```bash
+   # Vollständige Simulation
+   ./install.sh --dry-run
+   
+   # Kurzform
+   ./install.sh -n
+   ```
+
+   Im Simulationsmodus werden **keine Dateien oder Links erstellt**, sondern nur angezeigt, was passieren würde.
+
 ### Was das Script macht
 
 Das `install.sh` Script wird:
@@ -437,6 +451,16 @@ gh pr create --base main --head develop \
 ```
 
 ## Troubleshooting
+
+### Installation vor dem Ausführen überprüfen
+
+Verwenden Sie den Simulationsmodus, um zu sehen, welche Änderungen vorgenommen würden:
+
+```bash
+./install.sh --dry-run
+```
+
+Dies zeigt alle geplanten Operationen an, ohne tatsächlich Dateien zu ändern oder Links zu erstellen.
 
 ### Symlinks funktionieren nicht
 
