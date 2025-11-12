@@ -1,5 +1,6 @@
 # Claude configuration files
 .claude/settings.local.json
+claude/debug/
 
 # OS generated files
 .DS_Store
