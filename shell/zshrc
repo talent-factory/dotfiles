@@ -1,12 +1,8 @@
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 
+# Standard PATH additions
 export PATH=/usr/local/bin:$PATH
 export PATH=/opt/homebrew/bin:$PATH
-export PATH=/opt/homebrew/opt/ruby/bin:$PATH
-export PATH=/Applications/Payara\ 6/bin:$PATH
-export PATH=/Users/daniel/.gem/ruby/2.6.0/bin:$PATH
-
-alias iks='ssh -i ~/.ssh/iks.pem rocky@86.119.49.137'
 
 # Load environment variables from ~/.env
 # This file should contain sensitive data like API keys
@@ -171,7 +167,8 @@ _fzf_compgen_dir() {
   fd --type=d --hidden --exclude .git . "$1"
 }
 
-source ~/fzf-git.sh/fzf-git.sh
+# FZF Git integration (optional)
+[ -f ~/fzf-git.sh/fzf-git.sh ] && source ~/fzf-git.sh/fzf-git.sh
 
 export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always --line-range :500 {}'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
@@ -199,32 +196,14 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+# SDKMAN (Java version manager) - only load if installed
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-# The following lines have been added by Docker Desktop to enable Docker CLI completions.
-fpath=(${fpath:#/usr/local/share/zsh/site-functions} /Users/daniel/.docker/completions $fpath)
-autoload -Uz compinit
-compinit
-# End of Docker CLI completions
 
-# Added by Windsurf
-# export PATH="/Users/daniel/.codeium/windsurf/bin:$PATH"
-# export PATH="/opt/homebrew/opt/node@18/bin:$PATH"
-
-### Added by Codeium. These lines cannot be automatically removed if modified
-# if command -v termium > /dev/null 2>&1; then
-#   eval "$(termium shell-hook show post)"
-# fi
-### End of Codeium integration
-
+# FZF shell integration
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Added by Windsurf
-export PATH="/Users/daniel/.codeium/windsurf/bin:$PATH"
-
-
-# Task Master aliases added on 6/25/2025
-alias tm='task-master'
-alias taskmaster='task-master'
-alias taskmaster-ui='node /Users/daniel/GitRepository/taskmaster-ui/dist/server.js'
+# Load local customizations (not tracked in git)
+# Create ~/.zshrc.local for your personal settings
+# See shell/zshrc.local.example for a template
+[ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"

@@ -40,27 +40,29 @@ dotfiles/
 │       └── skills/
 │           ├── build-skill.md
 │           ├── package-skill.md
-│           ├── scripts/    # Validierung & Packaging
-│           └── templates/  # Skill-Templates
+│           ├── scripts/     # Validierung & Packaging
+│           └── templates/   # Skill-Templates
 │
-├── config/                 # ~/.config Verzeichnis-Inhalte
-├── shell/                  # Shell-Konfigurationen (zsh, bash)
-│   ├── zshrc
-│   ├── bashrc
+├── config/                  # ~/.config Verzeichnis-Inhalte
+├── shell/                   # Shell-Konfigurationen (zsh, bash)
+│   ├── zshrc                # Gemeinsame ZSH-Konfiguration
+│   ├── zshrc.local.example  # Template für persönliche ZSH-Einstellungen
+│   ├── bashrc               # Gemeinsame Bash-Konfiguration
+│   ├── bashrc.local.example # Template für persönliche Bash-Einstellungen
 │   ├── bash_profile
 │   └── zshenv
 │
-├── git/                    # Git-Konfigurationen
+├── git/                     # Git-Konfigurationen
 │   ├── gitconfig
 │   └── gitignore_global
 │
-├── vim/                    # Vim-Konfigurationen
+├── vim/                     # Vim-Konfigurationen
 │   └── vimrc
 │
-├── ssh/                    # SSH-Konfigurations-Templates
+├── ssh/                     # SSH-Konfigurations-Templates
 │   └── config.template
 │
-└── local/                  # ~/.local Verzeichnis-Inhalte
+└── local/                   # ~/.local Verzeichnis-Inhalte
 ```
 
 ## Features
@@ -82,6 +84,13 @@ dotfiles/
 ### 💾 Automatische Backups
 
 Das Installations-Script erstellt automatisch Backups existierender Dateien bevor Symlinks erstellt werden.
+
+### 🌍 Portabilität
+
+- **Dynamische Pfade**: Verwendet `$HOME` statt hardcodierter Benutzernamen
+- **Lokale Anpassungen**: `.local` Dateien für benutzerspezifische Einstellungen
+- **Conditional Loading**: Tools werden nur geladen, wenn sie installiert sind
+- **Template-System**: `.local.example` Dateien als Vorlagen für persönliche Konfiguration
 
 ## Installation
 
@@ -133,7 +142,26 @@ Das `install.sh` Script wird:
 
 ### Nach der Installation
 
-1. **Environment Variables konfigurieren**:
+1. **Lokale Anpassungen vornehmen** (optional):
+
+   Das Installations-Script erstellt automatisch `~/.zshrc.local` und `~/.bashrc.local` aus Templates.
+   Diese Dateien sind für Ihre persönlichen Einstellungen gedacht und werden NICHT ins Repository committed.
+
+   ```bash
+   # ZSH-Anpassungen
+   vim ~/.zshrc.local
+   
+   # Bash-Anpassungen
+   vim ~/.bashrc.local
+   ```
+
+   Beispiele für lokale Anpassungen:
+   - Benutzerspezifische PATH-Erweiterungen
+   - SSH-Aliase zu Ihren Servern
+   - Projekt-spezifische Aliase
+   - Tool-Konfigurationen (Docker, Node.js Versionen, etc.)
+
+2. **Environment Variables konfigurieren**:
 
    ```bash
    # .env Datei aus Template erstellen
@@ -303,7 +331,7 @@ Dieses Repository ist **public**, aber mit Branch-Protection-Rules gesichert.
 
 ### Branch-Modell
 
-```
+```text
 main (production)
   ↑
   PR (nur Owner)
@@ -318,6 +346,7 @@ feature/* (feature branches)
 ### Branches
 
 **`main`** (Production Branch):
+
 - Spiegelt Production-Stand
 - **Protected**: Nur Owner kann mergen
 - Requires Pull Request von `develop`
@@ -328,6 +357,7 @@ feature/* (feature branches)
 - No deletions
 
 **`develop`** (Integration Branch):
+
 - Aktiver Entwicklungs-Branch
 - **Protected**: Requires Pull Request
 - Requires 1 Approval
@@ -336,6 +366,7 @@ feature/* (feature branches)
 - No deletions
 
 **`feature/*`** (Feature Branches):
+
 - Für neue Features und Fixes
 - Frei erstellbar von allen Entwicklern
 - Naming: `feature/beschreibung-des-features`
@@ -415,6 +446,7 @@ gh pr create --base main --head develop \
 ### Best Practices
 
 **DO ✅**:
+
 - Feature-Branches von `develop` branchen
 - Aussagekräftige Branch-Namen: `feature/dark-mode-toggle`
 - Regelmäßig von `develop` pullen/rebasen
@@ -423,6 +455,7 @@ gh pr create --base main --head develop \
 - PRs beschreibend dokumentieren
 
 **DON'T ❌**:
+
 - Nicht direkt in `develop` oder `main` pushen
 - Keine langen Feature-Branches (> 1 Woche)
 - Keine force pushes auf shared branches

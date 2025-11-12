@@ -1,0 +1,23 @@
+# Local Bash Configuration Template
+# Copy this file to ~/.bashrc.local and customize for your system
+# This file is NOT tracked in git
+
+# ==============================================================================
+# Personal PATH additions
+# ==============================================================================
+
+# Add your custom paths here
+# export PATH="/your/custom/path:$PATH"
+
+# ==============================================================================
+# Personal Aliases
+# ==============================================================================
+
+# Add your personal aliases here
+# alias myalias='command'
+
+# ==============================================================================
+# Additional customizations
+# ==============================================================================
+
+# Add your personal settings here

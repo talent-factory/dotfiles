@@ -149,6 +149,27 @@ else
 fi
 echo ""
 
+# Setup local configuration templates
+log_info "Setting up local configuration templates..."
+if [[ -f "$DOTFILES_DIR/shell/zshrc.local.example" && ! -f "$HOME/.zshrc.local" ]]; then
+    if [[ "$DRY_RUN" == true ]]; then
+        log_dry_run "Would copy: $DOTFILES_DIR/shell/zshrc.local.example -> $HOME/.zshrc.local"
+    else
+        cp "$DOTFILES_DIR/shell/zshrc.local.example" "$HOME/.zshrc.local"
+        log_info "Created ~/.zshrc.local from template. Please customize as needed."
+    fi
+fi
+
+if [[ -f "$DOTFILES_DIR/shell/bashrc.local.example" && ! -f "$HOME/.bashrc.local" ]]; then
+    if [[ "$DRY_RUN" == true ]]; then
+        log_dry_run "Would copy: $DOTFILES_DIR/shell/bashrc.local.example -> $HOME/.bashrc.local"
+    else
+        cp "$DOTFILES_DIR/shell/bashrc.local.example" "$HOME/.bashrc.local"
+        log_info "Created ~/.bashrc.local from template. Please customize as needed."
+    fi
+fi
+echo ""
+
 # Handle ~/.config directory
 if [[ -d "$DOTFILES_DIR/config" ]]; then
     log_info "Setting up ~/.config directory..."

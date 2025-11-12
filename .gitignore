@@ -16,8 +16,10 @@ Thumbs.db
 *.swo
 *~
 
-# Local configuration files
+# Local configuration files (user-specific, not tracked)
 *.local
+# Note: *.local.example files ARE tracked as templates
+!*.local.example
 
 # Environment variables (contains sensitive data like API keys)
 .env
