@@ -47,3 +47,12 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[http]
+	version = HTTP/1.1
+	postBuffer = 524288000
+[credential]
+	helper = osxkeychain
+[coderabbit]
+	machineId = cli/40370552f7c447ccbb035040d2efc0e0
+[push]
+	autoSetupRemote = true
