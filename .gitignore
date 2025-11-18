@@ -46,4 +46,4 @@ install.sh.backup
 
 # Old claude directory (deprecated - use agents/claude instead)
 # Note: Will be removed after migration is complete
-claude/
+/claude/
