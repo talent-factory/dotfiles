@@ -217,11 +217,22 @@ function Show-Summary {
         Write-Info "  3. Customize local configs as needed"
     }
 
-    # List installed agents
+    # Show brief installation summary
     $claudeHome = Join-Path $env:USERPROFILE ".claude"
+    $claudeWorkspace = ".\.claude"
+
+    $installedLocations = @()
     if (Test-Path (Join-Path $claudeHome "commands")) {
+        $installedLocations += "home directory"
+    }
+    if (Test-Path (Join-Path $claudeWorkspace "commands")) {
+        $installedLocations += "workspace"
+    }
+
+    if ($installedLocations.Count -gt 0) {
         Write-Host ""
-        Show-ClaudeCommands -TargetDir $claudeHome
+        Write-Info "Claude Code installed in: $($installedLocations -join ', ')"
+        Write-Info "Use /help to see available commands"
     }
 
     Write-Host ""
