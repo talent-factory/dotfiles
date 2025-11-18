@@ -11,15 +11,15 @@ function Read-InstallationTarget {
 Where do you want to install AI agent configurations?
 
   1) Home directory (%USERPROFILE%\.claude, %USERPROFILE%\.augment, etc.)
-     • Available globally for all projects
-     • Persists across terminal sessions
+     * Available globally for all projects
+     * Persists across terminal sessions
 
   2) Current workspace (project-specific)
-     • Only available in this project
-     • Can be committed to version control
+     * Only available in this project
+     * Can be committed to version control
 
   3) Both
-     • Install in both locations
+     * Install in both locations
 
 "@
 
@@ -88,14 +88,14 @@ function Read-InstallationMethod {
 How do you want to install?
 
   1) Symlink (recommended)
-     • Changes to dotfiles repository immediately reflected
-     • Requires Administrator rights or Developer Mode
-     • Best for active development
+     * Changes to dotfiles repository immediately reflected
+     * Requires Administrator rights or Developer Mode
+     * Best for active development
 
   2) Copy files
-     • Independent copy of configurations
-     • No special permissions required
-     • Safer for production use
+     * Independent copy of configurations
+     * No special permissions required
+     * Safer for production use
 
 "@
 

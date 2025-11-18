@@ -228,7 +228,7 @@ function Write-Section {
     param([string]$Title)
 
     Write-Host ""
-    Write-Host "▶ " -ForegroundColor Cyan -NoNewline
+    Write-Host "> " -ForegroundColor Cyan -NoNewline
     Write-Host $Title -ForegroundColor Cyan
     Write-Host ""
 }

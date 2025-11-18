@@ -155,10 +155,10 @@ function Show-ClaudeCommands {
         $cmdPath = $_.DirectoryName.Replace($commandsDir, "").TrimStart('\')
 
         if ([string]::IsNullOrEmpty($cmdPath)) {
-            Write-Host "  • /$cmdName"
+            Write-Host "  * /$cmdName"
         } else {
             $cmdPath = $cmdPath.Replace('\', ':')
-            Write-Host "  • /$cmdPath`:$cmdName"
+            Write-Host "  * /$cmdPath`:$cmdName"
         }
 
         # Try to extract description from frontmatter
