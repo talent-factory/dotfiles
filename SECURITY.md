@@ -1,101 +1,180 @@
-# Sicherheits-Dokumentation
+# Security Policy
 
-## Git-Historie bereinigt
+## Supported Versions
 
-**Datum**: 31. Oktober 2024
-**Grund**: API Keys aus Git-Historie entfernt vor Veröffentlichung des Repositories
+We actively support the latest version of AI Agent Dotfiles. Security updates are provided for the following versions:
 
-### Was wurde entfernt?
+| Version | Supported          |
+| ------- | ------------------ |
+| latest  | :white_check_mark: |
+| < 3.0   | :x:                |
 
-Die folgenden sensiblen Daten wurden aus der **gesamten Git-Historie** entfernt:
+## Reporting a Vulnerability
 
-- `VULTR_API_KEY` - Vultr CLI Access Key
-- `GEMINI_API_KEY` - Google Gemini API Key
+We take security seriously. If you discover a security vulnerability, please follow these guidelines:
 
-**Tool**: `git-filter-repo` v2.47.0
+### Where to Report
 
-### Verifikation
+**DO NOT** create a public GitHub issue for security vulnerabilities.
 
-```bash
-# Suche nach API Keys in gesamter Historie
-git log --all --source --full-history -S "VULTR_API_KEY" --oneline
-git log --all --source --full-history -S "GEMINI_API_KEY" --oneline
+Instead, please report security issues privately through one of these methods:
 
-# Prüfe ältesten Commit
-git show $(git log --all --oneline | tail -1 | awk '{print $1}'):shell/.zshrc | grep API_KEY
+1. **GitHub Security Advisories** (Preferred):
+   - Go to the [Security tab](https://github.com/talent-factory/dotfiles/security/advisories)
+   - Click "Report a vulnerability"
+   - Fill in the details
+
+2. **Direct Contact**:
+   - Email the maintainers directly (check repository for contact info)
+   - Use PGP encryption if possible
+
+### What to Include
+
+Please include the following information in your report:
+
+- **Description**: Clear description of the vulnerability
+- **Impact**: What could an attacker do with this vulnerability?
+- **Affected versions**: Which versions are affected?
+- **Steps to reproduce**: Detailed steps to reproduce the issue
+- **Proof of concept**: Code or commands demonstrating the issue
+- **Suggested fix**: If you have ideas for a fix (optional)
+
+### Example Report
+
+```markdown
+**Vulnerability**: Command injection in install.sh
+
+**Impact**: An attacker could execute arbitrary commands if they control
+the DOTFILES_DIR environment variable.
+
+**Affected versions**: All versions prior to 3.0.0
+
+**Steps to reproduce**:
+1. Set DOTFILES_DIR to "; malicious_command"
+2. Run ./install.sh
+3. The malicious command executes
+
+**Proof of concept**:
+export DOTFILES_DIR="; rm -rf /tmp/test"
+./install.sh
+
+**Suggested fix**: Properly quote all variable expansions
 ```
 
-**Ergebnis**: Alle API Keys wurden durch `***REMOVED***` ersetzt ✅
+## Security Considerations
 
-### Force-Push erforderlich
+### Installation Security
 
-⚠️ **Wichtig**: Die Historie wurde umgeschrieben! Ein Force-Push ist erforderlich.
+This project installs dotfiles and configurations to your system. Please be aware:
+
+1. **Review before installation**: Always review code before running installation scripts
+2. **Backup existing files**: The installer creates backups, but verify they're created
+3. **Symlinks vs Copy**: Understand the security implications of each method
+4. **Permissions**: Ensure installation directories have appropriate permissions
+
+### Known Security Boundaries
+
+**What this project does**:
+- Installs AI agent configurations to user home directory or workspace
+- Creates symlinks or copies files
+- Modifies shell configurations (if enabled)
+
+**What this project does NOT do**:
+- Modify system files outside user directories
+- Require root/administrator privileges (except for Windows symlinks)
+- Connect to external services (all operations are local)
+- Transmit data over the network
+
+### Safe Usage Guidelines
+
+**Do**:
+- ✅ Clone from the official repository
+- ✅ Review installation scripts before running
+- ✅ Use dry-run mode to preview changes
+- ✅ Keep your fork up-to-date with upstream
+- ✅ Verify symlink targets point to expected locations
+
+**Don't**:
+- ❌ Run installation scripts from untrusted sources
+- ❌ Install as root/administrator (unless necessary for Windows symlinks)
+- ❌ Commit sensitive data (API keys, tokens) to your fork
+- ❌ Share installation directories containing sensitive information
+
+## Response Process
+
+### Timeline
+
+- **Acknowledgment**: Within 48 hours of report
+- **Initial assessment**: Within 1 week
+- **Fix development**: Depends on severity (critical: days, low: weeks)
+- **Disclosure**: After fix is available
+
+### Severity Levels
+
+**Critical**: Remote code execution, privilege escalation
+- Response: Immediate (24-48 hours)
+- Fix: Emergency patch
+
+**High**: Local code execution, data exposure
+- Response: 1 week
+- Fix: Next minor version
+
+**Medium**: Information disclosure, denial of service
+- Response: 2 weeks
+- Fix: Next minor/patch version
+
+**Low**: Minor issues with limited impact
+- Response: 1 month
+- Fix: Next version
+
+### Disclosure Policy
+
+We follow **coordinated disclosure**:
+
+1. You report the vulnerability privately
+2. We confirm and develop a fix
+3. We release a security patch
+4. We publish a security advisory (crediting you if desired)
+5. You may publish your findings after the advisory
+
+**Embargo period**: 90 days from initial report (or until fix is released, whichever is sooner)
+
+## Security Updates
+
+### How to Stay Informed
+
+- **GitHub Security Advisories**: Enable notifications for this repository
+- **Release Notes**: Check CHANGELOG.md for security fixes
+- **Git Tags**: Security patches are tagged (e.g., v3.0.1-security)
+
+### Applying Updates
 
 ```bash
-# Prüfe Remote-Status
-git remote -v
+# Update your fork
+cd ~/.dotfiles
+git fetch upstream
+git merge upstream/develop
 
-# Force-Push zur Remote (ACHTUNG: Überschreibt Remote-Historie!)
-git push origin develop --force
-
-# Falls auch main Branch betroffen
-git push origin main --force
+# Reinstall if needed
+./install.sh
 ```
 
-### Sicherheits-Checkliste vor Veröffentlichung
+## Bug Bounty
 
-- [x] API Keys aus Code entfernt
-- [x] `.env.example` Template erstellt
-- [x] `.env` zur `.gitignore` hinzugefügt
-- [x] Git-Historie mit `git-filter-repo` bereinigt
-- [x] Verifikation: Keine API Keys in Historie
-- [x] Remote wieder hinzugefügt
-- [ ] **Force-Push durchgeführt**
-- [ ] **Alte API Keys bei Anbietern rotiert** (Vultr, Google)
-- [ ] Repository auf öffentlich umgestellt
+We do not currently offer a bug bounty program. However, we greatly appreciate security research and will publicly acknowledge your contribution (if desired) in:
 
-### Nächste Schritte
+- Security advisories
+- CHANGELOG.md
+- Repository README (hall of fame)
 
-1. **API Keys rotieren** (KRITISCH!)
+## Contact
 
-   Auch wenn die Keys aus der Git-Historie entfernt wurden, sollten Sie:
-
-   - **Vultr**: Neuen API Key generieren unter https://my.vultr.com/settings/#settingsapi
-   - **Google Gemini**: Neuen API Key generieren unter https://makersuite.google.com/app/apikey
-   - Alte Keys widerrufen/deaktivieren
-   - Neue Keys in `~/.env` eintragen
-
-2. **Force-Push durchführen**
-
-   ```bash
-   git push origin develop --force
-   ```
-
-3. **Backup behalten**
-
-   Das Backup der alten Historie befindet sich in:
-   ```
-   /Users/daniel/GitRepository/dotfiles.backup_20251031_084344/
-   ```
-
-   ⚠️ Dieses Backup enthält die **alten API Keys** und sollte:
-   - Lokal aufbewahrt werden (für Notfall-Recovery)
-   - NIEMALS öffentlich gemacht werden
-   - Nach erfolgreicher Verifizierung gelöscht werden (optional)
-
-4. **Repository veröffentlichen**
-
-   Nach Force-Push und Key-Rotation können Sie das Repository sicher öffentlich machen.
-
-### Warum wurde der Remote entfernt?
-
-`git-filter-repo` entfernt standardmäßig alle Remotes, um zu verhindern, dass Sie versehentlich die alte (unsichere) Historie pushen. Der Remote wurde manuell wieder hinzugefügt nach Bereinigung.
-
-### Weitere Informationen
-
-- Environment Variables Setup: Siehe [README.md](README.md#sicherheit)
-- Claude Code Dokumentation: Siehe [CLAUDE.md](CLAUDE.md#environment-variables-setup)
+For security concerns, please contact the maintainers through:
+- GitHub Security Advisories (preferred)
+- GitHub Issues (for non-security bugs only)
+- Direct email (check repository for contact information)
 
 ---
 
-**Hinweis**: Diese Datei dokumentiert die Sicherheitsmaßnahmen für dieses Repository. Sie kann gelöscht werden, sobald das Repository öffentlich ist und alle Schritte abgeschlossen sind.
+**Last Updated**: November 2024
+**Version**: 1.0

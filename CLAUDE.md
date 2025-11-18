@@ -1,11 +1,15 @@
-# Claude Code Konfiguration
+# Claude Code Developer Documentation
 
-Umfassende Dokumentation der Claude Code Integration mit Commands, Agenten und Best Practices.
+**Technical documentation for Claude Code integration, commands, agents, and architecture.**
 
-## Inhaltsverzeichnis
+> **Note**: This document is for developers and contributors. For general usage and installation, see [README.md](README.md).
 
-- [Übersicht](#übersicht)
-- [Installation](#installation)
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Quick Start](#quick-start)
 - [Commands](#commands)
   - [/commit](#commit---professionelle-git-commits)
   - [/create-pr](#create-pr---pull-requests-erstellen)
@@ -18,85 +22,90 @@ Umfassende Dokumentation der Claude Code Integration mit Commands, Agenten und B
 - [Progressive Disclosure](#progressive-disclosure)
 - [Best Practices](#best-practices)
 - [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Übersicht
+---
 
-Dieses Repository enthält eine professionelle Claude Code Konfiguration mit:
+## Overview
 
-- **6 Haupt-Commands** für Development und Product Management
-- **Progressive Disclosure Pattern** für optimale Performance
-- **~5.500 Zeilen Best Practices Dokumentation**
-- **4 PRD-Templates** (MVP, Standard, Major Initiative, Technical)
-- **Linear-Integration** für EPIC-basierte Projektplanung
-- **Skill-Builder System** mit 4 spezialisierten Agenten
-- **Industry-Standard Methoden** (SMART, MoSCoW, Risiko-Matrix, Story Points)
+Professional Claude Code configuration with comprehensive commands, agents, and best practices for software development and product management.
 
-### Architektur
+**Features:**
+- **6 Main Commands** for development and product management
+- **Progressive Disclosure Pattern** for optimal performance
+- **~5,500 lines** of best practices documentation
+- **4 PRD Templates** (MVP, Standard, Major Initiative, Technical)
+- **Linear Integration** for EPIC-based project planning
+- **Skill-Builder System** with 4 specialized agents
+- **Industry-Standard Methods** (SMART, MoSCoW, Risk Matrix, Story Points)
+
+### Architecture
 
 ```text
-.claude/
-├── agents/                      # Spezialisierte Agenten
-│   ├── code-reviewer.md         # Code-Review Agent
+agents/claude/
+├── agents/                      # Specialized agents
+│   ├── code-reviewer.md         # Code review agent
 │   ├── markdown-syntax-formatter.md
-│   └── skill-builder/           # Skill-Builder System
+│   └── skill-builder/           # Skill builder system
 │       ├── README.md
 │       ├── skill-documenter-agent.md
 │       ├── skill-elicitation-agent.md
 │       ├── skill-generator-agent.md
 │       └── skill-validator-agent.md
 │
-└── commands/                    # Commands mit Progressive Disclosure
+└── commands/                    # Commands with progressive disclosure
     ├── develop/
-    │   ├── commit.md            # 85 Zeilen (Haupt-Command)
-    │   ├── commit/              # 1.246 Zeilen (Details)
-    │   ├── create-pr.md         # 115 Zeilen (Haupt-Command)
-    │   └── create-pr/           # 2.067 Zeilen (Details)
+    │   ├── commit.md            # 85 lines (main command)
+    │   ├── commit/              # 1,246 lines (details)
+    │   ├── create-pr.md         # 115 lines (main command)
+    │   └── create-pr/           # 2,067 lines (details)
     ├── project/
-    │   ├── create-prd.md        # 232 Zeilen (Haupt-Command)
-    │   ├── create-prd/          # 2.213 Zeilen (Details)
-    │   ├── create-plan.md       # 266 Zeilen (Haupt-Command)
-    │   └── create-plan/         # 2.492 Zeilen (Details)
+    │   ├── create-prd.md        # 232 lines (main command)
+    │   ├── create-prd/          # 2,213 lines (details)
+    │   ├── create-plan.md       # 266 lines (main command)
+    │   └── create-plan/         # 2,492 lines (details)
     └── skills/
         ├── build-skill.md
         ├── package-skill.md
-        ├── scripts/             # Validierung & Packaging
-        └── templates/           # 5 Skill-Templates
+        ├── scripts/             # Validation & packaging
+        └── templates/           # 5 skill templates
 ```
 
-## Installation
+---
 
-### Voraussetzungen
+## Quick Start
 
-- Claude Code installiert
-- Git konfiguriert
-- macOS oder Linux
+### Installation
 
-### Automatische Installation
+See [INSTALLATION.md](INSTALLATION.md) for detailed installation instructions.
 
-Das `install.sh` Script richtet automatisch die Claude-Konfiguration ein:
+**TL;DR:**
 
 ```bash
+# macOS/Linux
+git clone https://github.com/talent-factory/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
-./install.sh
+./install.sh --interactive
+
+# Windows
+git clone https://github.com/talent-factory/dotfiles.git $env:USERPROFILE\.dotfiles
+cd $env:USERPROFILE\.dotfiles
+.\install.ps1 -Interactive
 ```
 
-Das Script wird:
+### Verification
 
-1. ✅ Backup von existierender `~/.claude/` erstellen
-2. ✅ Symlink von `~/.claude/` zu `.claude/` im Repository erstellen
-3. ✅ Verfügbarkeit der Commands verifizieren
-4. ✅ Agenten-Verfügbarkeit prüfen
-
-### Manuelle Installation
-
-Falls Sie die Installation manuell durchführen möchten:
+After installation, verify commands are available in Claude Code:
 
 ```bash
-# Backup erstellen (falls .claude existiert)
-[[ -d ~/.claude ]] && mv ~/.claude ~/.claude.backup_$(date +%Y%m%d)
-
-# Symlink erstellen
-ln -sf ~/.dotfiles/.claude ~/.claude
+# Commands should be accessible via slash commands:
+/commit
+/create-pr
+/develop:check-agents
+/develop:check-commands
+/project:create-prd
+/project:create-plan
 
 # Verifizieren
 ls -la ~/.claude/commands/
@@ -1150,14 +1159,95 @@ git pull origin develop
 
 ### Support
 
-Bei Problemen:
-1. Konsultieren Sie die jeweiligen Troubleshooting-Guides
-2. Prüfen Sie Git-Historie für kürzliche Änderungen
-3. Verifizieren Sie Symlinks und Berechtigungen
+For issues and questions:
+1. Check the relevant troubleshooting guides
+2. Review git history for recent changes
+3. Verify symlinks and permissions
+4. Open an issue on GitHub
 
 ---
 
-## Änderungshistorie
+## Contributing
+
+We welcome contributions to improve Claude Code configurations!
+
+### How to Contribute
+
+1. **Fork** the repository
+2. **Create a feature branch** from `develop`
+3. **Make your changes** following our standards
+4. **Test** your changes with Claude Code
+5. **Submit a Pull Request**
+
+**See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.**
+
+### Development Guidelines
+
+- **Commit Messages**: Use emoji conventional commits (see `/commit` command)
+- **Code Review**: All PRs require review before merging
+- **Testing**: Test commands in Claude Code before submitting
+- **Documentation**: Update relevant docs for any changes
+
+### Adding New Commands
+
+1. Create command file in `agents/claude/commands/<category>/<command-name>.md`
+2. Add YAML frontmatter with `description` and `category`
+3. Use progressive disclosure for commands >250 lines
+4. Document in this file
+5. Test in Claude Code
+6. Submit PR
+
+### Adding New Agents
+
+1. Create agent file in `agents/claude/agents/<agent-name>.md`
+2. Add YAML frontmatter with `name`, `description`, and `color`
+3. Document role, activation, and process
+4. Test agent functionality
+5. Submit PR
+
+**See [agents/claude/commands/develop/check-commands.md](agents/claude/commands/develop/check-commands.md) and [agents/claude/commands/develop/check-agents.md](agents/claude/commands/develop/check-agents.md) for validation.**
+
+---
+
+## License
+
+This project is licensed under the **MIT License**.
+
+You are free to use, modify, and distribute this project. See [LICENSE](LICENSE) for full details.
+
+**TL;DR**: Commercial and private use allowed, attribution appreciated but not required.
+
+---
+
+## Changelog
+
+### Version 3.0.0 (November 2024)
+
+**Major Release: Open Source + Multi-Agent System**
+
+**New Features:**
+- ✨ Open Source mit MIT License
+- ✨ Multi-Agent Support (Augment, Claude, Copilot, Windsurf)
+- ✨ Cross-Platform (macOS, Linux, Windows)
+- ✨ Interactive Installation mit Agent-Auswahl
+- ✨ Contributing Guidelines und Community Standards
+- ✨ Issue Templates und PR Templates
+- 📚 CONTRIBUTING.md, CODE_OF_CONDUCT.md, SECURITY.md
+
+**Architecture:**
+- ♻️ Umstrukturierung: `claude/` → `agents/claude/`
+- 🏗️ Modulares Installer-System (`install/lib/`, `install/agents/`)
+- 🪟 PowerShell-Support für Windows
+- 📦 Agent-spezifische Installer-Module
+
+**Documentation:**
+- 📚 Neue README.md für Open Source
+- 📚 INSTALLATION.md aktualisiert
+- 📚 WINDOWS_INSTALLATION.md hinzugefügt
+- 📚 PROJECT_SUMMARY.md (4,500+ Zeilen)
+- 📚 AI_AGENTS_REFERENCE.md
+
+**Migration**: Automatisch via `./install.sh` oder `.\install.ps1`
 
 ### Version 2.1.0 (November 2024)
 
@@ -1166,24 +1256,17 @@ Bei Problemen:
 - ✨ Linear-Integration für EPIC-basierte Projektplanung
 - ✨ Agent-Empfehlungs-System für Task-Zuordnung
 - ✨ Task-Breakdown mit Story Points & Dependencies
-- ✨ 4 neue Agenten mit color-Attribut (ai-engineer, command-expert, frontend-developer, agent-expert)
-- 📚 +2.758 Zeilen Dokumentation (create-plan)
-- 📚 14.500+ Zeilen Gesamt-Dokumentation
-
-**Migration**: Automatisch via `install.sh`
+- ✨ 4 neue Agenten mit color-Attribut
+- 📚 +2,758 Zeilen Dokumentation
 
 ### Version 2.0.0 (Oktober 2024)
 
 **Hauptänderungen**:
 - ✨ Progressive Disclosure Implementation
-- ✨ Umstrukturierung von `claude/` zu `.claude/`
-- ✨ PRD Best Practices hinzugefügt (~2.800 Zeilen)
-- ✨ 4 PRD-Templates (MVP, Standard, Major, Technical)
-- ✨ Skill-Builder System mit 4 Agenten
+- ✨ PRD Best Practices (~2,800 Zeilen)
+- ✨ 4 PRD-Templates
+- ✨ Skill-Builder System
 - ♻️ Commands um 38-41% reduziert
-- 📚 11.700+ Zeilen Gesamt-Dokumentation
-
-**Migration**: Automatisch via `install.sh`
 
 ### Version 1.0.0 (Initial)
 
@@ -1193,6 +1276,9 @@ Bei Problemen:
 
 ---
 
-**Version**: 2.1.0
-**Zuletzt aktualisiert**: November 2024
+**Version**: 3.0.0 (Open Source + Multi-Agent)
+**Last Updated**: November 2024
 **Maintainer**: Daniel
+**License**: MIT
+
+**⭐ Star this project if it helps you!**

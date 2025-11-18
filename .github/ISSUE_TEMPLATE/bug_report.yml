@@ -1,0 +1,127 @@
+name: 🐛 Bug Report
+description: Report a bug or unexpected behavior
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out the information below to help us investigate.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear and concise description of the bug
+      placeholder: What happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen?
+      placeholder: Describe the expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened?
+      placeholder: Describe what actually happened
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Detailed steps to reproduce the issue
+      placeholder: |
+        1. Run command '...'
+        2. See error '...'
+        3. ...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      description: Which platform are you using?
+      multiple: true
+      options:
+        - macOS
+        - Linux
+        - Windows
+    validations:
+      required: true
+
+  - type: dropdown
+    id: agent
+    attributes:
+      label: AI Agent
+      description: Which AI agent(s) are affected?
+      multiple: true
+      options:
+        - Augment Code
+        - Claude Code
+        - GitHub Copilot
+        - Windsurf
+        - Not agent-specific
+    validations:
+      required: true
+
+  - type: dropdown
+    id: installation-method
+    attributes:
+      label: Installation Method
+      description: How did you install?
+      options:
+        - Symlink (default)
+        - Copy
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: installation-target
+    attributes:
+      label: Installation Target
+      description: Where did you install?
+      options:
+        - Home directory
+        - Workspace
+        - Both
+    validations:
+      required: true
+
+  - type: textarea
+    id: version
+    attributes:
+      label: Version Information
+      description: Provide version information
+      placeholder: |
+        - Git commit: (run `git rev-parse HEAD`)
+        - OS version: (e.g., macOS 14.1, Ubuntu 22.04, Windows 11)
+        - Shell: (e.g., Bash 5.2, PowerShell 7.4)
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Error Logs
+      description: Include any error messages or logs
+      placeholder: Paste error messages here
+      render: shell
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other context about the problem
+      placeholder: Add any other context, screenshots, or information

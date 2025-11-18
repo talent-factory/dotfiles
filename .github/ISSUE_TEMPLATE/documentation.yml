@@ -1,0 +1,89 @@
+name: 📚 Documentation Issue
+description: Report issues with documentation or suggest improvements
+title: "[Docs]: "
+labels: ["documentation", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve our documentation!
+
+  - type: dropdown
+    id: doc-type
+    attributes:
+      label: Documentation Type
+      description: What type of documentation needs attention?
+      options:
+        - README.md
+        - INSTALLATION.md
+        - WINDOWS_INSTALLATION.md
+        - CONTRIBUTING.md
+        - CLAUDE.md (developer docs)
+        - Agent-specific README
+        - Code comments
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Issue Type
+      description: What kind of issue is this?
+      options:
+        - Incorrect information
+        - Missing information
+        - Unclear explanation
+        - Broken link
+        - Outdated content
+        - Typo/grammar
+        - Formatting issue
+        - Enhancement suggestion
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the documentation issue
+      placeholder: What's wrong or what's missing?
+    validations:
+      required: true
+
+  - type: textarea
+    id: location
+    attributes:
+      label: Location
+      description: Where is this issue in the documentation?
+      placeholder: |
+        - File: README.md
+        - Section: Installation
+        - Line: 42
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested Improvement
+      description: How should this be fixed or improved?
+      placeholder: Describe your suggestion or provide corrected text
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      description: Are you willing to contribute?
+      options:
+        - label: I'm willing to submit a PR to fix this documentation issue
+          required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other relevant information
+      placeholder: Add screenshots or additional context
