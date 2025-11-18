@@ -68,7 +68,7 @@ function Backup-Existing {
                     New-Item -ItemType Directory -Path $BackupDir -Force | Out-Null
                 }
                 Write-Warn "Backing up existing $Path to $BackupDir"
-                Move-Item -Path $Path -Destination $BackupDir -Force
+                Move-Item -Path $Path -Destination $BackupDir -Force | Out-Null
             }
             return $true
         } else {
@@ -77,7 +77,7 @@ function Backup-Existing {
                 Write-DryRun "Would remove existing symlink $Path"
             } else {
                 Write-Info "Removing existing symlink $Path"
-                Remove-Item -Path $Path -Force
+                Remove-Item -Path $Path -Force | Out-Null
             }
             return $true
         }
@@ -98,7 +98,7 @@ function New-SymbolicLinkSafe {
         return $false
     }
 
-    Backup-Existing -Path $Target
+    Backup-Existing -Path $Target | Out-Null
 
     if ($script:DryRun) {
         Write-DryRun "Would create symlink: $Target -> $Source"
@@ -135,9 +135,15 @@ function New-SymbolicLinkSafe {
             }
         }
 
-        New-Item -ItemType SymbolicLink -Path $Target -Target $Source -Force | Out-Null
-        Write-Info "Created symlink: $Target -> $Source"
-        return $true
+        try {
+            New-Item -ItemType SymbolicLink -Path $Target -Target $Source -Force -ErrorAction Stop 2>$null | Out-Null
+            Write-Info "Created symlink: $Target -> $Source"
+            return $true
+        } catch {
+            # If symlink creation fails even with admin rights, fall back to copy
+            Write-Warn "Falling back to copy instead of symlink for: $Target"
+            return Copy-FilesSafe -Source $Source -Target $Target
+        }
     } catch {
         Write-ErrorMessage "Failed to create symlink: $_"
         Write-Warn "Falling back to copy instead"
@@ -157,7 +163,7 @@ function Copy-FilesSafe {
         return $false
     }
 
-    Backup-Existing -Path $Target
+    Backup-Existing -Path $Target | Out-Null
 
     if ($script:DryRun) {
         Write-DryRun "Would copy: $Source -> $Target"
@@ -171,7 +177,7 @@ function Copy-FilesSafe {
     }
 
     try {
-        Copy-Item -Path $Source -Destination $Target -Recurse -Force
+        Copy-Item -Path $Source -Destination $Target -Recurse -Force | Out-Null
         Write-Info "Copied: $Source -> $Target"
         return $true
     } catch {

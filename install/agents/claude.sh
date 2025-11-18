@@ -9,7 +9,7 @@ source "$SCRIPT_DIR/../lib/common.sh"
 install_claude() {
     local mode="$1"      # "home", "workspace", or "both"
     local method="$2"    # "symlink" or "copy"
-    local source_dir="$DOTFILES_DIR/agents/claude"
+    local source_dir="$DOTFILES_DIR/claude"
 
     log_info "Installing Claude Code..."
 

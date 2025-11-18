@@ -33,7 +33,7 @@ _get_copilot_home_dir() {
 install_copilot() {
     local mode="$1"      # "home", "workspace", or "both"
     local method="$2"    # "symlink" or "copy"
-    local source_dir="$DOTFILES_DIR/agents/copilot"
+    local source_dir="$DOTFILES_DIR/copilot"
 
     log_info "Installing GitHub Copilot..."
 
@@ -79,27 +79,33 @@ _install_copilot_to_target() {
     # Backup existing installation
     backup_existing "$target_dir"
 
-    # Create target directory
-    if [[ "$DRY_RUN" != true ]]; then
-        mkdir -p "$target_dir"
-    fi
-
     # Install prompts
     # Note: GitHub Copilot uses .prompt.md extension
     if [[ -d "$source_dir/prompts" ]]; then
         case $method in
             symlink)
                 # For Copilot, we symlink the entire prompts directory
+                # Don't create target directory - symlink will replace it
                 create_symlink "$source_dir/prompts" "$target_dir"
                 ;;
             copy)
-                # Copy individual prompt files
+                # For copy, create target directory first
                 if [[ "$DRY_RUN" != true ]]; then
-                    for file in "$source_dir/prompts"/*.prompt.md; do
-                        if [[ -f "$file" ]]; then
-                            cp "$file" "$target_dir/"
-                            log_info "Copied: $(basename "$file")"
-                        fi
+                    mkdir -p "$target_dir"
+                fi
+                # Copy individual prompt files recursively
+                if [[ "$DRY_RUN" != true ]]; then
+                    find "$source_dir/prompts" -name "*.prompt.md" -type f | while read -r file; do
+                        # Preserve directory structure
+                        relative_path="${file#$source_dir/prompts/}"
+                        target_file="$target_dir/$relative_path"
+                        target_subdir=$(dirname "$target_file")
+
+                        # Create subdirectories if needed
+                        mkdir -p "$target_subdir"
+
+                        cp "$file" "$target_file"
+                        log_info "Copied: $relative_path"
                     done
                 else
                     log_dry_run "Would copy prompt files from $source_dir/prompts to $target_dir"

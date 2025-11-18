@@ -115,10 +115,10 @@ function Install-LegacyDotfiles {
     $gitIgnoreSource = Join-Path $script:DotfilesDir "git\gitignore_global"
 
     if (Test-Path $gitConfigSource) {
-        New-SymbolicLinkSafe -Source $gitConfigSource -Target "$env:USERPROFILE\.gitconfig"
+        New-SymbolicLinkSafe -Source $gitConfigSource -Target "$env:USERPROFILE\.gitconfig" | Out-Null
     }
     if (Test-Path $gitIgnoreSource) {
-        New-SymbolicLinkSafe -Source $gitIgnoreSource -Target "$env:USERPROFILE\.gitignore_global"
+        New-SymbolicLinkSafe -Source $gitIgnoreSource -Target "$env:USERPROFILE\.gitignore_global" | Out-Null
     }
 
     Write-Host ""

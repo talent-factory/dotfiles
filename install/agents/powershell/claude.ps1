@@ -12,7 +12,7 @@ function Install-ClaudeCode {
 
     Write-Info "Installing Claude Code..."
 
-    $sourceDir = Join-Path $script:DotfilesDir "agents\claude"
+    $sourceDir = Join-Path $script:DotfilesDir "claude"
 
     if (-not (Test-Path $sourceDir)) {
         Write-ErrorMessage "Claude source directory not found: $sourceDir"
@@ -44,7 +44,7 @@ function Install-ClaudeToTarget {
     Write-Debug "Installing Claude to: $TargetDir (method: $Method)"
 
     # Backup existing installation
-    Backup-Existing -Path $TargetDir
+    Backup-Existing -Path $TargetDir | Out-Null
 
     # Create target directory
     if (-not $script:DryRun) {
@@ -58,10 +58,10 @@ function Install-ClaudeToTarget {
     if (Test-Path $commandsSource) {
         switch ($Method) {
             "symlink" {
-                New-SymbolicLinkSafe -Source $commandsSource -Target $commandsTarget
+                New-SymbolicLinkSafe -Source $commandsSource -Target $commandsTarget | Out-Null
             }
             "copy" {
-                Copy-FilesSafe -Source $commandsSource -Target $commandsTarget
+                Copy-FilesSafe -Source $commandsSource -Target $commandsTarget | Out-Null
             }
             default {
                 Write-ErrorMessage "Invalid installation method: $Method"
@@ -79,10 +79,10 @@ function Install-ClaudeToTarget {
     if (Test-Path $agentsSource) {
         switch ($Method) {
             "symlink" {
-                New-SymbolicLinkSafe -Source $agentsSource -Target $agentsTarget
+                New-SymbolicLinkSafe -Source $agentsSource -Target $agentsTarget | Out-Null
             }
             "copy" {
-                Copy-FilesSafe -Source $agentsSource -Target $agentsTarget
+                Copy-FilesSafe -Source $agentsSource -Target $agentsTarget | Out-Null
             }
         }
     } else {
@@ -90,7 +90,7 @@ function Install-ClaudeToTarget {
     }
 
     # Verify installation
-    Test-ClaudeInstallation -TargetDir $TargetDir
+    Test-ClaudeInstallation -TargetDir $TargetDir | Out-Null
 
     return $true
 }

@@ -49,8 +49,8 @@ function Read-AgentSelection {
     Write-Host ""
 
     for ($i = 0; $i -lt $agents.Length; $i++) {
-        $mark = if ($selected[$i]) { "✓" } else { " " }
-        Write-Host "  [$mark] $($i+1)) $($agentNames[$i])"
+        $mark = if ($selected[$i]) { "[X]" } else { "[ ]" }
+        Write-Host "  $mark $($i+1)) $($agentNames[$i])"
     }
     Write-Host ""
 
@@ -128,34 +128,34 @@ function Show-InstallationPlan {
         switch ($agent) {
             "augment" {
                 if ($Target -eq "home" -or $Target -eq "both") {
-                    Write-Host "  ✓ Augment Code → %USERPROFILE%\.augment\commands\"
+                    Write-Host "  [+] Augment Code -> %USERPROFILE%\.augment\commands\"
                 }
                 if ($Target -eq "workspace" -or $Target -eq "both") {
-                    Write-Host "  ✓ Augment Code → .\.augment\commands\"
+                    Write-Host "  [+] Augment Code -> .\.augment\commands\"
                 }
             }
             "claude" {
                 if ($Target -eq "home" -or $Target -eq "both") {
-                    Write-Host "  ✓ Claude Code → %USERPROFILE%\.claude\commands\ & agents\"
+                    Write-Host "  [+] Claude Code -> %USERPROFILE%\.claude\commands\ & agents\"
                 }
                 if ($Target -eq "workspace" -or $Target -eq "both") {
-                    Write-Host "  ✓ Claude Code → .\.claude\commands\ & agents\"
+                    Write-Host "  [+] Claude Code -> .\.claude\commands\ & agents\"
                 }
             }
             "copilot" {
                 if ($Target -eq "home" -or $Target -eq "both") {
-                    Write-Host "  ✓ GitHub Copilot → %APPDATA%\Code\User\prompts"
+                    Write-Host "  [+] GitHub Copilot -> %APPDATA%\Code\User\prompts"
                 }
                 if ($Target -eq "workspace" -or $Target -eq "both") {
-                    Write-Host "  ✓ GitHub Copilot → .\.github\prompts\"
+                    Write-Host "  [+] GitHub Copilot -> .\.github\prompts\"
                 }
             }
             "windsurf" {
                 if ($Target -eq "home" -or $Target -eq "both") {
-                    Write-Host "  ✓ Windsurf → %USERPROFILE%\.codeium\windsurf\global_workflows"
+                    Write-Host "  [+] Windsurf -> %USERPROFILE%\.codeium\windsurf\global_workflows"
                 }
                 if ($Target -eq "workspace" -or $Target -eq "both") {
-                    Write-Host "  ✓ Windsurf → .\.windsurf\workflows\"
+                    Write-Host "  [+] Windsurf -> .\.windsurf\workflows\"
                 }
             }
         }

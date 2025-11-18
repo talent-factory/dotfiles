@@ -1,12 +1,11 @@
 # Windsurf installer module (PowerShell)
-
-. "$PSScriptRoot\..\..\lib\powershell\common.ps1"
+# Note: common.ps1 is sourced by install.ps1, not here
 
 function Install-Windsurf {
     param([string]$Mode, [string]$Method)
 
     Write-Info "Installing Windsurf..."
-    $sourceDir = Join-Path $script:DotfilesDir "agents\windsurf"
+    $sourceDir = Join-Path $script:DotfilesDir "windsurf"
 
     if (-not (Test-Path $sourceDir)) {
         Write-ErrorMessage "Windsurf source directory not found: $sourceDir"
@@ -15,11 +14,11 @@ function Install-Windsurf {
 
     if ($Mode -eq "home" -or $Mode -eq "both") {
         $homeDir = Join-Path $env:USERPROFILE ".codeium\windsurf\global_workflows"
-        Install-WindsurfToTarget -TargetDir $homeDir -SourceDir $sourceDir -Method $Method
+        Install-WindsurfToTarget -TargetDir $homeDir -SourceDir $sourceDir -Method $Method | Out-Null
     }
 
     if ($Mode -eq "workspace" -or $Mode -eq "both") {
-        Install-WindsurfToTarget -TargetDir ".\.windsurf\workflows" -SourceDir $sourceDir -Method $Method
+        Install-WindsurfToTarget -TargetDir ".\.windsurf\workflows" -SourceDir $sourceDir -Method $Method | Out-Null
     }
 
     Write-Success "Windsurf installation completed"
@@ -29,7 +28,7 @@ function Install-Windsurf {
 function Install-WindsurfToTarget {
     param([string]$TargetDir, [string]$SourceDir, [string]$Method)
 
-    Backup-Existing -Path $TargetDir
+    Backup-Existing -Path $TargetDir | Out-Null
 
     $workflowsSource = Join-Path $SourceDir "workflows"
 
@@ -39,9 +38,9 @@ function Install-WindsurfToTarget {
             if ((Test-Path $TargetDir) -and (Test-EmptyDirectory -Path $TargetDir) -and -not $script:DryRun) {
                 Remove-Item -Path $TargetDir -Force
             }
-            New-SymbolicLinkSafe -Source $workflowsSource -Target $TargetDir
+            New-SymbolicLinkSafe -Source $workflowsSource -Target $TargetDir | Out-Null
         } else {
-            Copy-FilesSafe -Source $workflowsSource -Target $TargetDir
+            Copy-FilesSafe -Source $workflowsSource -Target $TargetDir | Out-Null
         }
     }
 
