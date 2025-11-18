@@ -1,6 +1,20 @@
 # Claude configuration files
 .claude/settings.local.json
+
+# Claude: Local debug files
 claude/debug/
+
+# Claude: (Old-) Local files
+claude-old/
+
+# Claude Code: Runtime-generated directories (not relevant for other users)
+claude/file-history/
+claude/history.jsonl
+claude/ide/
+claude/projects/
+claude/shell-snapshots/
+claude/statsig/
+claude/todos/
 
 # OS generated files
 .DS_Store
@@ -25,3 +39,11 @@ Thumbs.db
 .env
 .env.local
 .env.*.local
+
+# Installation backups
+*.backup
+install.sh.backup
+
+# Old claude directory (deprecated - use agents/claude instead)
+# Note: Will be removed after migration is complete
+claude/
