@@ -12,7 +12,7 @@ function Install-ClaudeCode {
 
     Write-Info "Installing Claude Code..."
 
-    $sourceDir = Join-Path $script:DotfilesDir "claude"
+    $sourceDir = Join-Path $script:DotfilesDir "agents\claude"
 
     if (-not (Test-Path $sourceDir)) {
         Write-ErrorMessage "Claude source directory not found: $sourceDir"

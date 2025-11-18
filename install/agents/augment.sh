@@ -9,7 +9,7 @@ source "$SCRIPT_DIR/../lib/common.sh"
 install_augment() {
     local mode="$1"      # "home", "workspace", or "both"
     local method="$2"    # "symlink" or "copy"
-    local source_dir="$DOTFILES_DIR/augment"
+    local source_dir="$DOTFILES_DIR/agents/augment"
 
     log_info "Installing Augment Code..."
 

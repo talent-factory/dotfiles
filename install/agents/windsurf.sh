@@ -9,7 +9,7 @@ source "$SCRIPT_DIR/../lib/common.sh"
 install_windsurf() {
     local mode="$1"      # "home", "workspace", or "both"
     local method="$2"    # "symlink" or "copy"
-    local source_dir="$DOTFILES_DIR/windsurf"
+    local source_dir="$DOTFILES_DIR/agents/windsurf"
 
     log_info "Installing Windsurf..."
 

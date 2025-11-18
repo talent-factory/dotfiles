@@ -5,7 +5,7 @@ function Install-AugmentCode {
     param([string]$Mode, [string]$Method)
 
     Write-Info "Installing Augment Code..."
-    $sourceDir = Join-Path $script:DotfilesDir "augment"
+    $sourceDir = Join-Path $script:DotfilesDir "agents\augment"
 
     if (-not (Test-Path $sourceDir)) {
         Write-ErrorMessage "Augment source directory not found: $sourceDir"

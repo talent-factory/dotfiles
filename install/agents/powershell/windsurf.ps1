@@ -5,7 +5,7 @@ function Install-Windsurf {
     param([string]$Mode, [string]$Method)
 
     Write-Info "Installing Windsurf..."
-    $sourceDir = Join-Path $script:DotfilesDir "windsurf"
+    $sourceDir = Join-Path $script:DotfilesDir "agents\windsurf"
 
     if (-not (Test-Path $sourceDir)) {
         Write-ErrorMessage "Windsurf source directory not found: $sourceDir"

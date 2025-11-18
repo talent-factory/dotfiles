@@ -33,7 +33,7 @@ _get_copilot_home_dir() {
 install_copilot() {
     local mode="$1"      # "home", "workspace", or "both"
     local method="$2"    # "symlink" or "copy"
-    local source_dir="$DOTFILES_DIR/copilot"
+    local source_dir="$DOTFILES_DIR/agents/copilot"
 
     log_info "Installing GitHub Copilot..."
 

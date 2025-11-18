@@ -5,7 +5,7 @@ function Install-GitHubCopilot {
     param([string]$Mode, [string]$Method)
 
     Write-Info "Installing GitHub Copilot..."
-    $sourceDir = Join-Path $script:DotfilesDir "copilot"
+    $sourceDir = Join-Path $script:DotfilesDir "agents\copilot"
 
     if (-not (Test-Path $sourceDir)) {
         Write-ErrorMessage "Copilot source directory not found: $sourceDir"

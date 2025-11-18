@@ -40,37 +40,69 @@ Professional Claude Code configuration with comprehensive commands, agents, and 
 - **Skill-Builder System** with 4 specialized agents
 - **Industry-Standard Methods** (SMART, MoSCoW, Risk Matrix, Story Points)
 
-### Architecture
+### Architecture (DRY with Shared Commands)
+
+**New in v3.1.0**: All common commands are now centralized in `agents/_shared/` with symlinks to agent-specific directories. This eliminates ~134 duplicate files (73% reduction).
 
 ```text
-agents/claude/
-├── agents/                      # Specialized agents
-│   ├── code-reviewer.md         # Code review agent
-│   ├── markdown-syntax-formatter.md
-│   └── skill-builder/           # Skill builder system
-│       ├── README.md
-│       ├── skill-documenter-agent.md
-│       ├── skill-elicitation-agent.md
-│       ├── skill-generator-agent.md
-│       └── skill-validator-agent.md
+agents/
+├── _shared/                     # Single Source of Truth (NEW)
+│   ├── README.md                # DRY architecture documentation
+│   └── commands/                # Shared commands (46 files)
+│       ├── develop/
+│       │   ├── commit.md        # 85 lines (main command)
+│       │   ├── commit/          # 1,246 lines (details)
+│       │   ├── create-pr.md     # 115 lines (main command)
+│       │   ├── create-pr/       # 2,067 lines (details)
+│       │   ├── implement-fs-task.md
+│       │   ├── implement-linear-task.md
+│       │   ├── check-agents.md
+│       │   ├── check-commands.md
+│       │   └── ruff-check.md
+│       ├── project/
+│       │   ├── create-prd.md    # 232 lines (main command)
+│       │   ├── create-prd/      # 2,213 lines (details)
+│       │   ├── create-plan.md   # 266 lines (main command)
+│       │   └── create-plan/     # 2,492 lines (details)
+│       └── skills/
+│           ├── build-skill.md
+│           ├── package-skill.md
+│           ├── scripts/         # Validation & packaging
+│           └── templates/       # 5 skill templates
 │
-└── commands/                    # Commands with progressive disclosure
-    ├── develop/
-    │   ├── commit.md            # 85 lines (main command)
-    │   ├── commit/              # 1,246 lines (details)
-    │   ├── create-pr.md         # 115 lines (main command)
-    │   └── create-pr/           # 2,067 lines (details)
-    ├── project/
-    │   ├── create-prd.md        # 232 lines (main command)
-    │   ├── create-prd/          # 2,213 lines (details)
-    │   ├── create-plan.md       # 266 lines (main command)
-    │   └── create-plan/         # 2,492 lines (details)
-    └── skills/
-        ├── build-skill.md
-        ├── package-skill.md
-        ├── scripts/             # Validation & packaging
-        └── templates/           # 5 skill templates
+├── claude/
+│   ├── README.md
+│   ├── agents/                  # Claude-specific agents
+│   │   ├── code-reviewer.md
+│   │   ├── agent-expert.md
+│   │   ├── ai-engineer.md
+│   │   ├── frontend-developer.md
+│   │   ├── java-developer.md
+│   │   ├── python-expert.md
+│   │   └── skill-builder/       # Skill builder agents
+│   └── commands -> ../_shared/commands  # Symlink to shared
+│
+├── augment/
+│   ├── README.md
+│   └── commands -> ../_shared/commands  # Symlink to shared
+│
+├── copilot/
+│   ├── README.md
+│   └── prompts -> ../_shared/commands   # Symlink to shared
+│
+└── windsurf/
+    ├── README.md
+    └── workflows -> ../_shared/commands # Symlink to shared
 ```
+
+**Benefits:**
+- **DRY Principle**: 46 unique files instead of 184 duplicates
+- **Single Source of Truth**: Update once, applies to all agents
+- **73% Reduction**: From ~184 files to 50 (46 + 4 symlinks)
+- **Easy Maintenance**: No more version drift between agents
+- **Clear Ownership**: Shared vs. agent-specific is obvious
+
+**See:** [agents/_shared/README.md](agents/_shared/README.md) for details.
 
 ---
 
@@ -1221,6 +1253,35 @@ You are free to use, modify, and distribute this project. See [LICENSE](LICENSE)
 
 ## Changelog
 
+### Version 3.1.0 (November 2024)
+
+**Major Refactoring: DRY Architecture with Shared Commands**
+
+**Architecture:**
+- ♻️ **DRY Implementation**: Zentralisierung aller gemeinsamen Commands in `agents/_shared/`
+- 🔗 **Symlink-basierte Struktur**: Alle Agents (Claude, Augment, Copilot, Windsurf) verwenden Symlinks zu `_shared/commands/`
+- 📉 **73% Reduktion**: Von ~184 duplizierten Dateien zu 46 unique files + 4 Symlinks
+- 🗑️ **Cleanup**: Entfernung alter Root-Level Strukturen (`/claude/`, `/augment/`, `/copilot/`)
+- 📚 **Neue Dokumentation**: `agents/_shared/README.md` beschreibt DRY-Architektur
+
+**Benefits:**
+- ✅ Single Source of Truth für alle Commands
+- ✅ Keine Version-Drift zwischen Agents
+- ✅ Wartung an einer Stelle statt vier
+- ✅ Konsistente Updates für alle Agents
+- ✅ Klare Trennung: Shared vs. Agent-spezifisch
+
+**Migration:**
+- Automatisch via Git-History erhalten
+- Symlinks funktionieren out-of-the-box
+- Alte Strukturen in `.gitignore` für Rückwärtskompatibilität
+
+**Files Changed:**
+- Added: `agents/_shared/` (46 shared command files)
+- Modified: `agents/{claude,augment,copilot,windsurf}/` (now use symlinks)
+- Removed: `/claude/`, `/augment/`, `/copilot/` (134 duplicate files)
+- Updated: `.gitignore`, `CLAUDE.md`
+
 ### Version 3.0.0 (November 2024)
 
 **Major Release: Open Source + Multi-Agent System**
@@ -1276,7 +1337,7 @@ You are free to use, modify, and distribute this project. See [LICENSE](LICENSE)
 
 ---
 
-**Version**: 3.0.0 (Open Source + Multi-Agent)
+**Version**: 3.1.0 (DRY Architecture)
 **Last Updated**: November 2024
 **Maintainer**: Daniel
 **License**: MIT

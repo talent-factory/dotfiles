@@ -44,6 +44,8 @@ Thumbs.db
 *.backup
 install.sh.backup
 
-# Old claude directory (deprecated - use agents/claude instead)
-# Note: Will be removed after migration is complete
+# Old agent directories (deprecated - use agents/* instead)
+# Note: Migrated to agents/_shared/ with symlinks (v3.1.0)
 /claude/
+/augment/
+/copilot/
