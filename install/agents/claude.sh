@@ -38,8 +38,6 @@ _install_claude_to_target() {
     local source_dir="$2"
     local method="$3"
 
-    log_debug "Installing Claude to: $target_dir (method: $method)"
-
     # Backup existing installation
     backup_existing "$target_dir"
 

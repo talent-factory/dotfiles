@@ -50,7 +50,6 @@ backup_existing() {
             log_warn "Backing up existing $file to $backup_dir"
             mv "$file" "$backup_dir/"
         fi
-        return 0
     elif [[ -L "$file" ]]; then
         if [[ "$DRY_RUN" == true ]]; then
             log_dry_run "Would remove existing symlink $file"
@@ -58,10 +57,10 @@ backup_existing() {
             log_info "Removing existing symlink $file"
             rm "$file"
         fi
-        return 0
     fi
 
-    return 1
+    # Always return success - not having a file to backup is not an error
+    return 0
 }
 
 # Create symlink
@@ -126,19 +125,19 @@ print_header() {
     local width=66
     local text_width=$((width - 2))  # Subtract 2 for the "  " padding
 
-    echo ""
-    echo "╔$(printf '═%.0s' $(seq 1 $width))╗"
-    printf "║  %-${text_width}s║\n" "$title"
-    echo "╚$(printf '═%.0s' $(seq 1 $width))╝"
-    echo ""
+    echo "" >&2
+    echo "╔$(printf '═%.0s' $(seq 1 $width))╗" >&2
+    printf "║  %-${text_width}s║\n" "$title" >&2
+    echo "╚$(printf '═%.0s' $(seq 1 $width))╝" >&2
+    echo "" >&2
 }
 
 # Print section
 print_section() {
     local title="$1"
-    echo ""
-    echo -e "${CYAN}▶ $title${NC}"
-    echo ""
+    echo "" >&2
+    echo -e "${CYAN}▶ $title${NC}" >&2
+    echo "" >&2
 }
 
 # Ask yes/no question

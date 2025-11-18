@@ -263,29 +263,6 @@ print_summary() {
         log_info "  2. Verify Claude Code commands are available"
         log_info "  3. Customize local configs as needed"
     fi
-
-    # List installed agents
-    if [[ -d "$HOME/.claude/commands" || -L "$HOME/.claude/commands" ]]; then
-        echo ""
-        list_claude_commands "$HOME/.claude"
-    fi
-
-    if [[ -d "$HOME/.augment/commands" || -L "$HOME/.augment/commands" ]]; then
-        echo ""
-        list_augment_commands "$HOME/.augment"
-    fi
-
-    if [[ -e "$HOME/Library/Application Support/Code/User/prompts" ]]; then
-        echo ""
-        list_copilot_prompts "$HOME/Library/Application Support/Code/User/prompts"
-    fi
-
-    if [[ -d "$HOME/.codeium/windsurf/global_workflows" || -L "$HOME/.codeium/windsurf/global_workflows" ]]; then
-        echo ""
-        list_windsurf_workflows "$HOME/.codeium/windsurf/global_workflows"
-    fi
-
-    echo ""
 }
 
 # Run main installation
