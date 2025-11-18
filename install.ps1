@@ -158,16 +158,16 @@ function Install-AgentsInteractive {
     foreach ($agent in $agents) {
         switch ($agent) {
             "augment" {
-                Install-AugmentCode -Mode $target -Method $method
+                Install-AugmentCode -Mode $target -Method $method | Out-Null
             }
             "claude" {
-                Install-ClaudeCode -Mode $target -Method $method
+                Install-ClaudeCode -Mode $target -Method $method | Out-Null
             }
             "copilot" {
-                Install-GitHubCopilot -Mode $target -Method $method
+                Install-GitHubCopilot -Mode $target -Method $method | Out-Null
             }
             "windsurf" {
-                Install-Windsurf -Mode $target -Method $method
+                Install-Windsurf -Mode $target -Method $method | Out-Null
             }
             default {
                 Write-ErrorMessage "Unknown agent: $agent"

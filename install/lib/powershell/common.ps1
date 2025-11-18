@@ -217,9 +217,9 @@ function Write-Header {
     $textWidth = $width - 2
 
     Write-Host ""
-    Write-Host "╔$('═' * $width)╗"
-    Write-Host "║  $($Title.PadRight($textWidth))║"
-    Write-Host "╚$('═' * $width)╝"
+    Write-Host "+$('=' * $width)+"
+    Write-Host "|  $($Title.PadRight($textWidth))|"
+    Write-Host "+$('=' * $width)+"
     Write-Host ""
 }
 
