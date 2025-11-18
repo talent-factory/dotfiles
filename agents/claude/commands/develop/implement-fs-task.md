@@ -339,7 +339,7 @@ Für weiterführende Informationen siehe:
 
 ## Siehe auch
 
-- **[Linear-basierte Implementation](./implement-linear-issue.md)** - Alternative mit Linear-Integration
+- **[Linear-basierte Implementation](./implement-linear-task.md)** - Alternative mit Linear-Integration
 - **[Filesystem-basierte Planung](../project/create-plan-fs.md)** - Task-Struktur-Details
 
 ---

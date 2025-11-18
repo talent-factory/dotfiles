@@ -1,6 +1,6 @@
 # Troubleshooting Guide
 
-Lösungen für häufige Probleme bei der Verwendung von `/develop:implement-linear-issue`.
+Lösungen für häufige Probleme bei der Verwendung von `/develop:implement-linear-task`.
 
 ## Linear MCP Server Probleme
 
@@ -725,7 +725,7 @@ Ctrl+C
 export DEBUG=linear:*
 
 # Command erneut ausführen
-/develop:implement-linear-issue PROJ-123
+/develop:implement-linear-task PROJ-123
 ```
 
 ### Inkonsistenter State
@@ -762,7 +762,7 @@ git branch -a
 git branch -D feature/proj-123-...
 
 # Command erneut ausführen
-/develop:implement-linear-issue PROJ-123
+/develop:implement-linear-task PROJ-123
 ```
 
 **2. Cleanup-Script**:

@@ -1,9 +1,9 @@
 ---
-description: Implementiere Linear Issue mit Branch-Erstellung und PR
+description: Implementiere Linear Task mit Branch-Erstellung und PR
 category: develop
 ---
 
-# Implement Linear Issue
+# Implement Linear Task
 
 Automatisierte Umsetzung von Linear Issues: Issue abrufen, Branch erstellen, implementieren und Pull Request erstellen.
 
@@ -21,10 +21,10 @@ Dieser Command orchestriert den kompletten Workflow von Linear Issue bis Pull Re
 
 ```bash
 # Mit Issue-ID
-/develop:implement-linear-issue PROJ-123
+/develop:implement-linear-task PROJ-123
 
 # Ohne Argument (interaktive Auswahl)
-/develop:implement-linear-issue
+/develop:implement-linear-task
 ```
 
 ## Workflow
@@ -127,7 +127,7 @@ Issue-Status auf **"In Progress"** setzen via Linear MCP:
 
 **Erforderlich**: Linear MCP Server muss konfiguriert sein.
 
-**Installation** (siehe [linear-integration.md](./implement-linear-issue/linear-integration.md)):
+**Installation** (siehe [linear-integration.md](./implement-linear-task/linear-integration.md)):
 
 ```json
 {
@@ -171,16 +171,16 @@ Issue-Status auf **"In Progress"** setzen via Linear MCP:
 **Linear MCP nicht verfügbar**:
 
 - Fehlermeldung mit Setup-Anleitung
-- Verweis auf [linear-integration.md](./implement-linear-issue/linear-integration.md)
+- Verweis auf [linear-integration.md](./implement-linear-task/linear-integration.md)
 
 ## Detail-Dokumentation
 
 Für weiterführende Informationen siehe:
 
-- **[linear-integration.md](./implement-linear-issue/linear-integration.md)** - Linear MCP Server Setup, API-Details, GraphQL-Queries
-- **[workflow.md](./implement-linear-issue/workflow.md)** - Detaillierter Workflow, Best Practices, Beispiele
-- **[troubleshooting.md](./implement-linear-issue/troubleshooting.md)** - Häufige Probleme, Lösungen, Debugging
-- **[best-practices.md](./implement-linear-issue/best-practices.md)** - Branch-Naming, Commit-Messages, PR-Gestaltung
+- **[linear-integration.md](./implement-linear-task/linear-integration.md)** - Linear MCP Server Setup, API-Details, GraphQL-Queries
+- **[workflow.md](./implement-linear-task/workflow.md)** - Detaillierter Workflow, Best Practices, Beispiele
+- **[troubleshooting.md](./implement-linear-task/troubleshooting.md)** - Häufige Probleme, Lösungen, Debugging
+- **[best-practices.md](./implement-linear-task/best-practices.md)** - Branch-Naming, Commit-Messages, PR-Gestaltung
 
 ## Beispiele
 
@@ -188,7 +188,7 @@ Für weiterführende Informationen siehe:
 
 ```bash
 # Command aufrufen
-/develop:implement-linear-issue PROJ-123
+/develop:implement-linear-task PROJ-123
 
 # Claude:
 # ✅ Issue PROJ-123 abgerufen: "User Authentication"
@@ -204,7 +204,7 @@ Für weiterführende Informationen siehe:
 
 ```bash
 # Command ohne Argument
-/develop:implement-linear-issue
+/develop:implement-linear-task
 
 # Claude:
 # Ihre zugewiesenen Issues:

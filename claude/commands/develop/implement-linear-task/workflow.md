@@ -1,6 +1,6 @@
 # Workflow Guide
 
-Detaillierte Beschreibung des `/develop:implement-linear-issue` Workflows mit Beispielen und Best Practices.
+Detaillierte Beschreibung des `/develop:implement-linear-task` Workflows mit Beispielen und Best Practices.
 
 ## Workflow-Übersicht
 
@@ -27,7 +27,7 @@ graph TD
 **Command**:
 
 ```bash
-/develop:implement-linear-issue PROJ-123
+/develop:implement-linear-task PROJ-123
 ```
 
 **Ablauf**:
@@ -58,7 +58,7 @@ graph TD
 **Command**:
 
 ```bash
-/develop:implement-linear-issue
+/develop:implement-linear-task
 ```
 
 **Ablauf**:
@@ -292,7 +292,7 @@ if (result.success) {
 await linear_create_comment({
   issueId: issue.id,
   body: `🚀 Implementation gestartet in Branch: \`${branchName}\`\n\n` +
-        `Workflow initiiert via Claude Code \`/develop:implement-linear-issue\``
+        `Workflow initiiert via Claude Code \`/develop:implement-linear-task\``
 })
 ```
 
@@ -301,7 +301,7 @@ await linear_create_comment({
 ```markdown
 🚀 Implementation gestartet in Branch: `feature/proj-123-user-authentication-system`
 
-Workflow initiiert via Claude Code `/develop:implement-linear-issue`
+Workflow initiiert via Claude Code `/develop:implement-linear-task`
 ```
 
 ## Phase 4: Implementierung
@@ -564,7 +564,7 @@ Keine
 - After: **In Review**
 
 ---
-*Auto-generated via `/develop:implement-linear-issue`*
+*Auto-generated via `/develop:implement-linear-task`*
 ```
 
 ### PR-Labels aus Issue-Labels
@@ -639,7 +639,7 @@ if (reviewState) {
 **Command**:
 
 ```bash
-/develop:implement-linear-issue PROJ-123
+/develop:implement-linear-task PROJ-123
 ```
 
 **Workflow-Ausführung**:

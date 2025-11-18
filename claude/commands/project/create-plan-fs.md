@@ -386,7 +386,7 @@ Basierend auf dem Original-Command `/project:create-plan`, adaptiert für Filesy
 
 **Verwandte Commands**:
 - `/project:create-prd` - PRD-Erstellung
-- `/develop:implement-linear-issue` - Task-Implementierung (anpassbar für FS)
+- `/develop:implement-linear-task` - Task-Implementierung (anpassbar für FS)
 
 ---
 

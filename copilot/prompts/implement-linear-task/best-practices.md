@@ -1,6 +1,6 @@
 # Best Practices
 
-Best Practices für effektive Nutzung von `/develop:implement-linear-issue` und Linear-Integration.
+Best Practices für effektive Nutzung von `/develop:implement-linear-task` und Linear-Integration.
 
 ## Issue-Management
 
@@ -500,8 +500,8 @@ Backlog → Todo → In Progress → In Review → Done
 |--------|-------------|-------|
 | **Backlog** | Issue erstellt | PM/User |
 | **Todo** | Sprint-Planning, priorisiert | PM |
-| **In Progress** | Arbeit beginnt (Branch erstellt) | `/develop:implement-linear-issue` |
-| **In Review** | PR erstellt | `/develop:implement-linear-issue` |
+| **In Progress** | Arbeit beginnt (Branch erstellt) | `/develop:implement-linear-task` |
+| **In Review** | PR erstellt | `/develop:implement-linear-task` |
 | **Done** | PR gemerged | Automatisch (GitHub Action) |
 
 **Vermeiden**:
@@ -596,7 +596,7 @@ Implemented in [PROJ-123](https://linear.app/team/issue/PROJ-123)
 # High-Priority Issues zuerst
 
 # 3. Issue auswählen
-/develop:implement-linear-issue
+/develop:implement-linear-task
 
 # 4. Status-Update geben
 # Comment in Linear: "Starting work on PROJ-123"
