@@ -84,6 +84,7 @@ _install_copilot_to_target() {
     # We need to create individual symlinks with renamed extensions
     # Source is agents/_shared/commands/ (not copilot/prompts/)
     local shared_commands_dir="$(dirname "$source_dir")/_shared/commands"
+    local shared_commands="$shared_commands_dir"
 
     if [[ -d "$shared_commands_dir" ]]; then
         case $method in
@@ -94,9 +95,6 @@ _install_copilot_to_target() {
                 if [[ "$DRY_RUN" != true ]]; then
                     mkdir -p "$target_dir"
                 fi
-
-                # Find all .md files in _shared/commands
-                local shared_commands="$shared_commands_dir"
 
                 # Create symlinks with renamed extensions
                 if [[ "$DRY_RUN" != true ]]; then
