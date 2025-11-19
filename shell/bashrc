@@ -2,17 +2,24 @@
 export PATH="$PATH:$HOME/.rvm/bin"
 
 # >>> juliaup initialize >>>
-
-# !! Contents within this block are managed by juliaup !!
-
-case ":$PATH:" in
-    *:/Users/daniel/.juliaup/bin:*)
-        ;;
-
-    *)
-        export PATH=/Users/daniel/.juliaup/bin${PATH:+:${PATH}}
-        ;;
-esac
-
+# Julia version manager - only load if installed
+if [ -d "$HOME/.juliaup/bin" ]; then
+    case ":$PATH:" in
+        *:$HOME/.juliaup/bin:*)
+            ;;
+        *)
+            export PATH="$HOME/.juliaup/bin${PATH:+:${PATH}}"
+            ;;
+    esac
+fi
 # <<< juliaup initialize <<<
 
+# Cargo (Rust) - only load if installed
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+
+# Kiro Terminal Integration - only load if running in Kiro
+[[ "$TERM_PROGRAM" == "kiro" ]] && command -v kiro >/dev/null 2>&1 && . "$(kiro --locate-shell-integration-path bash)"
+
+# Load local customizations (not tracked in git)
+# Create ~/.bashrc.local for your personal settings
+[ -f "$HOME/.bashrc.local" ] && source "$HOME/.bashrc.local"

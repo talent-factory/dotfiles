@@ -1,0 +1,48 @@
+# Local ZSH Configuration Template
+# Copy this file to ~/.zshrc.local and customize for your system
+# This file is NOT tracked in git
+
+# ==============================================================================
+# Personal PATH additions
+# ==============================================================================
+
+# Homebrew Ruby (if you use it)
+# export PATH=/opt/homebrew/opt/ruby/bin:$PATH
+
+# Payara Server (if you use it)
+# export PATH=/Applications/Payara\ 6/bin:$PATH
+
+# Ruby Gems (adjust version as needed)
+# export PATH=$HOME/.gem/ruby/2.6.0/bin:$PATH
+
+# Windsurf/Codeium (if you use it)
+# export PATH="$HOME/.codeium/windsurf/bin:$PATH"
+
+# Node.js specific version (if needed)
+# export PATH="/opt/homebrew/opt/node@18/bin:$PATH"
+
+# ==============================================================================
+# Personal Aliases
+# ==============================================================================
+
+# SSH shortcuts (replace with your servers)
+# alias myserver='ssh -i ~/.ssh/mykey.pem user@hostname'
+
+# Project-specific aliases
+# alias taskmaster-ui='node /path/to/your/project/dist/server.js'
+
+# ==============================================================================
+# Tool-specific configurations
+# ==============================================================================
+
+# Docker completions (macOS specific)
+# fpath=(${fpath:#/usr/local/share/zsh/site-functions} $HOME/.docker/completions $fpath)
+
+# FZF Git integration (if you have it)
+# [ -f ~/fzf-git.sh/fzf-git.sh ] && source ~/fzf-git.sh/fzf-git.sh
+
+# ==============================================================================
+# Additional customizations
+# ==============================================================================
+
+# Add your personal settings here

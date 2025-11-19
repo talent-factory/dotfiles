@@ -1,409 +1,361 @@
-# Dotfiles
+# AI Agent Dotfiles
 
-Persönliches Dotfiles Management Repository für macOS mit professioneller Entwicklungsumgebung.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Linux%20%7C%20Windows-blue)]()
+[![AI Agents](https://img.shields.io/badge/AI%20Agents-4-green)]()
 
-## Übersicht
+**Professional dotfiles and AI agent configurations for students and developers.**
 
-Dieses Repository verwaltet Konfigurationsdateien und Entwicklungstools für eine konsistente Entwicklungsumgebung über verschiedene Systeme hinweg.
-
-## Struktur
-
-```text
-dotfiles/
-├── install.sh              # Installations-Script mit automatischen Backups
-├── README.md               # Diese Datei
-├── CLAUDE.md               # Claude Code Dokumentation
-├── SECURITY.md             # Sicherheits-Dokumentation (Git-Historie-Bereinigung)
-├── .env.example            # Environment Variables Template (API Keys)
-├── .gitignore              # Git Ignore Rules
-│
-├── .claude/                # Claude Code Konfigurationen
-│   ├── agents/             # Spezialisierte Agenten
-│   │   ├── code-reviewer.md
-│   │   ├── markdown-syntax-formatter.md
-│   │   └── skill-builder/  # Skill-Builder-System
-│   │       ├── README.md
-│   │       ├── skill-documenter-agent.md
-│   │       ├── skill-elicitation-agent.md
-│   │       ├── skill-generator-agent.md
-│   │       └── skill-validator-agent.md
-│   │
-│   └── commands/           # Claude Commands mit Progressive Disclosure
-│       ├── develop/
-│       │   ├── commit.md
-│       │   ├── commit/     # Pre-Commit-Checks, Best Practices, etc.
-│       │   ├── create-pr.md
-│       │   └── create-pr/  # PR-Templates, Troubleshooting, etc.
-│       ├── project/
-│       │   ├── create-prd.md
-│       │   └── create-prd/ # PRD Best Practices, Templates, Guides
-│       └── skills/
-│           ├── build-skill.md
-│           ├── package-skill.md
-│           ├── scripts/    # Validierung & Packaging
-│           └── templates/  # Skill-Templates
-│
-├── config/                 # ~/.config Verzeichnis-Inhalte
-├── shell/                  # Shell-Konfigurationen (zsh, bash)
-│   ├── zshrc
-│   ├── bashrc
-│   ├── bash_profile
-│   └── zshenv
-│
-├── git/                    # Git-Konfigurationen
-│   ├── gitconfig
-│   └── gitignore_global
-│
-├── vim/                    # Vim-Konfigurationen
-│   └── vimrc
-│
-├── ssh/                    # SSH-Konfigurations-Templates
-│   └── config.template
-│
-└── local/                  # ~/.local Verzeichnis-Inhalte
-```
-
-## Features
-
-### 🚀 Claude Code Integration
-
-- **Progressive Disclosure**: Optimierte Commands für schnelle Verarbeitung
-- **Best Practices**: Industry-Standard-Methoden für Commits, PRs und PRDs
-- **Skill-Builder**: Vollständiges System zur Skill-Entwicklung
-- **Agenten**: Spezialisierte Code-Review und Dokumentations-Agenten
-
-### 🛠️ Entwicklungstools
-
-- **Shell**: ZSH und Bash Konfigurationen
-- **Git**: Globale Git-Einstellungen und Ignore-Patterns
-- **Vim**: Vorkonfigurierter Vim-Editor
-- **SSH**: Sichere SSH-Konfigurations-Templates
-
-### 💾 Automatische Backups
-
-Das Installations-Script erstellt automatisch Backups existierender Dateien bevor Symlinks erstellt werden.
-
-## Installation
-
-### Voraussetzungen
-
-- macOS (primär getestet)
-- Git
-- Bash/ZSH
-
-### Schnellstart
-
-1. **Repository klonen**:
-
-   ```bash
-   git clone <repository-url> ~/.dotfiles
-   cd ~/.dotfiles
-   ```
-
-2. **Installation ausführen**:
-
-   ```bash
-   chmod +x install.sh
-   ./install.sh
-   ```
-
-### Was das Script macht
-
-Das `install.sh` Script wird:
-
-- ✅ Backups von existierenden Konfigurationsdateien erstellen
-- ✅ Symbolische Links vom Home-Verzeichnis zu den Dotfiles erstellen
-- ✅ Korrekte Berechtigungen für SSH-Konfigurationen setzen
-- ✅ Claude Code Konfigurationen einrichten
-- ✅ `.config` und `.local` Verzeichnisse verlinken
-
-### Nach der Installation
-
-1. **Environment Variables konfigurieren**:
-
-   ```bash
-   # .env Datei aus Template erstellen
-   cp ~/.dotfiles/.env.example ~/.env
-
-   # API Keys hinzufügen
-   vim ~/.env
-   ```
-
-   Fügen Sie Ihre persönlichen API Keys in `~/.env` ein:
-   - `VULTR_API_KEY` - Vultr CLI Access
-   - `GEMINI_API_KEY` - Google Gemini API
-
-   ⚠️ **Wichtig**: Die `~/.env` Datei wird NICHT versioniert und enthält sensible Daten!
-
-2. **Terminal neu starten** oder Shell-Konfiguration laden:
-
-   ```bash
-   source ~/.zshrc  # Für ZSH
-   # oder
-   source ~/.bashrc # Für Bash
-   ```
-
-3. **Claude Code verifizieren**:
-
-   Öffnen Sie Claude Code und überprüfen Sie, dass die Commands verfügbar sind:
-   - `/commit`
-   - `/create-pr`
-   - `/project:create-prd`
-
-4. **SSH-Konfiguration anpassen** (falls benötigt):
-
-   ```bash
-   vim ~/.ssh/config
-   ```
-
-## Verwendung
-
-### Neue Dotfiles hinzufügen
-
-1. **Datei ins Repository kopieren**:
-
-   ```bash
-   cp ~/.myconfig ~/.dotfiles/config/myconfig
-   ```
-
-2. **Install-Script aktualisieren** (falls nötig):
-
-   Bearbeiten Sie `install.sh` für spezielle Behandlung.
-
-3. **Änderungen committen**:
-
-   ```bash
-   cd ~/.dotfiles
-   git add .
-   git commit -m "feat: Füge myconfig hinzu"
-   git push
-   ```
-
-### Auf neuem System einrichten
-
-```bash
-# 1. Dotfiles klonen
-git clone <repository-url> ~/.dotfiles
-
-# 2. Installation ausführen
-cd ~/.dotfiles
-./install.sh
-
-# 3. Terminal neu starten
-```
-
-### Backup-Verwaltung
-
-Backups werden automatisch in `~/.dotfiles_backup_<timestamp>/` erstellt:
-
-```bash
-# Backups anzeigen
-ls -la ~/.dotfiles_backup_*
-
-# Backup wiederherstellen (falls nötig)
-cp -r ~/.dotfiles_backup_20241030_123456/.zshrc ~/
-```
-
-## Claude Code Commands
-
-Vollständige Dokumentation der Claude Code Integration finden Sie in [CLAUDE.md](CLAUDE.md).
-
-### Verfügbare Commands
-
-- **`/commit`**: Professionelle Git-Commits mit Pre-Commit-Checks
-- **`/create-pr`**: Pull Requests mit automatischer Branch-Erstellung
-- **`/project:create-prd`**: Product Requirements Documents nach Best Practices
-
-### Features
-
-- ✨ Progressive Disclosure für optimale Performance
-- 📚 Umfassende Best Practices (~2.800 Zeilen Dokumentation)
-- 🎯 4 PRD-Templates (MVP, Standard, Major Initiative, Technical)
-- 🛠️ Skill-Builder-System mit 4 spezialisierten Agenten
-- ✅ Industry-Standard-Methoden (SMART, MoSCoW, Risiko-Matrix)
-
-## SSH-Konfiguration
-
-SSH-Konfigurationen werden aus Sicherheitsgründen speziell behandelt:
-
-1. **Template verwenden**:
-
-   ```bash
-   cat ssh/config.template
-   ```
-
-2. **Lokale Konfiguration erstellen**:
-
-   ```bash
-   cp ssh/config.template ~/.ssh/config
-   chmod 600 ~/.ssh/config
-   ```
-
-3. **Anpassen** an eigene Bedürfnisse.
-
-**Wichtig**: SSH-Konfigurationen mit Credentials gehören NICHT ins Repository!
-
-## Sicherheit
-
-### Nicht getrackte Dateien
-
-Folgende Dateien werden bewusst NICHT versioniert:
-
-- **`.env`** - Environment Variables mit API Keys ⚠️ KRITISCH
-- `.claude/settings.local.json` - Lokale Claude-Einstellungen
-- `*.local` - Alle lokalen Konfigurationen
-- SSH Private Keys
-- Andere API Keys und Credentials
-
-### Environment Variables (.env)
-
-**Wichtig**: API Keys und sensible Daten gehören NICHT ins Repository!
-
-- ✅ `.env.example` ist im Repository (ohne echte Keys)
-- ❌ `.env` ist in `.gitignore` und wird NICHT committet
-- ✅ Jeder Nutzer erstellt seine eigene `~/.env` Datei lokal
-
-**Setup**:
-
-```bash
-# Template kopieren
-cp ~/.dotfiles/.env.example ~/.env
-
-# Eigene API Keys einfügen
-vim ~/.env
-```
-
-### .gitignore
-
-Das Repository enthält ein umfassendes `.gitignore` für:
-
-- Environment Variables (`.env`, `.env.local`)
-- Claude lokale Einstellungen
-- OS-generierte Dateien (.DS_Store)
-- Editor-Backup-Dateien
-- Lokale Konfigurationen
-
-## Troubleshooting
-
-### Symlinks funktionieren nicht
-
-```bash
-# Überprüfen ob Symlink existiert
-ls -la ~/.zshrc
-
-# Symlink manuell erstellen
-ln -sf ~/.dotfiles/shell/zshrc ~/.zshrc
-```
-
-### Claude Commands nicht verfügbar
-
-1. **Verzeichnis überprüfen**:
-
-   ```bash
-   ls -la ~/.claude/commands/
-   ```
-
-2. **Symlinks neu erstellen**:
-
-   ```bash
-   cd ~/.dotfiles
-   ./install.sh
-   ```
-
-3. **Claude Code neu starten**
-
-### Backup wiederherstellen
-
-```bash
-# Neuestes Backup finden
-ls -lt ~/.dotfiles_backup_* | head -1
-
-# Datei wiederherstellen
-cp ~/.dotfiles_backup_<timestamp>/.zshrc ~/
-```
-
-### Environment Variables werden nicht geladen
-
-1. **Prüfen ob .env existiert**:
-
-   ```bash
-   ls -la ~/.env
-   ```
-
-2. **Aus Template erstellen**:
-
-   ```bash
-   cp ~/.dotfiles/.env.example ~/.env
-   vim ~/.env  # API Keys hinzufügen
-   ```
-
-3. **Shell neu laden**:
-
-   ```bash
-   source ~/.zshrc
-   ```
-
-4. **Variablen überprüfen**:
-
-   ```bash
-   echo $VULTR_API_KEY
-   echo $GEMINI_API_KEY
-   ```
-
-## Wartung
-
-### Repository aktualisieren
-
-```bash
-cd ~/.dotfiles
-git pull origin develop
-./install.sh  # Nur bei Struktur-Änderungen nötig
-```
-
-### Änderungen committen
-
-```bash
-cd ~/.dotfiles
-git add .
-git commit -m "feat: Beschreibung der Änderung"
-git push
-```
-
-### ⚠️ Wichtig: Force-Push erforderlich (Einmalig)
-
-Nach der Git-Historie-Bereinigung (API Keys entfernt) ist ein **einmaliger Force-Push** erforderlich:
-
-```bash
-git push origin develop --force
-```
-
-**Warum?** Die Git-Historie wurde mit `git-filter-repo` umgeschrieben, um API Keys zu entfernen. Details siehe [SECURITY.md](SECURITY.md).
-
-**Nach dem Force-Push**:
-
-- Alte API Keys bei Anbietern rotieren (Vultr, Google)
-- Diese Warnung kann aus der README entfernt werden
-
-## Weiterführende Dokumentation
-
-- **[CLAUDE.md](CLAUDE.md)** - Vollständige Claude Code Dokumentation
-- **[.claude/commands/develop/commit/best-practices.md](.claude/commands/develop/commit/best-practices.md)** - Git Commit Best Practices
-- **[.claude/commands/project/create-prd/best-practices.md](.claude/commands/project/create-prd/best-practices.md)** - PRD Best Practices
-- **[.claude/commands/skills/README.md](.claude/commands/skills/README.md)** - Skill-Builder System
-
-## Lizenz
-
-Persönliches Repository - Nicht für öffentliche Nutzung lizenziert.
-
-## Support
-
-Bei Problemen:
-
-1. Überprüfen Sie die [Troubleshooting](#troubleshooting) Sektion
-2. Konsultieren Sie [CLAUDE.md](CLAUDE.md) für Claude-spezifische Fragen
-3. Prüfen Sie die Git-Historie für kürzliche Änderungen
+Cross-platform installation system supporting Augment Code, Claude Code, GitHub Copilot, and Windsurf with comprehensive commands, agents, and best practices.
 
 ---
 
-**Version**: 2.0.0 (mit Progressive Disclosure)
-**Zuletzt aktualisiert**: Oktober 2024
+## ✨ Features
+
+- **🤖 4 AI Agents Supported**: Augment Code, Claude Code, GitHub Copilot, Windsurf
+- **🌍 Cross-Platform**: macOS, Linux, Windows (Bash + PowerShell)
+- **🎯 Dual Installation**: Home directory (global) or workspace (project-specific)
+- **🔗 Flexible Methods**: Symlink (live updates) or copy (independent)
+- **📦 Automated Backups**: Safe installation with automatic backups
+- **📚 Comprehensive Documentation**: 12,500+ lines of guides and best practices
+- **🚀 Interactive Installer**: Agent selection with visual feedback
+- **⚡ Optimized Commands**: Progressive disclosure pattern for performance
+
+---
+
+## 🚀 Quick Start
+
+### macOS / Linux
+
+```bash
+# Clone repository
+git clone https://github.com/talent-factory/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+
+# Interactive installation
+./install.sh --interactive
+
+# Or install with defaults
+./install.sh
+```
+
+### Windows
+
+```powershell
+# Clone repository
+git clone https://github.com/talent-factory/dotfiles.git $env:USERPROFILE\.dotfiles
+cd $env:USERPROFILE\.dotfiles
+
+# Interactive installation
+.\install.ps1 -Interactive
+
+# Or install with defaults
+.\install.ps1
+```
+
+---
+
+## 📋 Table of Contents
+
+- [Supported AI Agents](#supported-ai-agents)
+- [Installation](#installation)
+- [Project Structure](#project-structure)
+- [Usage](#usage)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
+## 🤖 Supported AI Agents
+
+| AI Agent | Home Installation | Workspace Installation | File Format |
+|----------|-------------------|------------------------|-------------|
+| **Augment Code** | `~/.augment/commands/` | `.augment/commands/` | `.md` |
+| **Claude Code** | `~/.claude/commands/`, `agents/` | `.claude/commands/`, `agents/` | `.md` |
+| **GitHub Copilot** | `~/Library/Application Support/Code/User/prompts` (macOS)<br>`~/.config/Code/User/prompts` (Linux)<br>`%APPDATA%/Code/User/prompts` (Windows) | `.github/prompts/` | `.prompt.md` |
+| **Windsurf** | `~/.codeium/windsurf/global_workflows` | `.windsurf/workflows/` | `.md` |
+
+**See [install/AI_AGENTS_REFERENCE.md](install/AI_AGENTS_REFERENCE.md) for detailed paths and configuration.**
+
+---
+
+## 📦 Installation
+
+### Prerequisites
+
+**All Platforms:**
+- Git
+
+**macOS / Linux:**
+- Bash 3.2+ (pre-installed)
+
+**Windows:**
+- PowerShell 5.1+ (pre-installed on Windows 10/11)
+- Optional: Developer Mode or Administrator rights (for symlinks)
+
+### Installation Methods
+
+#### Interactive Mode (Recommended)
+
+Choose which agents to install and where:
+
+```bash
+# macOS/Linux
+./install.sh --interactive
+
+# Windows
+.\install.ps1 -Interactive
+```
+
+**Prompts:**
+1. **Installation Target**: Home / Workspace / Both
+2. **Agent Selection**: Select AI agents (multi-select)
+3. **Installation Method**: Symlink (recommended) or Copy
+4. **Confirm**: Review plan and proceed
+
+#### Default Installation
+
+Install Claude Code only to home directory:
+
+```bash
+# macOS/Linux
+./install.sh
+
+# Windows
+.\install.ps1
+```
+
+#### Preview Mode (Dry-run)
+
+See what would be installed without making changes:
+
+```bash
+# macOS/Linux
+./install.sh --dry-run --interactive
+
+# Windows
+.\install.ps1 -DryRun -Interactive
+```
+
+### Command-Line Options
+
+**Bash (macOS/Linux):**
+```bash
+./install.sh [OPTIONS]
+
+  --interactive, -i     Interactive agent selection
+  --agents-only         Install only AI agents (skip shell/git configs)
+  --skip-legacy         Skip shell/git/vim installation
+  --dry-run, -n         Preview installation (no changes)
+  --help, -h            Show help message
+```
+
+**PowerShell (Windows):**
+```powershell
+.\install.ps1 [OPTIONS]
+
+  -Interactive          Interactive agent selection
+  -AgentsOnly           Install only AI agents (skip configs)
+  -SkipLegacy           Skip shell/git installation
+  -DryRun               Preview installation (no changes)
+  -Help                 Show help message
+```
+
+### What Gets Installed
+
+The installer will:
+- ✅ Create backups of existing configurations
+- ✅ Install selected AI agent configurations
+- ✅ Set up symlinks or copy files (based on your choice)
+- ✅ Configure shell environments (optional)
+- ✅ Install git configurations (optional)
+
+**See [INSTALLATION.md](INSTALLATION.md) for detailed installation guide.**
+**See [WINDOWS_INSTALLATION.md](WINDOWS_INSTALLATION.md) for Windows-specific instructions.**
+
+---
+
+## 📁 Project Structure
+
+```
+dotfiles/
+├── agents/                           # AI agent configurations
+│   ├── augment/                      # Augment Code commands
+│   ├── claude/                       # Claude Code commands & agents
+│   ├── copilot/                      # GitHub Copilot prompts
+│   └── windsurf/                     # Windsurf workflows
+│
+├── install/                          # Installation system
+│   ├── lib/                          # Shared libraries
+│   │   ├── bash/                     # Bash common functions
+│   │   └── powershell/               # PowerShell common functions
+│   └── agents/                       # Agent-specific installers
+│       ├── bash/                     # Bash installers
+│       └── powershell/               # PowerShell installers
+│
+├── shell/                            # Shell configurations
+│   ├── zshrc, bashrc                 # Shell configs
+│   └── *.local.example               # Local config templates
+│
+├── git/                              # Git configurations
+│   ├── gitconfig                     # Global git config
+│   └── gitignore_global              # Global gitignore
+│
+├── install.sh                        # Bash installer (macOS/Linux)
+├── install.ps1                       # PowerShell installer (Windows)
+├── .env.example                      # Environment variables template
+│
+├── INSTALLATION.md                   # Installation guide
+├── WINDOWS_INSTALLATION.md           # Windows-specific guide
+├── CONTRIBUTING.md                   # Contribution guidelines
+├── CODE_OF_CONDUCT.md                # Code of conduct
+├── SECURITY.md                       # Security policy
+└── LICENSE                           # MIT License
+```
+
+**For developers:** See [CLAUDE.md](CLAUDE.md) for detailed architecture and developer documentation.
+
+---
+
+## 🎯 Usage
+
+### Claude Code Commands
+
+After installing Claude Code configurations, the following commands are available:
+
+| Command | Description |
+|---------|-------------|
+| `/commit` | Professional git commits with pre-commit checks |
+| `/create-pr` | Create pull requests with branch management |
+| `/project:create-prd` | Generate Product Requirements Documents |
+| `/project:create-plan` | Create project plans from PRDs with Linear integration |
+| `/develop:check-agents` | Validate agent configurations |
+| `/develop:check-commands` | Validate command files |
+| `/skills:build-skill` | Build custom Claude Code skills |
+
+**See [CLAUDE.md](CLAUDE.md) for complete command documentation.**
+
+### Augment Code Commands
+
+36+ commands available after installation in Augment Code IDE.
+
+### GitHub Copilot Prompts
+
+VS Code workspace activation required:
+
+```json
+{
+  "chat.promptFiles": true
+}
+```
+
+### Windsurf Workflows
+
+Global workflows automatically available in Windsurf IDE.
+
+---
+
+## 📚 Documentation
+
+### User Guides
+
+- **[INSTALLATION.md](INSTALLATION.md)** - Comprehensive installation guide
+- **[WINDOWS_INSTALLATION.md](WINDOWS_INSTALLATION.md)** - Windows-specific instructions
+- **[install/AI_AGENTS_REFERENCE.md](install/AI_AGENTS_REFERENCE.md)** - AI agent paths and configuration
+
+### Developer Guides
+
+- **[CLAUDE.md](CLAUDE.md)** - Claude Code integration and architecture
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Contribution guidelines
+- **[PROJECT_SUMMARY.md](PROJECT_SUMMARY.md)** - Complete project overview (4,500+ lines)
+
+### Policies
+
+- **[CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)** - Community guidelines
+- **[SECURITY.md](SECURITY.md)** - Security policy and reporting
+- **[LICENSE](LICENSE)** - MIT License
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+### Quick Contribution Guide
+
+1. **Fork** the repository
+2. **Create a feature branch**: `git checkout -b feature/your-feature`
+3. **Make your changes** following our coding standards
+4. **Test** on relevant platforms
+5. **Commit** using emoji conventional commits
+6. **Push** to your fork
+7. **Create a Pull Request** to the `develop` branch
+
+### Development Workflow
+
+**External Contributors:**
+- Must use feature branches
+- Submit PRs to `develop` branch
+- Follow emoji conventional commits format
+
+**See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.**
+
+---
+
+## 🔒 Security
+
+### Reporting Vulnerabilities
+
+**DO NOT** create public issues for security vulnerabilities.
+
+Use [GitHub Security Advisories](https://github.com/talent-factory/dotfiles/security/advisories) to report privately.
+
+**See [SECURITY.md](SECURITY.md) for detailed security policy.**
+
+### Safe Usage
+
+- ✅ Review installation scripts before running
+- ✅ Use dry-run mode to preview changes
+- ✅ Keep sensitive data in `.env` (not tracked)
+- ❌ Never commit API keys or credentials
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+**TL;DR**: You can use, modify, and distribute this project freely. Attribution appreciated but not required.
+
+---
+
+## 🙏 Acknowledgments
+
+- Inspired by [GitHub's spec-kit](https://github.com/github/spec-kit)
+- Built for students and developers seeking professional AI-assisted workflows
+- Community contributions welcome!
+
+---
+
+## 📞 Support
+
+**Issues & Bugs:**
+- Open a [GitHub Issue](https://github.com/talent-factory/dotfiles/issues)
+- Use our issue templates (Bug Report, Feature Request, Documentation)
+
+**Questions:**
+- Check [INSTALLATION.md](INSTALLATION.md) troubleshooting section
+- Review [CLAUDE.md](CLAUDE.md) for Claude Code specific questions
+- Open a [GitHub Discussion](https://github.com/talent-factory/dotfiles/discussions)
+
+**Security:**
+- See [SECURITY.md](SECURITY.md) for responsible disclosure
+
+---
+
+**Version**: 3.2.0 (Multi-User Support)
+**Last Updated**: November 2024
+**Maintainer**: Daniel
+
+**⭐ If this project helps you, consider giving it a star!**

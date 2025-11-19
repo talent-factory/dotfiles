@@ -1,8 +1,6 @@
 [user]
-	# User configuration will be set during installation
-	# Run ./install.sh or .\install.ps1 to configure
-	name = YOUR_NAME
-	email = YOUR_EMAIL
+	name = {{GIT_USER_NAME}}
+	email = {{GIT_USER_EMAIL}}
 [core]
 	autocrlf = input
 	excludesfile = ~/.gitignore_global
@@ -56,3 +54,9 @@
 	helper = osxkeychain
 [push]
 	autoSetupRemote = true
+
+# CodeRabbit configuration (optional)
+# Uncomment and set your machine ID if using CodeRabbit
+# [coderabbit]
+# 	machineId = cli/YOUR_MACHINE_ID
+

@@ -1,6 +1,21 @@
 # Claude configuration files
 .claude/settings.local.json
 
+# Claude: Local debug files
+claude/debug/
+
+# Claude: (Old-) Local files
+claude-old/
+
+# Claude Code: Runtime-generated directories (not relevant for other users)
+claude/file-history/
+claude/history.jsonl
+claude/ide/
+claude/projects/
+claude/shell-snapshots/
+claude/statsig/
+claude/todos/
+
 # OS generated files
 .DS_Store
 .DS_Store?
@@ -15,10 +30,22 @@ Thumbs.db
 *.swo
 *~
 
-# Local configuration files
+# Local configuration files (user-specific, not tracked)
 *.local
+# Note: *.local.example files ARE tracked as templates
+!*.local.example
 
 # Environment variables (contains sensitive data like API keys)
 .env
 .env.local
 .env.*.local
+
+# Installation backups
+*.backup
+install.sh.backup
+
+# Old agent directories (deprecated - use agents/* instead)
+# Note: Migrated to agents/_shared/ with symlinks (v3.1.0)
+/claude/
+/augment/
+/copilot/
