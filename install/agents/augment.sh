@@ -85,7 +85,7 @@ _verify_augment_installation() {
 
     # Check commands directory
     if [[ -d "$target_dir/commands" ]]; then
-        local cmd_count=$(find "$target_dir/commands" -name "*.md" -type f 2>/dev/null | wc -l)
+        local cmd_count=$(find -L "$target_dir/commands" -name "*.md" -type f 2>/dev/null | wc -l)
         log_success "Commands directory verified ($cmd_count commands found)"
     else
         log_error "Commands directory not found: $target_dir/commands"
@@ -130,7 +130,7 @@ list_augment_commands() {
         if [[ -n "$description" ]]; then
             echo "    $description"
         fi
-    done < <(find "$target_dir/commands" -name "*.md" -type f -print0 | sort -z)
+    done < <(find -L "$target_dir/commands" -name "*.md" -type f -print0 | sort -z)
 
     echo ""
 }

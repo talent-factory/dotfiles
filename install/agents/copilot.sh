@@ -95,7 +95,7 @@ _install_copilot_to_target() {
                 fi
                 # Copy individual prompt files recursively
                 if [[ "$DRY_RUN" != true ]]; then
-                    find "$source_dir/prompts" -name "*.prompt.md" -type f | while read -r file; do
+                    find -L "$source_dir/prompts" -name "*.prompt.md" -type f | while read -r file; do
                         # Preserve directory structure
                         relative_path="${file#$source_dir/prompts/}"
                         target_file="$target_dir/$relative_path"
