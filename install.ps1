@@ -106,16 +106,82 @@ function Invoke-Main {
     Show-Summary
 }
 
+# Configure git user information
+function Initialize-GitUser {
+    Write-Info "Configuring Git user information..."
+
+    # Get current git config values if they exist
+    $currentName = git config --global user.name 2>$null
+    $currentEmail = git config --global user.email 2>$null
+
+    # Skip if already configured with valid values
+    if ($currentName -and $currentEmail -and $currentName -ne "YOUR_NAME") {
+        Write-Info "Git user already configured: $currentName <$currentEmail>"
+        return
+    }
+
+    # Prompt for user information
+    Write-Host ""
+    Write-Info "Please enter your Git user information:"
+
+    $gitName = Read-Host "  Full Name"
+    $gitEmail = Read-Host "  Email"
+
+    # Validate input
+    if (-not $gitName -or -not $gitEmail) {
+        Write-Warn "Git user information not provided. Skipping git user configuration."
+        Write-Warn "You can configure it later with:"
+        Write-Warn "  git config --global user.name `"Your Name`""
+        Write-Warn "  git config --global user.email `"your.email@example.com`""
+        return
+    }
+
+    # Update gitconfig template
+    $templatePath = Join-Path $script:DotfilesDir "git\gitconfig.template"
+    $configPath = Join-Path $script:DotfilesDir "git\gitconfig"
+
+    if (Test-Path $templatePath) {
+        if (-not $script:DryRun) {
+            $content = Get-Content $templatePath -Raw
+            $content = $content -replace '{{GIT_USER_NAME}}', $gitName
+            $content = $content -replace '{{GIT_USER_EMAIL}}', $gitEmail
+            Set-Content -Path $configPath -Value $content -NoNewline
+            Write-Info "Git configuration updated with your information"
+        } else {
+            Write-DryRun "Would update git\gitconfig with: $gitName <$gitEmail>"
+        }
+    } else {
+        # Fallback: Set via git config commands
+        if (-not $script:DryRun) {
+            git config --global user.name $gitName
+            git config --global user.email $gitEmail
+            Write-Info "Git user configured: $gitName <$gitEmail>"
+        } else {
+            Write-DryRun "Would configure git user: $gitName <$gitEmail>"
+        }
+    }
+
+    Write-Host ""
+}
+
 # Install legacy dotfiles (shell, git)
 function Install-LegacyDotfiles {
     Write-Section "Legacy Dotfiles Installation"
 
     Write-Info "Setting up git configurations..."
+
+    # Configure git user if not already set
+    $gitConfigTarget = "$env:USERPROFILE\.gitconfig"
+    if (-not (Test-Path $gitConfigTarget) -or
+        (Select-String -Path $gitConfigTarget -Pattern "YOUR_NAME" -Quiet 2>$null)) {
+        Initialize-GitUser
+    }
+
     $gitConfigSource = Join-Path $script:DotfilesDir "git\gitconfig"
     $gitIgnoreSource = Join-Path $script:DotfilesDir "git\gitignore_global"
 
     if (Test-Path $gitConfigSource) {
-        New-SymbolicLinkSafe -Source $gitConfigSource -Target "$env:USERPROFILE\.gitconfig" | Out-Null
+        New-SymbolicLinkSafe -Source $gitConfigSource -Target $gitConfigTarget | Out-Null
     }
     if (Test-Path $gitIgnoreSource) {
         New-SymbolicLinkSafe -Source $gitIgnoreSource -Target "$env:USERPROFILE\.gitignore_global" | Out-Null

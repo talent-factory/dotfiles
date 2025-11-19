@@ -120,6 +120,59 @@ main() {
     print_summary
 }
 
+# Configure git user information
+configure_git_user() {
+    log_info "Configuring Git user information..."
+
+    # Get current git config values if they exist
+    local current_name=$(git config --global user.name 2>/dev/null || echo "")
+    local current_email=$(git config --global user.email 2>/dev/null || echo "")
+
+    # Skip if already configured with valid values
+    if [[ -n "$current_name" && -n "$current_email" && "$current_name" != "YOUR_NAME" ]]; then
+        log_info "Git user already configured: $current_name <$current_email>"
+        return 0
+    fi
+
+    # Prompt for user information
+    echo ""
+    log_info "Please enter your Git user information:"
+
+    read -p "  Full Name: " git_name
+    read -p "  Email: " git_email
+
+    # Validate input
+    if [[ -z "$git_name" || -z "$git_email" ]]; then
+        log_warn "Git user information not provided. Skipping git user configuration."
+        log_warn "You can configure it later with:"
+        log_warn "  git config --global user.name \"Your Name\""
+        log_warn "  git config --global user.email \"your.email@example.com\""
+        return 0
+    fi
+
+    # Update gitconfig template
+    if [[ -f "$DOTFILES_DIR/git/gitconfig.template" ]]; then
+        if [[ "$DRY_RUN" != true ]]; then
+            sed "s/{{GIT_USER_NAME}}/$git_name/g; s/{{GIT_USER_EMAIL}}/$git_email/g" \
+                "$DOTFILES_DIR/git/gitconfig.template" > "$DOTFILES_DIR/git/gitconfig"
+            log_info "Git configuration updated with your information"
+        else
+            log_dry_run "Would update git/gitconfig with: $git_name <$git_email>"
+        fi
+    else
+        # Fallback: Set via git config commands
+        if [[ "$DRY_RUN" != true ]]; then
+            git config --global user.name "$git_name"
+            git config --global user.email "$git_email"
+            log_info "Git user configured: $git_name <$git_email>"
+        else
+            log_dry_run "Would configure git user: $git_name <$git_email>"
+        fi
+    fi
+
+    echo ""
+}
+
 # Install legacy dotfiles (shell, git, vim)
 install_legacy_dotfiles() {
     print_section "Legacy Dotfiles Installation"
@@ -131,6 +184,12 @@ install_legacy_dotfiles() {
     create_symlink "$DOTFILES_DIR/shell/zshenv" "$HOME/.zshenv"
 
     log_info "Setting up git configurations..."
+
+    # Configure git user if not already set
+    if [[ ! -f "$HOME/.gitconfig" ]] || ! grep -q "name = " "$HOME/.gitconfig" 2>/dev/null || grep -q "YOUR_NAME" "$HOME/.gitconfig" 2>/dev/null; then
+        configure_git_user
+    fi
+
     create_symlink "$DOTFILES_DIR/git/gitconfig" "$HOME/.gitconfig"
     create_symlink "$DOTFILES_DIR/git/gitignore_global" "$HOME/.gitignore_global"
 

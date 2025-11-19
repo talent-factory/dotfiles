@@ -138,6 +138,55 @@ If symlinks don't work, the installer automatically falls back to copying files:
 
 ---
 
+## Git Configuration
+
+The installer automatically configures Git with your personal information.
+
+### First-Time Setup
+
+During installation, you'll be prompted for:
+- **Full Name**: Your name for Git commits
+- **Email Address**: Your email for Git commits
+
+```powershell
+.\install.ps1
+
+# Prompts:
+# Please enter your Git user information:
+#   Full Name: John Doe
+#   Email: john.doe@example.com
+```
+
+### Existing Configuration
+
+If Git is already configured, the installer will:
+- Detect existing configuration
+- Skip prompting if valid values exist
+- Only prompt if placeholder values (`YOUR_NAME`, `YOUR_EMAIL`) are found
+
+### Manual Configuration
+
+To configure Git manually after installation:
+
+```powershell
+# Set your name and email
+git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"
+
+# Verify configuration
+git config --global --list
+```
+
+### Template System
+
+The repository uses a template-based approach:
+- `git\gitconfig.template` - Template with placeholders
+- `git\gitconfig` - Generated during installation with your information
+
+**See**: [git/README.md](git/README.md) for detailed Git configuration documentation.
+
+---
+
 ## Usage Examples
 
 ### Example 1: First-time Setup
