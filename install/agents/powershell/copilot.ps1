@@ -31,9 +31,12 @@ function Install-CopilotToTarget {
 
     Backup-Existing -Path $TargetDir | Out-Null
 
-    $promptsSource = Join-Path $SourceDir "prompts"
+    # Source is agents/_shared/commands/ (not copilot/prompts/)
+    # SourceDir = agents\copilot → parent = agents → agents\_shared\commands
+    $sourceParent = Split-Path -Parent $SourceDir
+    $sharedCommandsDir = Join-Path $sourceParent "_shared\commands"
 
-    if (Test-Path $promptsSource) {
+    if (Test-Path $sharedCommandsDir) {
         switch ($Method) {
             "symlink" {
                 # For Copilot, create individual symlinks with .prompt.md extension
@@ -43,21 +46,27 @@ function Install-CopilotToTarget {
                     New-Item -ItemType Directory -Path $TargetDir -Force | Out-Null
                 }
 
-                # Find all .md files in source (follows symlinks to _shared/commands)
+                # Find all .md files in _shared/commands
                 if (-not $script:DryRun) {
-                    Get-ChildItem -Path $promptsSource -Filter "*.md" -Recurse -File | ForEach-Object {
+                    Get-ChildItem -Path $sharedCommandsDir -Filter "*.md" -Recurse -File | ForEach-Object {
                         $sourceFile = $_.FullName
-                        $relativePath = $sourceFile.Substring($promptsSource.Length + 1)
+                        $relativePath = $sourceFile.Substring($sharedCommandsDir.Length + 1)
 
-                        # For top-level .md files, rename to .prompt.md
-                        # For subdirectory files (like commit\best-practices.md), keep as .md
-                        if ($relativePath -notmatch '\\') {
-                            # Top-level file: commit.md → commit.prompt.md
+                        # Count backslashes to determine depth
+                        # develop\commit.md = 1 backslash = top-level → commit.prompt.md
+                        # develop\commit\best-practices.md = 2 backslashes → commit\best-practices.md
+                        $slashCount = ($relativePath.ToCharArray() | Where-Object { $_ -eq '\' }).Count
+
+                        if ($slashCount -eq 1) {
+                            # Top-level command: develop\commit.md → commit.prompt.md
                             $baseName = [System.IO.Path]::GetFileNameWithoutExtension($relativePath)
                             $targetFile = Join-Path $TargetDir "$baseName.prompt.md"
                         } else {
-                            # Subdirectory file: commit\best-practices.md → commit\best-practices.md
-                            $targetFile = Join-Path $TargetDir $relativePath
+                            # Subdirectory: develop\commit\best-practices.md → commit\best-practices.md
+                            # Remove category prefix (develop\, project\, skills\)
+                            $parts = $relativePath -split '\\'
+                            $restOfPath = $parts[1..($parts.Length - 1)] -join '\'
+                            $targetFile = Join-Path $TargetDir $restOfPath
                         }
 
                         # Create subdirectories if needed
@@ -76,11 +85,43 @@ function Install-CopilotToTarget {
                 }
             }
             "copy" {
-                # For copy, create target directory first
+                # For copy, create target directory first and copy with renaming
                 if (-not $script:DryRun) {
                     New-Item -ItemType Directory -Path $TargetDir -Force | Out-Null
+
+                    # Copy individual files with .prompt.md extension
+                    Get-ChildItem -Path $sharedCommandsDir -Filter "*.md" -Recurse -File | ForEach-Object {
+                        $sourceFile = $_.FullName
+                        $relativePath = $sourceFile.Substring($sharedCommandsDir.Length + 1)
+
+                        # Count backslashes to determine depth
+                        $slashCount = ($relativePath.ToCharArray() | Where-Object { $_ -eq '\' }).Count
+
+                        if ($slashCount -eq 1) {
+                            # Top-level command
+                            $baseName = [System.IO.Path]::GetFileNameWithoutExtension($relativePath)
+                            $targetFile = Join-Path $TargetDir "$baseName.prompt.md"
+                        } else {
+                            # Subdirectory: remove category prefix
+                            $parts = $relativePath -split '\\'
+                            $restOfPath = $parts[1..($parts.Length - 1)] -join '\'
+                            $targetFile = Join-Path $TargetDir $restOfPath
+                        }
+
+                        # Create subdirectories if needed
+                        $targetSubdir = Split-Path -Parent $targetFile
+                        if (-not (Test-Path $targetSubdir)) {
+                            New-Item -ItemType Directory -Path $targetSubdir -Force | Out-Null
+                        }
+
+                        # Copy file
+                        Copy-Item -Path $sourceFile -Destination $targetFile -Force
+                        Write-Debug "Copied: $(Split-Path -Leaf $targetFile)"
+                    }
+                    Write-Info "Copied files with .prompt.md extension"
+                } else {
+                    Write-DryRun "Would copy files from $sharedCommandsDir to $TargetDir"
                 }
-                Copy-FilesSafe -Source $promptsSource -Target $TargetDir | Out-Null
             }
             default {
                 Write-ErrorMessage "Invalid installation method: $Method"

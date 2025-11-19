@@ -82,7 +82,10 @@ _install_copilot_to_target() {
     # Install prompts
     # Note: GitHub Copilot uses .prompt.md extension instead of .md
     # We need to create individual symlinks with renamed extensions
-    if [[ -d "$source_dir/prompts" ]]; then
+    # Source is agents/_shared/commands/ (not copilot/prompts/)
+    local shared_commands_dir="$(dirname "$source_dir")/_shared/commands"
+
+    if [[ -d "$shared_commands_dir" ]]; then
         case $method in
             symlink)
                 # For Copilot, create individual symlinks with .prompt.md extension
@@ -92,24 +95,29 @@ _install_copilot_to_target() {
                     mkdir -p "$target_dir"
                 fi
 
-                # Find all .md files in source (follows symlinks to _shared/commands)
-                local shared_commands="$source_dir/prompts"
+                # Find all .md files in _shared/commands
+                local shared_commands="$shared_commands_dir"
 
                 # Create symlinks with renamed extensions
                 if [[ "$DRY_RUN" != true ]]; then
                     find -L "$shared_commands" -name "*.md" -type f | while read -r source_file; do
-                        # Get relative path from prompts directory
+                        # Get relative path from shared commands
                         relative_path="${source_file#$shared_commands/}"
 
-                        # For top-level .md files, rename to .prompt.md
-                        # For subdirectory files (like commit/best-practices.md), keep as .md
-                        if [[ "$relative_path" != */* ]]; then
-                            # Top-level file: commit.md → commit.prompt.md
-                            base_name="${relative_path%.md}"
+                        # Count slashes to determine depth
+                        # develop/commit.md = 1 slash = top-level → commit.prompt.md
+                        # develop/commit/best-practices.md = 2 slashes → commit/best-practices.md
+                        slash_count=$(echo "$relative_path" | tr -cd '/' | wc -c | tr -d ' ')
+
+                        if [[ $slash_count -eq 1 ]]; then
+                            # Top-level command: develop/commit.md → commit.prompt.md
+                            base_name=$(basename "$relative_path" .md)
                             target_file="$target_dir/${base_name}.prompt.md"
                         else
-                            # Subdirectory file: commit/best-practices.md → commit/best-practices.md
-                            target_file="$target_dir/$relative_path"
+                            # Subdirectory: develop/commit/best-practices.md → commit/best-practices.md
+                            # Remove category prefix (develop/, project/, skills/)
+                            rest_of_path=$(echo "$relative_path" | cut -d/ -f2-)
+                            target_file="$target_dir/$rest_of_path"
                         fi
 
                         # Create subdirectories if needed
@@ -130,22 +138,35 @@ _install_copilot_to_target() {
                 if [[ "$DRY_RUN" != true ]]; then
                     mkdir -p "$target_dir"
                 fi
-                # Copy individual prompt files recursively
+                # Copy individual files with .prompt.md extension
                 if [[ "$DRY_RUN" != true ]]; then
-                    find -L "$source_dir/prompts" -name "*.prompt.md" -type f | while read -r file; do
-                        # Preserve directory structure
-                        relative_path="${file#$source_dir/prompts/}"
-                        target_file="$target_dir/$relative_path"
-                        target_subdir=$(dirname "$target_file")
+                    find -L "$shared_commands" -name "*.md" -type f | while read -r source_file; do
+                        # Get relative path from shared commands
+                        relative_path="${source_file#$shared_commands/}"
+
+                        # Count slashes to determine depth
+                        slash_count=$(echo "$relative_path" | tr -cd '/' | wc -c | tr -d ' ')
+
+                        if [[ $slash_count -eq 1 ]]; then
+                            # Top-level command: develop/commit.md → commit.prompt.md
+                            base_name=$(basename "$relative_path" .md)
+                            target_file="$target_dir/${base_name}.prompt.md"
+                        else
+                            # Subdirectory: develop/commit/best-practices.md → commit/best-practices.md
+                            rest_of_path=$(echo "$relative_path" | cut -d/ -f2-)
+                            target_file="$target_dir/$rest_of_path"
+                        fi
 
                         # Create subdirectories if needed
+                        target_subdir=$(dirname "$target_file")
                         mkdir -p "$target_subdir"
 
-                        cp "$file" "$target_file"
-                        log_info "Copied: $relative_path"
+                        cp "$source_file" "$target_file"
+                        log_debug "Copied: $(basename "$target_file")"
                     done
+                    log_info "Copied files with .prompt.md extension"
                 else
-                    log_dry_run "Would copy prompt files from $source_dir/prompts to $target_dir"
+                    log_dry_run "Would copy files from $shared_commands to $target_dir"
                 fi
                 ;;
             *)
@@ -154,7 +175,7 @@ _install_copilot_to_target() {
                 ;;
         esac
     else
-        log_warn "Prompts directory not found: $source_dir/prompts"
+        log_warn "Shared commands directory not found: $shared_commands_dir"
     fi
 
     # Verify installation
