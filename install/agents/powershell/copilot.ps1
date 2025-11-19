@@ -36,15 +36,43 @@ function Install-CopilotToTarget {
     if (Test-Path $promptsSource) {
         switch ($Method) {
             "symlink" {
-                # For symlink, don't create target directory - symlink will replace it
-                $result = New-SymbolicLinkSafe -Source $promptsSource -Target $TargetDir
-                if (-not $result) {
-                    Write-Warn "Symlink creation failed, falling back to copy method"
-                    # Fallback to copy if symlink fails
-                    if (-not $script:DryRun) {
-                        New-Item -ItemType Directory -Path $TargetDir -Force | Out-Null
+                # For Copilot, create individual symlinks with .prompt.md extension
+                # Source is _shared/commands with .md files
+                # Target needs .prompt.md extension for Copilot
+                if (-not $script:DryRun) {
+                    New-Item -ItemType Directory -Path $TargetDir -Force | Out-Null
+                }
+
+                # Find all .md files in source (follows symlinks to _shared/commands)
+                if (-not $script:DryRun) {
+                    Get-ChildItem -Path $promptsSource -Filter "*.md" -Recurse -File | ForEach-Object {
+                        $sourceFile = $_.FullName
+                        $relativePath = $sourceFile.Substring($promptsSource.Length + 1)
+
+                        # For top-level .md files, rename to .prompt.md
+                        # For subdirectory files (like commit\best-practices.md), keep as .md
+                        if ($relativePath -notmatch '\\') {
+                            # Top-level file: commit.md → commit.prompt.md
+                            $baseName = [System.IO.Path]::GetFileNameWithoutExtension($relativePath)
+                            $targetFile = Join-Path $TargetDir "$baseName.prompt.md"
+                        } else {
+                            # Subdirectory file: commit\best-practices.md → commit\best-practices.md
+                            $targetFile = Join-Path $TargetDir $relativePath
+                        }
+
+                        # Create subdirectories if needed
+                        $targetSubdir = Split-Path -Parent $targetFile
+                        if (-not (Test-Path $targetSubdir)) {
+                            New-Item -ItemType Directory -Path $targetSubdir -Force | Out-Null
+                        }
+
+                        # Create symlink
+                        New-Item -ItemType SymbolicLink -Path $targetFile -Target $sourceFile -Force | Out-Null
+                        Write-Debug "Created symlink: $(Split-Path -Leaf $targetFile) → $sourceFile"
                     }
-                    Copy-FilesSafe -Source $promptsSource -Target $TargetDir | Out-Null
+                    Write-Info "Created individual symlinks with .prompt.md extension"
+                } else {
+                    Write-DryRun "Would create individual symlinks with .prompt.md extension in: $TargetDir"
                 }
             }
             "copy" {

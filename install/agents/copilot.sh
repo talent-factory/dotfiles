@@ -80,13 +80,50 @@ _install_copilot_to_target() {
     backup_existing "$target_dir"
 
     # Install prompts
-    # Note: GitHub Copilot uses .prompt.md extension
+    # Note: GitHub Copilot uses .prompt.md extension instead of .md
+    # We need to create individual symlinks with renamed extensions
     if [[ -d "$source_dir/prompts" ]]; then
         case $method in
             symlink)
-                # For Copilot, we symlink the entire prompts directory
-                # Don't create target directory - symlink will replace it
-                create_symlink "$source_dir/prompts" "$target_dir"
+                # For Copilot, create individual symlinks with .prompt.md extension
+                # Source is _shared/commands with .md files
+                # Target needs .prompt.md extension for Copilot
+                if [[ "$DRY_RUN" != true ]]; then
+                    mkdir -p "$target_dir"
+                fi
+
+                # Find all .md files in source (follows symlinks to _shared/commands)
+                local shared_commands="$source_dir/prompts"
+
+                # Create symlinks with renamed extensions
+                if [[ "$DRY_RUN" != true ]]; then
+                    find -L "$shared_commands" -name "*.md" -type f | while read -r source_file; do
+                        # Get relative path from prompts directory
+                        relative_path="${source_file#$shared_commands/}"
+
+                        # For top-level .md files, rename to .prompt.md
+                        # For subdirectory files (like commit/best-practices.md), keep as .md
+                        if [[ "$relative_path" != */* ]]; then
+                            # Top-level file: commit.md → commit.prompt.md
+                            base_name="${relative_path%.md}"
+                            target_file="$target_dir/${base_name}.prompt.md"
+                        else
+                            # Subdirectory file: commit/best-practices.md → commit/best-practices.md
+                            target_file="$target_dir/$relative_path"
+                        fi
+
+                        # Create subdirectories if needed
+                        target_subdir=$(dirname "$target_file")
+                        mkdir -p "$target_subdir"
+
+                        # Create symlink
+                        ln -sf "$source_file" "$target_file"
+                        log_debug "Created symlink: $(basename "$target_file") → $source_file"
+                    done
+                    log_info "Created individual symlinks with .prompt.md extension"
+                else
+                    log_dry_run "Would create individual symlinks with .prompt.md extension in: $target_dir"
+                fi
                 ;;
             copy)
                 # For copy, create target directory first
