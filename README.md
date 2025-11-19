@@ -354,7 +354,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Version**: 3.0.0 (Multi-Agent Support + Cross-Platform)
+**Version**: 3.2.0 (Multi-User Support)
 **Last Updated**: November 2024
 **Maintainer**: Daniel
 

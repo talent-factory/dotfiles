@@ -1253,6 +1253,44 @@ You are free to use, modify, and distribute this project. See [LICENSE](LICENSE)
 
 ## Changelog
 
+### Version 3.2.0 (November 2024)
+
+**Multi-User Support & Command Improvements**
+
+**Git Configuration:**
+- 🔧 **Template-based Git Configuration**: Removed hardcoded user data
+- ✨ **Automatic User Setup**: Installation prompts for name/email
+- 📚 **Cross-Platform Support**: Unix/macOS (`install.sh`) and Windows (`install.ps1`)
+- 📖 **Comprehensive Documentation**: New `git/README.md` with setup guide
+
+**Command Improvements:**
+- ♻️ **Consistent Naming**: Renamed `implement-linear-issue` → `implement-linear-task`
+- 🐛 **Copilot Fixes**: Path correction and slash-count logic improvements
+- ✨ **Copilot Symlinks**: Individual symlinks with `.prompt.md` rename
+
+**Files Changed:**
+- Added: `git/gitconfig.template` (template with placeholders)
+- Modified: `git/gitconfig` (placeholders instead of hardcoded data)
+- Modified: `install.sh` (added `configure_git_user()` function)
+- Modified: `install.ps1` (added `Initialize-GitUser` function)
+- Added: `git/README.md` (comprehensive Git configuration guide)
+- Updated: `INSTALLATION.md`, `WINDOWS_INSTALLATION.md` (Git Configuration sections)
+- Renamed: All `implement-linear-issue` files/references → `implement-linear-task`
+
+**Benefits:**
+- ✅ Repository usable by multiple users without conflicts
+- ✅ No personal data in version control
+- ✅ Automatic configuration during installation
+- ✅ Consistent command naming across all agents
+- ✅ Improved Copilot integration
+
+**Migration:**
+- Existing users: Run `./install.sh` or `.\install.ps1` to configure Git user
+- New users: Installation automatically prompts for Git configuration
+- No breaking changes - fully backward compatible
+
+---
+
 ### Version 3.1.0 (November 2024)
 
 **Major Refactoring: DRY Architecture with Shared Commands**
@@ -1337,7 +1375,7 @@ You are free to use, modify, and distribute this project. See [LICENSE](LICENSE)
 
 ---
 
-**Version**: 3.1.0 (DRY Architecture)
+**Version**: 3.2.0 (Multi-User Support)
 **Last Updated**: November 2024
 **Maintainer**: Daniel
 **License**: MIT
