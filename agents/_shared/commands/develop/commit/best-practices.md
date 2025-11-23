@@ -89,6 +89,18 @@ git log --oneline          # Zeigt nur erste Zeile
 git log --format="%s"      # Subject lines
 ```
 
+### Keine automatischen Signaturen
+
+**WICHTIG**: Commit-Nachrichten sollen KEINE automatischen Zusätze enthalten:
+
+❌ **Nicht erlaubt**:
+```text
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+Co-Authored-By: Claude <noreply@anthropic.com>
+```
+
+✅ **Richtig**: Nur der eigentliche Commit-Inhalt ohne Tool-Signaturen
+
 ## Code-Qualität vor Commit
 
 ### Checkliste

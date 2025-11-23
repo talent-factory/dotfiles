@@ -54,6 +54,7 @@ Mit Optionen:
 
 5. **Commit erstellen**
    - Erstelle Commit mit aussagekräftiger Nachricht
+   - **WICHTIG:** KEINE "Co-Authored-By" oder "Generated with Claude Code" Zusätze hinzufügen
    - Optional: Push zum Remote-Repository anbieten
 
 ## Commit-Typen (Auswahl)
@@ -77,6 +78,15 @@ Mit Optionen:
 - **Dokumentation**: LaTeX, Markdown, AsciiDoc
 
 **Details zu Checks**: [commit/pre-commit-checks.md](commit/pre-commit-checks.md)
+
+## Commit-Nachricht Format
+
+**WICHTIG:** Commit-Nachrichten dürfen KEINE der folgenden Zusätze enthalten:
+- ❌ `🤖 Generated with [Claude Code](https://claude.com/claude-code)`
+- ❌ `Co-Authored-By: Claude <noreply@anthropic.com>`
+- ❌ Ähnliche automatische Signaturen
+
+Die Commit-Nachricht soll nur den eigentlichen Commit-Inhalt beschreiben.
 
 ## Weitere Informationen
 
