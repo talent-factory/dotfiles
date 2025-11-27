@@ -108,16 +108,19 @@ function Invoke-Main {
 
 # Configure git user information
 function Initialize-GitUser {
+    $gitconfigLocal = Join-Path $env:USERPROFILE ".gitconfig.local"
+
     Write-Info "Configuring Git user information..."
 
-    # Get current git config values if they exist
-    $currentName = git config --global user.name 2>$null
-    $currentEmail = git config --global user.email 2>$null
+    # Check if ~/.gitconfig.local already exists with valid user data
+    if (Test-Path $gitconfigLocal) {
+        $currentName = git config --file $gitconfigLocal user.name 2>$null
+        $currentEmail = git config --file $gitconfigLocal user.email 2>$null
 
-    # Skip if already configured with valid values
-    if ($currentName -and $currentEmail -and $currentName -ne "YOUR_NAME") {
-        Write-Info "Git user already configured: $currentName <$currentEmail>"
-        return
+        if ($currentName -and $currentEmail) {
+            Write-Info "Git user already configured in ~/.gitconfig.local: $currentName <$currentEmail>"
+            return
+        }
     }
 
     # Prompt for user information
@@ -130,35 +133,28 @@ function Initialize-GitUser {
     # Validate input
     if (-not $gitName -or -not $gitEmail) {
         Write-Warn "Git user information not provided. Skipping git user configuration."
-        Write-Warn "You can configure it later with:"
-        Write-Warn "  git config --global user.name `"Your Name`""
-        Write-Warn "  git config --global user.email `"your.email@example.com`""
+        Write-Warn "You can configure it later by editing: ~/.gitconfig.local"
+        Write-Warn "  Example:"
+        Write-Warn "    [user]"
+        Write-Warn "        name = Your Name"
+        Write-Warn "        email = your.email@example.com"
         return
     }
 
-    # Update gitconfig template
-    $templatePath = Join-Path $script:DotfilesDir "git\gitconfig.template"
-    $configPath = Join-Path $script:DotfilesDir "git\gitconfig"
-
-    if (Test-Path $templatePath) {
-        if (-not $script:DryRun) {
-            $content = Get-Content $templatePath -Raw
-            $content = $content -replace '{{GIT_USER_NAME}}', $gitName
-            $content = $content -replace '{{GIT_USER_EMAIL}}', $gitEmail
-            Set-Content -Path $configPath -Value $content -NoNewline
-            Write-Info "Git configuration updated with your information"
-        } else {
-            Write-DryRun "Would update git\gitconfig with: $gitName <$gitEmail>"
-        }
+    # Create ~/.gitconfig.local with user information
+    if (-not $script:DryRun) {
+        $content = @"
+# Local Git configuration (user-specific settings)
+# This file is included by ~/.gitconfig and is NOT tracked in version control
+[user]
+    name = $gitName
+    email = $gitEmail
+"@
+        Set-Content -Path $gitconfigLocal -Value $content
+        Write-Success "Created ~/.gitconfig.local with your user information"
+        Write-Info "Note: Edit ~/.gitconfig.local to add additional personal settings"
     } else {
-        # Fallback: Set via git config commands
-        if (-not $script:DryRun) {
-            git config --global user.name $gitName
-            git config --global user.email $gitEmail
-            Write-Info "Git user configured: $gitName <$gitEmail>"
-        } else {
-            Write-DryRun "Would configure git user: $gitName <$gitEmail>"
-        }
+        Write-DryRun "Would create ~/.gitconfig.local with: $gitName <$gitEmail>"
     }
 
     Write-Host ""
@@ -170,13 +166,15 @@ function Install-LegacyDotfiles {
 
     Write-Info "Setting up git configurations..."
 
-    # Configure git user if not already set
-    $gitConfigTarget = "$env:USERPROFILE\.gitconfig"
-    if (-not (Test-Path $gitConfigTarget) -or
-        (Select-String -Path $gitConfigTarget -Pattern "YOUR_NAME" -Quiet 2>$null)) {
+    # Configure git user if ~/.gitconfig.local doesn't exist
+    $gitconfigLocal = Join-Path $env:USERPROFILE ".gitconfig.local"
+    if (-not (Test-Path $gitconfigLocal)) {
         Initialize-GitUser
+    } else {
+        Write-Info "Found existing ~/.gitconfig.local - skipping user configuration"
     }
 
+    $gitConfigTarget = "$env:USERPROFILE\.gitconfig"
     $gitConfigSource = Join-Path $script:DotfilesDir "git\gitconfig"
     $gitIgnoreSource = Join-Path $script:DotfilesDir "git\gitignore_global"
 

@@ -89,6 +89,23 @@ function Install-ClaudeToTarget {
         Write-Warn "Agents directory not found: $agentsSource"
     }
 
+    # Install skills
+    $skillsSource = Join-Path $SourceDir "skills"
+    $skillsTarget = Join-Path $TargetDir "skills"
+
+    if (Test-Path $skillsSource) {
+        switch ($Method) {
+            "symlink" {
+                New-SymbolicLinkSafe -Source $skillsSource -Target $skillsTarget | Out-Null
+            }
+            "copy" {
+                Copy-FilesSafe -Source $skillsSource -Target $skillsTarget | Out-Null
+            }
+        }
+    } else {
+        Write-Debug "Skills directory not found: $skillsSource (optional)"
+    }
+
     # Verify installation
     Test-ClaudeInstallation -TargetDir $TargetDir | Out-Null
 
@@ -124,6 +141,13 @@ function Test-ClaudeInstallation {
     } else {
         Write-ErrorMessage "Agents directory not found: $agentsDir"
         $errors++
+    }
+
+    # Check skills directory (optional)
+    $skillsDir = Join-Path $TargetDir "skills"
+    if (Test-Path $skillsDir) {
+        $skillCount = (Get-ChildItem -Path $skillsDir -Directory).Count
+        Write-Success "Skills directory verified ($skillCount skills found)"
     }
 
     if ($errors -eq 0) {

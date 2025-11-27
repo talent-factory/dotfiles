@@ -78,6 +78,20 @@ _install_claude_to_target() {
         log_warn "Agents directory not found: $source_dir/agents"
     fi
 
+    # Install skills
+    if [[ -d "$source_dir/skills" ]]; then
+        case $method in
+            symlink)
+                create_symlink "$source_dir/skills" "$target_dir/skills"
+                ;;
+            copy)
+                copy_files "$source_dir/skills" "$target_dir/skills"
+                ;;
+        esac
+    else
+        log_debug "Skills directory not found: $source_dir/skills (optional)"
+    fi
+
     # Verify installation
     _verify_claude_installation "$target_dir"
 
@@ -111,6 +125,12 @@ _verify_claude_installation() {
     else
         log_error "Agents directory not found: $target_dir/agents"
         ((errors++))
+    fi
+
+    # Check skills directory (optional)
+    if [[ -d "$target_dir/skills" ]]; then
+        local skill_count=$(find -L "$target_dir/skills" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l)
+        log_success "Skills directory verified ($skill_count skills found)"
     fi
 
     if [[ $errors -eq 0 ]]; then

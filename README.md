@@ -182,7 +182,10 @@ The installer will:
 dotfiles/
 ├── agents/                           # AI agent configurations
 │   ├── augment/                      # Augment Code commands
-│   ├── claude/                       # Claude Code commands & agents
+│   ├── claude/                       # Claude Code commands, agents & skills
+│   │   ├── commands/                 # Claude Code commands (symlink to _shared)
+│   │   ├── agents/                   # Claude-specific agents
+│   │   └── skills/                   # Claude Code skills (PDF converter, etc.)
 │   ├── copilot/                      # GitHub Copilot prompts
 │   └── windsurf/                     # Windsurf workflows
 │
@@ -295,6 +298,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 ### Development Workflow
 
 **External Contributors:**
+
 - Must use feature branches
 - Submit PRs to `develop` branch
 - Follow emoji conventional commits format
@@ -341,15 +345,18 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 **Issues & Bugs:**
+
 - Open a [GitHub Issue](https://github.com/talent-factory/dotfiles/issues)
 - Use our issue templates (Bug Report, Feature Request, Documentation)
 
 **Questions:**
+
 - Check [INSTALLATION.md](INSTALLATION.md) troubleshooting section
 - Review [CLAUDE.md](CLAUDE.md) for Claude Code specific questions
 - Open a [GitHub Discussion](https://github.com/talent-factory/dotfiles/discussions)
 
 **Security:**
+
 - See [SECURITY.md](SECURITY.md) for responsible disclosure
 
 ---
