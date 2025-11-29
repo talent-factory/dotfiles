@@ -196,27 +196,72 @@ Task-Datei aktualisieren:
 - Task hat `feature` → PR bekommt `enhancement`
 - Task hat `docs` → PR bekommt `documentation`
 
-### 8. Finalisierung
+### 8. Finalisierung (OBLIGATORISCH)
 
-**Nach PR-Erstellung**:
+> ⚠️ **WICHTIG**: Dieser Schritt ist NICHT optional! Nach jeder PR-Erstellung MÜSSEN die folgenden Aktionen durchgeführt werden.
 
-1. **Task-Status aktualisieren**:
-   ```markdown
-   - **Status**: completed
-   - **Updated**: 2024-11-18
-   ```
+**Nach PR-Erstellung IMMER ausführen**:
 
-2. **STATUS.md regenerieren**:
-   - Progress-Zahlen aktualisieren
-   - Task von "Pending" nach "Completed" verschieben
-   - Dependencies-Graph aktualisieren (falls nötig)
+#### 8.1 Task-Status auf `completed` setzen
 
-3. **Finaler Commit**:
-   ```bash
-   git add .plans/[feature]/tasks/task-NNN-*.md
-   git add .plans/[feature]/STATUS.md
-   git commit -m "✅ chore: Mark task-NNN as completed"
-   ```
+Die Task-Datei aktualisieren:
+
+```markdown
+## Metadata
+- **Status**: completed
+- **Updated**: <aktuelles Datum>
+```
+
+**Konkrete Schritte**:
+1. Task-Datei öffnen: `.plans/[feature]/tasks/task-NNN-*.md`
+2. Status von `in_progress` auf `completed` ändern
+3. Updated-Datum auf heute setzen
+
+#### 8.2 STATUS.md aktualisieren
+
+Die STATUS.md MUSS folgende Änderungen enthalten:
+
+1. **Progress Overview aktualisieren**:
+   - `Completed` Zähler erhöhen
+   - `In Progress` Zähler verringern
+   - Prozentsätze neu berechnen
+
+2. **Task in korrekter Sektion verschieben**:
+   - Von "In Progress 🚧" nach "Completed ✅" verschieben
+   - Checkbox von `[ ]` auf `[x]` ändern
+
+3. **Last Updated Datum aktualisieren**
+
+**Beispiel-Änderungen in STATUS.md**:
+```markdown
+# Vorher:
+- **Completed**: 0 (0%)
+- **In Progress**: 1 (9%)
+
+# Nachher:
+- **Completed**: 1 (9%)
+- **In Progress**: 0 (0%)
+```
+
+#### 8.3 Finaler Commit
+
+```bash
+git add .plans/[feature]/tasks/task-NNN-*.md
+git add .plans/[feature]/STATUS.md
+git commit -m "✅ chore: Mark task-NNN as completed"
+git push
+```
+
+#### 8.4 Checkliste Finalisierung
+
+Vor Abschluss des Commands verifizieren:
+
+- [ ] Task-Datei: Status = `completed`
+- [ ] Task-Datei: Updated = aktuelles Datum
+- [ ] STATUS.md: Progress-Zahlen korrekt
+- [ ] STATUS.md: Task in "Completed ✅" Sektion
+- [ ] STATUS.md: Last Updated = aktuelles Datum
+- [ ] Git: Änderungen committed und gepusht
 
 ## Konfiguration
 

@@ -121,6 +121,36 @@ Issue-Status auf **"In Progress"** setzen via Linear MCP:
 - Issue hat `bug` → PR bekommt `bug`
 - Issue hat `feature` → PR bekommt `enhancement`
 
+### 7. Finalisierung (OBLIGATORISCH)
+
+> ⚠️ **WICHTIG**: Dieser Schritt ist NICHT optional! Nach jeder PR-Erstellung MÜSSEN die folgenden Aktionen durchgeführt werden.
+
+**Nach PR-Erstellung IMMER ausführen**:
+
+#### 7.1 Linear Issue-Status aktualisieren
+
+Issue-Status auf **"In Review"** oder **"Done"** setzen via Linear MCP:
+
+```markdown
+Linear Status-Transition:
+- In Progress → In Review (nach PR-Erstellung)
+- In Review → Done (nach PR-Merge)
+```
+
+**Konkrete Schritte**:
+1. Linear Issue öffnen via MCP
+2. Status auf "In Review" setzen (oder "Done" falls direkt gemerged)
+3. PR-Link als Kommentar hinzufügen (optional)
+
+#### 7.2 Checkliste Finalisierung
+
+Vor Abschluss des Commands verifizieren:
+
+- [ ] Linear Issue: Status = "In Review" oder "Done"
+- [ ] PR: Erstellt und gepusht
+- [ ] PR: Linear Issue verlinkt im PR-Body
+- [ ] Git: Alle Änderungen committed und gepusht
+
 ## Konfiguration
 
 ### Linear MCP Server Setup
@@ -198,6 +228,7 @@ Für weiterführende Informationen siehe:
 # ✅ Code-Änderungen durchgeführt
 # ✅ Tests geschrieben
 # ✅ PR erstellt: #456
+# ✅ Issue-Status: In Progress → In Review
 ```
 
 ### Interaktive Issue-Auswahl
