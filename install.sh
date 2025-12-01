@@ -277,6 +277,9 @@ install_agents_interactive() {
             windsurf)
                 install_windsurf "$target" "$method"
                 ;;
+            antigravity)
+                install_antigravity "$target" "$method"
+                ;;
             *)
                 log_error "Unknown agent: $agent"
                 ;;

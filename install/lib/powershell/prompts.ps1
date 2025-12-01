@@ -41,11 +41,11 @@ function Read-AgentSelection {
     Write-Host "Which AI agents do you use?"
     Write-Host ""
 
-    $agents = @("augment", "claude", "copilot", "windsurf")
-    $agentNames = @("Augment Code", "Claude Code", "GitHub Copilot", "Windsurf")
-    $selected = @($false, $true, $false, $false)  # Default: Claude is pre-selected
+    $agents = @("augment", "claude", "copilot", "windsurf", "antigravity")
+    $agentNames = @("Augment Code", "Claude Code", "GitHub Copilot", "Windsurf", "Antigravity")
+    $selected = @($false, $true, $false, $false, $false)  # Default: Claude is pre-selected
 
-    Write-Host "Instructions: Toggle by number (comma-separated, e.g., 1,2,4)"
+    Write-Host "Instructions: Toggle by number (comma-separated, e.g., 1,2,5)"
     Write-Host ""
 
     for ($i = 0; $i -lt $agents.Length; $i++) {
@@ -156,6 +156,14 @@ function Show-InstallationPlan {
                 }
                 if ($Target -eq "workspace" -or $Target -eq "both") {
                     Write-Host "  [+] Windsurf -> .\.windsurf\workflows\"
+                }
+            }
+            "antigravity" {
+                if ($Target -eq "home" -or $Target -eq "both") {
+                    Write-Host "  [+] Antigravity -> %USERPROFILE%\.gemini\windsurf\global_workflows"
+                }
+                if ($Target -eq "workspace" -or $Target -eq "both") {
+                    Write-Host "  [+] Antigravity -> .\.windsurf\workflows\"
                 }
             }
         }

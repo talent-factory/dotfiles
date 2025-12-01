@@ -233,6 +233,9 @@ function Install-AgentsInteractive {
             "windsurf" {
                 Install-Windsurf -Mode $target -Method $method | Out-Null
             }
+            "antigravity" {
+                Install-Antigravity -Mode $target -Method $method | Out-Null
+            }
             default {
                 Write-ErrorMessage "Unknown agent: $agent"
             }
