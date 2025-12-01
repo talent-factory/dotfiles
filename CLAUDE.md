@@ -92,9 +92,11 @@ agents/
 │   ├── README.md
 │   └── prompts -> ../_shared/commands   # Symlink to shared
 │
-└── windsurf/
-    ├── README.md
-    └── workflows -> ../_shared/commands # Symlink to shared
+├── windsurf/
+│   ├── README.md
+│   └── workflows -> ../_shared/commands # Symlink to shared
+│
+└── antigravity -> windsurf              # Symlink (Windsurf fork)
 ```
 
 **Benefits:**
@@ -1391,8 +1393,8 @@ You are free to use, modify, and distribute this project. See [LICENSE](LICENSE)
 **Architecture:**
 
 - ♻️ **DRY Implementation**: Zentralisierung aller gemeinsamen Commands in `agents/_shared/`
-- 🔗 **Symlink-basierte Struktur**: Alle Agents (Claude, Augment, Copilot, Windsurf) verwenden Symlinks zu `_shared/commands/`
-- 📉 **73% Reduktion**: Von ~184 duplizierten Dateien zu 46 unique files + 4 Symlinks
+- 🔗 **Symlink-basierte Struktur**: Alle Agents (Claude, Augment, Copilot, Windsurf, Antigravity) verwenden Symlinks zu `_shared/commands/`
+- 📉 **73% Reduktion**: Von ~184 duplizierten Dateien zu 46 unique files + 5 Symlinks
 - 🗑️ **Cleanup**: Entfernung alter Root-Level Strukturen (`/claude/`, `/augment/`, `/copilot/`)
 - 📚 **Neue Dokumentation**: `agents/_shared/README.md` beschreibt DRY-Architektur
 
@@ -1414,6 +1416,7 @@ You are free to use, modify, and distribute this project. See [LICENSE](LICENSE)
 
 - Added: `agents/_shared/` (46 shared command files)
 - Modified: `agents/{claude,augment,copilot,windsurf}/` (now use symlinks)
+- Added: `agents/antigravity` symlink to `agents/windsurf`
 - Removed: `/claude/`, `/augment/`, `/copilot/` (134 duplicate files)
 - Updated: `.gitignore`, `CLAUDE.md`
 
@@ -1424,7 +1427,7 @@ You are free to use, modify, and distribute this project. See [LICENSE](LICENSE)
 **New Features:**
 
 - ✨ Open Source mit MIT License
-- ✨ Multi-Agent Support (Augment, Claude, Copilot, Windsurf)
+- ✨ Multi-Agent Support (Augment, Claude, Copilot, Windsurf, Antigravity)
 - ✨ Cross-Platform (macOS, Linux, Windows)
 - ✨ Interactive Installation mit Agent-Auswahl
 - ✨ Contributing Guidelines und Community Standards

@@ -45,7 +45,7 @@ prompt_agent_selection() {
 
     local agents=("augment" "claude" "copilot" "windsurf" "antigravity")
     local agent_names=("Augment Code" "Claude Code" "GitHub Copilot" "Windsurf" "Antigravity")
-    local agent_dirs=("~/.augment" "~/.claude" ".github/prompts" "~/.codeium/windsurf" "~/.gemini/windsurf")
+    local agent_dirs=("~/.augment" "~/.claude" ".github/prompts" "~/.codeium/windsurf" "~/.gemini/antigravity")
     local selected=()
 
     # Default: Claude is pre-selected
@@ -185,10 +185,10 @@ display_installation_plan() {
                 ;;
             antigravity)
                 if [[ "$target" == "home" || "$target" == "both" ]]; then
-                    echo "  ✓ Antigravity → ~/.gemini/windsurf/global_workflows" >&2
+                    echo "  ✓ Antigravity → ~/.gemini/antigravity/global_workflows" >&2
                 fi
                 if [[ "$target" == "workspace" || "$target" == "both" ]]; then
-                    echo "  ✓ Antigravity → ./.windsurf/workflows/" >&2
+                    echo "  ✓ Antigravity → ./.antigravity/workflows/" >&2
                 fi
                 ;;
         esac

@@ -32,11 +32,11 @@ install_windsurf() {
     return 0
 }
 
-# Install Antigravity configuration (Windsurf fork)
+# Install Antigravity configuration (Windsurf fork, uses same workflows via symlink)
 install_antigravity() {
     local mode="$1"      # "home", "workspace", or "both"
     local method="$2"    # "symlink" or "copy"
-    local source_dir="$DOTFILES_DIR/agents/windsurf"
+    local source_dir="$DOTFILES_DIR/agents/antigravity"  # Symlink to windsurf
 
     log_info "Installing Antigravity..."
 
@@ -47,12 +47,12 @@ install_antigravity() {
 
     # Install to home directory (global workflows) - FLAT structure required
     if [[ "$mode" == "home" || "$mode" == "both" ]]; then
-        _install_windsurf_to_target "$HOME/.gemini/windsurf/global_workflows" "$source_dir" "$method" "flat"
+        _install_windsurf_to_target "$HOME/.gemini/antigravity/global_workflows" "$source_dir" "$method" "flat"
     fi
 
     # Install to workspace - hierarchical structure allowed
     if [[ "$mode" == "workspace" || "$mode" == "both" ]]; then
-        _install_windsurf_to_target "$(pwd)/.windsurf/workflows" "$source_dir" "$method" "hierarchical"
+        _install_windsurf_to_target "$(pwd)/.antigravity/workflows" "$source_dir" "$method" "hierarchical"
     fi
 
     log_success "Antigravity installation completed"
@@ -134,19 +134,19 @@ _install_flat() {
 
     log_info "Installing ${#md_files[@]} workflow files (flat)..."
 
-    # Track installed filenames to detect duplicates
-    declare -A installed_files
+    # Track installed filenames to detect duplicates (Bash 3.2 compatible)
+    local installed_files=""
 
     for file in "${md_files[@]}"; do
         local filename=$(basename "$file")
         local target_file="$target_dir/$filename"
 
-        # Check for duplicate filenames (track internally for dry-run support)
-        if [[ -n "${installed_files[$filename]}" ]]; then
-            log_warn "Duplicate filename: $filename (skipping, first found in: ${installed_files[$filename]})"
+        # Check for duplicate filenames (using grep for Bash 3.2 compatibility)
+        if echo "$installed_files" | grep -q "^${filename}$"; then
+            log_warn "Duplicate filename: $filename (skipping)"
             continue
         fi
-        installed_files[$filename]="$file"
+        installed_files="${installed_files}${filename}"$'\n'
 
         case $method in
             symlink)
@@ -251,11 +251,11 @@ uninstall_antigravity() {
     log_info "Uninstalling Antigravity..."
 
     if [[ "$mode" == "home" || "$mode" == "both" ]]; then
-        _uninstall_windsurf_from_target "$HOME/.gemini/windsurf/global_workflows"
+        _uninstall_windsurf_from_target "$HOME/.gemini/antigravity/global_workflows"
     fi
 
     if [[ "$mode" == "workspace" || "$mode" == "both" ]]; then
-        _uninstall_windsurf_from_target "$(pwd)/.windsurf/workflows"
+        _uninstall_windsurf_from_target "$(pwd)/.antigravity/workflows"
     fi
 
     log_success "Antigravity uninstalled"

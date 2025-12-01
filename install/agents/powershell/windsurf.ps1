@@ -31,7 +31,7 @@ function Install-Antigravity {
     param([string]$Mode, [string]$Method)
 
     Write-Info "Installing Antigravity..."
-    $sourceDir = Join-Path $script:DotfilesDir "agents\windsurf"
+    $sourceDir = Join-Path $script:DotfilesDir "agents\antigravity"  # Symlink to windsurf
 
     if (-not (Test-Path $sourceDir)) {
         Write-ErrorMessage "Antigravity source directory not found: $sourceDir"
@@ -40,13 +40,13 @@ function Install-Antigravity {
 
     # Install to home directory (global workflows) - FLAT structure required
     if ($Mode -eq "home" -or $Mode -eq "both") {
-        $homeDir = Join-Path $env:USERPROFILE ".gemini\windsurf\global_workflows"
+        $homeDir = Join-Path $env:USERPROFILE ".gemini\antigravity\global_workflows"
         Install-WindsurfToTarget -TargetDir $homeDir -SourceDir $sourceDir -Method $Method -Structure "flat" | Out-Null
     }
 
     # Install to workspace - hierarchical structure allowed
     if ($Mode -eq "workspace" -or $Mode -eq "both") {
-        Install-WindsurfToTarget -TargetDir ".\.windsurf\workflows" -SourceDir $sourceDir -Method $Method -Structure "hierarchical" | Out-Null
+        Install-WindsurfToTarget -TargetDir ".\.antigravity\workflows" -SourceDir $sourceDir -Method $Method -Structure "hierarchical" | Out-Null
     }
 
     Write-Success "Antigravity installation completed"

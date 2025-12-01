@@ -47,8 +47,21 @@ backup_existing() {
             log_dry_run "Would backup existing $file to $backup_dir"
         else
             mkdir -p "$backup_dir"
-            log_warn "Backing up existing $file to $backup_dir"
-            mv "$file" "$backup_dir/"
+            # Create unique backup name using full path to avoid conflicts
+            local basename=$(basename "$file")
+            local backup_target="$backup_dir/$basename"
+
+            # If target already exists, add unique suffix
+            if [[ -e "$backup_target" ]]; then
+                local counter=1
+                while [[ -e "${backup_target}_${counter}" ]]; do
+                    ((counter++))
+                done
+                backup_target="${backup_target}_${counter}"
+            fi
+
+            log_warn "Backing up existing $file to $backup_target"
+            mv "$file" "$backup_target"
         fi
     elif [[ -L "$file" ]]; then
         if [[ "$DRY_RUN" == true ]]; then

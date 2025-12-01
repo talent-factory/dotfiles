@@ -2,17 +2,17 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Linux%20%7C%20Windows-blue)]()
-[![AI Agents](https://img.shields.io/badge/AI%20Agents-4-green)]()
+[![AI Agents](https://img.shields.io/badge/AI%20Agents-5-green)]()
 
 **Professional dotfiles and AI agent configurations for students and developers.**
 
-Cross-platform installation system supporting Augment Code, Claude Code, GitHub Copilot, and Windsurf with comprehensive commands, agents, and best practices.
+Cross-platform installation system supporting Augment Code, Claude Code, GitHub Copilot, Windsurf, and Antigravity with comprehensive commands, agents, and best practices.
 
 ---
 
 ## ✨ Features
 
-- **🤖 4 AI Agents Supported**: Augment Code, Claude Code, GitHub Copilot, Windsurf
+- **🤖 5 AI Agents Supported**: Augment Code, Claude Code, GitHub Copilot, Windsurf, Antigravity
 - **🌍 Cross-Platform**: macOS, Linux, Windows (Bash + PowerShell)
 - **🎯 Dual Installation**: Home directory (global) or workspace (project-specific)
 - **🔗 Flexible Methods**: Symlink (live updates) or copy (independent)
@@ -75,6 +75,7 @@ cd $env:USERPROFILE\.dotfiles
 | **Claude Code** | `~/.claude/commands/`, `agents/` | `.claude/commands/`, `agents/` | `.md` |
 | **GitHub Copilot** | `~/Library/Application Support/Code/User/prompts` (macOS)<br>`~/.config/Code/User/prompts` (Linux)<br>`%APPDATA%/Code/User/prompts` (Windows) | `.github/prompts/` | `.prompt.md` |
 | **Windsurf** | `~/.codeium/windsurf/global_workflows` | `.windsurf/workflows/` | `.md` |
+| **Antigravity** | `~/.gemini/antigravity/global_workflows` | `.antigravity/workflows/` | `.md` |
 
 **See [install/AI_AGENTS_REFERENCE.md](install/AI_AGENTS_REFERENCE.md) for detailed paths and configuration.**
 
@@ -187,7 +188,8 @@ dotfiles/
 │   │   ├── agents/                   # Claude-specific agents
 │   │   └── skills/                   # Claude Code skills (PDF converter, etc.)
 │   ├── copilot/                      # GitHub Copilot prompts
-│   └── windsurf/                     # Windsurf workflows
+│   ├── windsurf/                     # Windsurf workflows
+│   └── antigravity -> windsurf       # Antigravity (symlink, Windsurf fork)
 │
 ├── install/                          # Installation system
 │   ├── lib/                          # Shared libraries
@@ -253,9 +255,9 @@ VS Code workspace activation required:
 }
 ```
 
-### Windsurf Workflows
+### Windsurf & Antigravity Workflows
 
-Global workflows automatically available in Windsurf IDE.
+Global workflows automatically available in Windsurf IDE and Antigravity (Windsurf fork).
 
 ---
 
