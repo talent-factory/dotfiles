@@ -82,6 +82,7 @@ Mit Optionen:
 ## Commit-Nachricht Format
 
 **WICHTIG:** Commit-Nachrichten dürfen KEINE der folgenden Zusätze enthalten:
+
 - ❌ `🤖 Generated with [Claude Code](https://claude.com/claude-code)`
 - ❌ `Co-Authored-By: Claude <noreply@anthropic.com>`
 - ❌ Ähnliche automatische Signaturen
