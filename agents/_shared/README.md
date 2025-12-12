@@ -10,22 +10,19 @@ This directory contains commands, scripts, and templates that are **identical ac
 
 ```text
 _shared/
-├── commands/              # Nur echte Commands (Anthropic Best Practice)
-│   ├── develop/           # Development commands
-│   │   ├── commit.md
-│   │   ├── create-pr.md
-│   │   ├── implement-task.md    # Konsolidiert (--linear Flag)
-│   │   ├── check-agents.md
-│   │   ├── check-commands.md
-│   │   └── ruff-check.md
-│   ├── project/           # Project management commands
-│   │   ├── create-prd.md
-│   │   └── create-plan.md       # Konsolidiert (--linear Flag)
-│   └── skills/            # Skill builder system
-│       ├── build-skill.md
-│       ├── package-skill.md
-│       ├── scripts/       # Python validation scripts
-│       └── templates/     # Skill templates
+├── commands/              # Alle Commands flach (Cross-Agent-Kompatibilität)
+│   ├── commit.md          # Git commits
+│   ├── create-pr.md       # Pull requests
+│   ├── implement-task.md  # Task implementation (--linear Flag)
+│   ├── check-agents.md    # Agent validation
+│   ├── check-commands.md  # Command validation
+│   ├── ruff-check.md      # Python linting
+│   ├── create-plan.md     # Project planning (--linear Flag)
+│   ├── create-prd.md      # PRD creation
+│   ├── build-skill.md     # Skill building
+│   ├── package-skill.md   # Skill packaging
+│   ├── scripts/           # Python validation scripts
+│   └── templates/         # Skill templates
 │
 ├── references/            # Support-Dokumentation (Progressive Disclosure)
 │   ├── commit/            # Referenz-Docs für /commit
@@ -58,12 +55,12 @@ _shared/
 └── README.md              # This file
 ```
 
-### Vorteile dieser Struktur (Anthropic Best Practices)
+### Vorteile dieser Struktur
 
-- **Saubere Trennung**: Commands enthalten nur die Hauptlogik
-- **Progressive Disclosure**: Details werden bei Bedarf nachgeladen
-- **Bessere Performance**: Kürzere Command-Dateien = schnellere Verarbeitung
-- **Klar definierte Pfade**: `../../references/<command>/` für alle Referenzen
+- **Cross-Agent-Kompatibilität**: Flache Commands funktionieren bei allen Agenten
+- **Progressive Disclosure**: Details werden bei Bedarf aus `references/` nachgeladen
+- **Einfache Pfade**: `../references/<command>/` für alle Referenzen
+- **Identische Struktur**: Alle Zielsysteme (Claude, Copilot, Augment, Windsurf) sehen gleich aus
 
 ## How It Works
 

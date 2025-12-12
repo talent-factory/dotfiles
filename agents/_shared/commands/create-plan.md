@@ -158,7 +158,7 @@ Basierend auf Task-Typ werden KI-Agenten empfohlen:
 | **Documentation** | `markdown-syntax-formatter` | Docs, READMEs |
 | **Testing** | `test-automator` | Unit/Integration Tests |
 
-**Details**: [agent-mapping.md](../../references/create-plan/agent-mapping.md)
+**Details**: [agent-mapping.md](../references/create-plan/agent-mapping.md)
 
 ## Qualitätskriterien
 
@@ -211,7 +211,7 @@ Basierend auf Task-Typ werden KI-Agenten empfohlen:
 - CI/CD Setup
 - Monitoring & Observability
 
-**Details**: [task-breakdown.md](../../references/create-plan/task-breakdown.md)
+**Details**: [task-breakdown.md](../references/create-plan/task-breakdown.md)
 
 ## Best Practices
 
@@ -232,7 +232,7 @@ Basierend auf Task-Typ werden KI-Agenten empfohlen:
 - Dependencies ignorieren
 - Linear ohne Duplikat-Check befüllen
 
-**Vollständiger Guide**: [best-practices.md](../../references/create-plan/best-practices.md)
+**Vollständiger Guide**: [best-practices.md](../references/create-plan/best-practices.md)
 
 ## Beispiel-Workflows
 
@@ -287,18 +287,18 @@ Basierend auf Task-Typ werden KI-Agenten empfohlen:
 ## Detail-Dokumentation
 
 ### Allgemein
-- **[task-breakdown.md](../../references/create-plan/task-breakdown.md)** - Task-Sizing, Dependencies, Story Points
-- **[agent-mapping.md](../../references/create-plan/agent-mapping.md)** - Agent-Empfehlungen pro Task-Typ
-- **[best-practices.md](../../references/create-plan/best-practices.md)** - Atomic Tasks, Akzeptanzkriterien
+- **[task-breakdown.md](../references/create-plan/task-breakdown.md)** - Task-Sizing, Dependencies, Story Points
+- **[agent-mapping.md](../references/create-plan/agent-mapping.md)** - Agent-Empfehlungen pro Task-Typ
+- **[best-practices.md](../references/create-plan/best-practices.md)** - Atomic Tasks, Akzeptanzkriterien
 
 ### Provider-spezifisch
-- **[filesystem.md](../../references/create-plan/filesystem.md)** - Verzeichnisstruktur, Templates (EPIC.md, STATUS.md, Task-Dateien)
-- **[linear-integration.md](../../references/create-plan/linear-integration.md)** - Linear-API, EPIC/Issue-Struktur, Labels
+- **[filesystem.md](../references/create-plan/filesystem.md)** - Verzeichnisstruktur, Templates (EPIC.md, STATUS.md, Task-Dateien)
+- **[linear-integration.md](../references/create-plan/linear-integration.md)** - Linear-API, EPIC/Issue-Struktur, Labels
 
 ## Siehe auch
 
-- **[/project:create-prd](./create-prd.md)** - PRD-Erstellung
-- **[/develop:implement-task](../develop/implement-task.md)** - Task-Implementation
+- **[/create-prd](./create-prd.md)** - PRD-Erstellung
+- **[/implement-task](./implement-task.md)** - Task-Implementation
 
 ---
 

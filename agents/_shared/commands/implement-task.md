@@ -44,7 +44,7 @@ Dieser Command orchestriert den kompletten Workflow von Task bis Pull Request:
 
 ### Filesystem (Standard)
 
-**Wann verwenden**: Tasks wurden via `/project:create-plan-fs` erstellt und liegen in `.plans/*/tasks/`.
+**Wann verwenden**: Tasks wurden via `/create-plan` erstellt und liegen in `.plans/*/tasks/`.
 
 **Erwartete Struktur**:
 ```
@@ -158,18 +158,17 @@ PR mit Task-Verlinkung erstellen:
 ## Detail-Dokumentation
 
 ### Allgemein
-- **[workflow.md](../../references/implement-task/workflow.md)** - Detaillierter Workflow mit Beispielen
-- **[best-practices.md](../../references/implement-task/best-practices.md)** - Branch-Naming, Commits, PR-Gestaltung
-- **[troubleshooting.md](../../references/implement-task/troubleshooting.md)** - Häufige Probleme und Lösungen
+- **[workflow.md](../references/implement-task/workflow.md)** - Detaillierter Workflow mit Beispielen
+- **[best-practices.md](../references/implement-task/best-practices.md)** - Branch-Naming, Commits, PR-Gestaltung
+- **[troubleshooting.md](../references/implement-task/troubleshooting.md)** - Häufige Probleme und Lösungen
 
 ### Provider-spezifisch
-- **[filesystem.md](../../references/implement-task/filesystem.md)** - Filesystem-Tasks, STATUS.md
-- **[linear.md](../../references/implement-task/linear.md)** - Linear MCP Setup, API-Details
+- **[filesystem.md](../references/implement-task/filesystem.md)** - Filesystem-Tasks, STATUS.md
+- **[linear.md](../references/implement-task/linear.md)** - Linear MCP Setup, API-Details
 
 ## Siehe auch
 
-- **[/project:create-plan](../project/create-plan.md)** - Linear-basierte Planung
-- **[/project:create-plan-fs](../project/create-plan-fs.md)** - Filesystem-basierte Planung
+- **[/create-plan](./create-plan.md)** - Projektplanung (Filesystem/Linear)
 - **[/commit](./commit.md)** - Professionelle Git-Commits
 - **[/create-pr](./create-pr.md)** - Pull Request-Erstellung
 
