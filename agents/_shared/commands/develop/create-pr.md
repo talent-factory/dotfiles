@@ -34,26 +34,36 @@ Mit Optionen:
 
 ## Workflow
 
-1. **Änderungen prüfen**
+1. **Branch-Status prüfen** ⚠️ WICHTIG
+   - Prüfe aktuellen Branch: `git branch --show-current`
+   - **Geschützte Branches** (`main`, `master`, `develop`):
+     - ➡️ Neuer Branch MUSS erstellt werden
+     - Keine Commits direkt auf geschützten Branches
+   - **Feature-Branch** (z.B. `feature/xyz`, `bugfix/abc`):
+     - ➡️ Kein neuer Branch nötig, verwende aktuellen Branch
+   - Details: [create-pr/commit-workflow.md](create-pr/commit-workflow.md)
+
+2. **Änderungen prüfen**
    - Erkenne uncommitted oder bereits committete Änderungen
    - Falls uncommitted Changes → Rufe `/commit` auf
    - Falls Commits vorhanden → Verwende diese
    - Details: [create-pr/commit-workflow.md](create-pr/commit-workflow.md)
 
-2. **Branch erstellen**
+3. **Branch erstellen** (nur wenn auf geschütztem Branch)
    - Generiere aussagekräftigen Branch-Namen: `<type>/<description>-<date>`
    - Prüfe auf bestehende Branches
    - Erstelle Branch vom aktuellen HEAD
    - Beispiel: `feature/user-dashboard-2024-10-30`
+   - **Überspringe** wenn bereits auf Feature-Branch
 
-3. **Code-Formatierung** (optional mit `--no-format` überspringen)
+4. **Code-Formatierung** (optional mit `--no-format` überspringen)
    - **JavaScript/TypeScript**: Biome
    - **Python**: Black, isort, Ruff
    - **Java**: Google Java Format
    - **Markdown**: markdownlint
    - Details: [create-pr/code-formatting.md](create-pr/code-formatting.md)
 
-4. **Pull Request erstellen**
+5. **Pull Request erstellen**
    - Push Branch zum Remote
    - Generiere aussagekräftigen PR-Titel
    - Erstelle detaillierte PR-Beschreibung mit Test-Plan
