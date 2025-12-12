@@ -1,6 +1,5 @@
 ---
 description: Validate and package a Claude Code Skill into a distributable zip file
-category: skills
 allowed-tools:
   - Bash
   - Read
@@ -341,9 +340,8 @@ After packaging:
 
 ## Related Commands
 
-- `/skills:build-skill` - Create new skills
-- `/skills:init-skill` - Initialize skill from template
-- `/skills:validate-skill` - Run validation only
+- `/build-skill` - Create new skills
+- `/package-skill` - Package skill for distribution
 
 ## Scripts Used
 

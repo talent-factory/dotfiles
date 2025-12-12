@@ -26,8 +26,8 @@ Der Workflow ist in 7 Phasen unterteilt:
 
 ### Mit Task-ID Argument
 
-**Filesystem**: `/develop:implement-task task-001`
-**Linear**: `/develop:implement-task --linear PROJ-123`
+**Filesystem**: `/implement-task task-001`
+**Linear**: `/implement-task --linear PROJ-123`
 
 **Workflow**:
 1. Task-ID parsen und validieren
@@ -36,8 +36,8 @@ Der Workflow ist in 7 Phasen unterteilt:
 
 ### Ohne Argument (Interaktiv)
 
-**Filesystem**: `/develop:implement-task`
-**Linear**: `/develop:implement-task --linear`
+**Filesystem**: `/implement-task`
+**Linear**: `/implement-task --linear`
 
 **Workflow**:
 1. Verfügbare Tasks auflisten

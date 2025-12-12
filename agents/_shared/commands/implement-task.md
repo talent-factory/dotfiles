@@ -31,13 +31,13 @@ Dieser Command orchestriert den kompletten Workflow von Task bis Pull Request:
 
 ```bash
 # Filesystem-basiert (Standard)
-/develop:implement-task              # Interaktive Auswahl
-/develop:implement-task task-001     # Mit Task-ID
-/develop:implement-task --plan dark-mode task-003  # Mit Plan-Kontext
+/implement-task              # Interaktive Auswahl
+/implement-task task-001     # Mit Task-ID
+/implement-task --plan dark-mode task-003  # Mit Plan-Kontext
 
 # Linear-basiert
-/develop:implement-task --linear           # Interaktive Auswahl
-/develop:implement-task --linear PROJ-123  # Mit Issue-ID
+/implement-task --linear           # Interaktive Auswahl
+/implement-task --linear PROJ-123  # Mit Issue-ID
 ```
 
 ## Provider-Auswahl

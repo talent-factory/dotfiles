@@ -19,7 +19,7 @@ Häufige Probleme bei der Implementierung von Tasks und deren Lösungen.
 find .plans -name "task-*.md"
 
 # Mit Plan-Kontext suchen
-/develop:implement-task --plan dark-mode-toggle task-001
+/implement-task --plan dark-mode-toggle task-001
 ```
 
 **Linear**:
@@ -229,10 +229,10 @@ git commit -m "✅ chore: Mark task as completed"
 **Lösung**: Plan-Kontext angeben
 ```bash
 # Statt
-/develop:implement-task task-001
+/implement-task task-001
 
 # Besser
-/develop:implement-task --plan dark-mode task-001
+/implement-task --plan dark-mode task-001
 ```
 
 ## Siehe auch
