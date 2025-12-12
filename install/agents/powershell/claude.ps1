@@ -43,6 +43,8 @@ function Install-ClaudeToTarget {
 
     Write-Debug "Installing Claude to: $TargetDir (method: $Method)"
 
+    $sharedDir = Join-Path $script:DotfilesDir "agents\_shared"
+
     # Backup existing installation
     Backup-Existing -Path $TargetDir | Out-Null
 
@@ -61,7 +63,9 @@ function Install-ClaudeToTarget {
                 New-SymbolicLinkSafe -Source $commandsSource -Target $commandsTarget | Out-Null
             }
             "copy" {
-                Copy-FilesSafe -Source $commandsSource -Target $commandsTarget | Out-Null
+                # For copy mode: copy actual content from shared, resolving symlinks
+                $sharedCommands = Join-Path $sharedDir "commands"
+                Copy-FilesSafe -Source $sharedCommands -Target $commandsTarget | Out-Null
             }
             default {
                 Write-ErrorMessage "Invalid installation method: $Method"
@@ -70,6 +74,23 @@ function Install-ClaudeToTarget {
         }
     } else {
         Write-Warn "Commands directory not found: $commandsSource"
+    }
+
+    # Install references (support documentation for commands)
+    $referencesSource = Join-Path $sharedDir "references"
+    $referencesTarget = Join-Path $TargetDir "references"
+
+    if (Test-Path $referencesSource) {
+        switch ($Method) {
+            "symlink" {
+                New-SymbolicLinkSafe -Source $referencesSource -Target $referencesTarget | Out-Null
+            }
+            "copy" {
+                Copy-FilesSafe -Source $referencesSource -Target $referencesTarget | Out-Null
+            }
+        }
+    } else {
+        Write-Warn "References directory not found: $referencesSource"
     }
 
     # Install agents
@@ -87,6 +108,23 @@ function Install-ClaudeToTarget {
         }
     } else {
         Write-Warn "Agents directory not found: $agentsSource"
+    }
+
+    # Install skills
+    $skillsSource = Join-Path $SourceDir "skills"
+    $skillsTarget = Join-Path $TargetDir "skills"
+
+    if (Test-Path $skillsSource) {
+        switch ($Method) {
+            "symlink" {
+                New-SymbolicLinkSafe -Source $skillsSource -Target $skillsTarget | Out-Null
+            }
+            "copy" {
+                Copy-FilesSafe -Source $skillsSource -Target $skillsTarget | Out-Null
+            }
+        }
+    } else {
+        Write-Debug "Skills directory not found: $skillsSource (optional)"
     }
 
     # Verify installation
@@ -124,6 +162,22 @@ function Test-ClaudeInstallation {
     } else {
         Write-ErrorMessage "Agents directory not found: $agentsDir"
         $errors++
+    }
+
+    # Check references directory (support documentation)
+    $referencesDir = Join-Path $TargetDir "references"
+    if (Test-Path $referencesDir) {
+        $refCount = (Get-ChildItem -Path $referencesDir -Filter "*.md" -Recurse -File).Count
+        Write-Success "References directory verified ($refCount reference docs found)"
+    } else {
+        Write-Warn "References directory not found: $referencesDir (optional but recommended)"
+    }
+
+    # Check skills directory (optional)
+    $skillsDir = Join-Path $TargetDir "skills"
+    if (Test-Path $skillsDir) {
+        $skillCount = (Get-ChildItem -Path $skillsDir -Directory).Count
+        Write-Success "Skills directory verified ($skillCount skills found)"
     }
 
     if ($errors -eq 0) {

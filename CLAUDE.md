@@ -80,7 +80,9 @@ agents/
 │   │   ├── java-developer.md
 │   │   ├── python-expert.md
 │   │   └── skill-builder/       # Skill builder agents
-│   └── commands -> ../_shared/commands  # Symlink to shared
+│   ├── commands -> ../_shared/commands  # Symlink to shared
+│   └── skills/                  # Claude Code skills
+│       └── pdf-to-markdown-converter/  # PDF to Markdown converter
 │
 ├── augment/
 │   ├── README.md
@@ -90,9 +92,11 @@ agents/
 │   ├── README.md
 │   └── prompts -> ../_shared/commands   # Symlink to shared
 │
-└── windsurf/
-    ├── README.md
-    └── workflows -> ../_shared/commands # Symlink to shared
+├── windsurf/
+│   ├── README.md
+│   └── workflows -> ../_shared/commands # Symlink to shared
+│
+└── antigravity -> windsurf              # Symlink (Windsurf fork)
 ```
 
 **Benefits:**
@@ -841,6 +845,51 @@ Formatiere README.md nach CommonMark
 
 ---
 
+## Skills
+
+**Location**: `.claude/skills/`
+
+Claude Code Skills sind wiederverwendbare Automatisierungen für spezifische Aufgaben.
+
+### PDF to Markdown Converter
+
+**Location**: `.claude/skills/pdf-to-markdown-converter/`
+
+Konvertiert PDF-Dateien in Markdown-Format mit PyMuPDF.
+
+**Features**:
+
+- ✅ Automatische LaTeX-Umlaut-Korrektur (¨a → ä, ¨o → ö, ¨u → ü)
+- ✅ ss → ss Konvertierung (Schweizer Deutsch)
+- ✅ Bild-Extraktion als PNG-Dateien
+- ✅ Layout-Erhaltung
+
+**Verwendung**:
+
+```bash
+# PDF konvertieren
+python scripts/pdf_converter.py input.pdf [output_dir]
+```
+
+**Prerequisites**:
+
+```bash
+pip install PyMuPDF --break-system-packages
+pip install Pillow --break-system-packages  # Optional für bessere Bildformate
+```
+
+**Output-Struktur**:
+
+```text
+output_dir/
+├── document.md              # Konvertierter Markdown-Inhalt
+└── document_images/         # Extrahierte Bilder (falls vorhanden)
+    ├── image_001.png
+    └── ...
+```
+
+---
+
 ## Skill-Builder System
 
 Vollständiges System zur Entwicklung professioneller Claude Code Skills.
@@ -854,6 +903,7 @@ Vollständiges System zur Entwicklung professioneller Claude Code Skills.
 Orchestriert alle 4 Skill-Builder-Agenten für komplette Skill-Entwicklung.
 
 **Workflow**:
+
 1. Requirements Elicitation
 2. Skill Generation
 3. Validation & Testing
@@ -878,6 +928,7 @@ Validiert und verpackt Skills in distributable ZIP-Files.
 ```
 
 **Features**:
+
 - Quick & Comprehensive Validation
 - ZIP-Packaging mit Struktur
 - Distribution Guidelines
@@ -917,12 +968,14 @@ Ein Kernelement dieser Konfiguration ist das **Progressive Disclosure Pattern**.
 
 ### Konzept
 
-**Problem**: Große Command-Dateien (100+ Zeilen) führen zu:
+**Problem**: Grosse Command-Dateien (100+ Zeilen) führen zu:
+
 - Langsamerer Verarbeitung
 - Höherem Token-Verbrauch
 - Schlechterer Übersichtlichkeit
 
 **Lösung**: Progressive Disclosure
+
 - Kompakte Haupt-Commands (50-120 Zeilen)
 - Details in separate Dateien ausgelagert
 - Claude lädt Details nur bei Bedarf
@@ -931,14 +984,14 @@ Ein Kernelement dieser Konfiguration ist das **Progressive Disclosure Pattern**.
 
 #### Vorher (Monolithisch)
 
-```
+```text
 commit.md (136 Zeilen)
 └── Alles in einer Datei
 ```
 
 #### Nachher (Progressive Disclosure)
 
-```
+```text
 commit.md (85 Zeilen)
 ├── Übersicht & Workflow
 ├── Referenzen zu Details
@@ -952,16 +1005,19 @@ commit.md (85 Zeilen)
 ### Vorteile
 
 **Performance**:
+
 - ⚡ 38-41% weniger Zeilen in Haupt-Commands
 - ⚡ Schnellere initiale Verarbeitung
 - ⚡ Reduzierter Token-Verbrauch
 
 **Usability**:
+
 - 📖 Bessere Übersicht
 - 🔍 Einfachere Navigation
 - 📚 Strukturierte Detail-Informationen
 
 **Wartbarkeit**:
+
 - 🛠️ Modulare Updates
 - 📝 Isolierte Änderungen
 - 🔄 Einfachere Versionierung
@@ -984,6 +1040,7 @@ commit.md (85 Zeilen)
 ### Git Workflow
 
 **Atomare Commits**:
+
 ```bash
 # Gut ✅
 git commit -m "✨ feat: User-Dashboard hinzugefügt"
@@ -994,6 +1051,7 @@ git commit -m "Alles aktualisiert"
 ```
 
 **Commit-Messages**:
+
 - Imperativ-Form: "Füge hinzu" nicht "Hinzugefügt"
 - Erste Zeile ≤ 72 Zeichen
 - Emoji Conventional Commits
@@ -1004,6 +1062,7 @@ git commit -m "Alles aktualisiert"
 ### PRD-Erstellung
 
 **Nutzer-zentriert**:
+
 ```markdown
 # Gut ✅
 ## Problem
@@ -1016,6 +1075,7 @@ Wir bauen ein Dashboard mit React und PostgreSQL.
 ```
 
 **SMART-Ziele**:
+
 ```markdown
 # Gut ✅
 Feature Adoption: 60% der User nutzen Dashboard innerhalb
@@ -1029,12 +1089,14 @@ Nutzer sollen Feature verwenden und glücklich sein.
 
 ### Pull Requests
 
-**PR-Größe**:
+**PR-Grösse**:
+
 - ✅ 150-400 Zeilen: Ideal
 - ⚠️ 400-800 Zeilen: Noch OK
-- ❌ 800+ Zeilen: Zu groß, aufteilen
+- ❌ 800+ Zeilen: Zu gross, aufteilen
 
 **PR-Template**:
+
 ```markdown
 ## Beschreibung
 [Kurze Beschreibung]
@@ -1063,6 +1125,7 @@ Nutzer sollen Feature verwenden und glücklich sein.
 **Problem**: Commands erscheinen nicht in Claude Code
 
 **Diagnose**:
+
 ```bash
 # 1. Prüfe Symlink
 ls -la ~/.claude
@@ -1076,6 +1139,7 @@ ls -la ~/.claude/commands/develop/*.md
 ```
 
 **Lösung**:
+
 ```bash
 # Symlink neu erstellen
 cd ~/.dotfiles
@@ -1089,6 +1153,7 @@ cd ~/.dotfiles
 **Problem**: Symlink zeigt auf falsches Ziel
 
 **Lösung**:
+
 ```bash
 # Alten Symlink entfernen
 rm ~/.claude
@@ -1105,6 +1170,7 @@ ls -la ~/.claude
 **Problem**: `/commit` meldet Check-Fehler
 
 **Lösung**:
+
 1. **Build-Fehler**: Siehe [commit/troubleshooting.md](.claude/commands/develop/commit/troubleshooting.md)
 2. **Test-Fehler**: `--skip-tests` Option verwenden
 3. **Linting**: Auto-Fix wo möglich, sonst manuell
@@ -1119,12 +1185,14 @@ ls -la ~/.claude
 **Problem**: `gh` Commands funktionieren nicht
 
 **Diagnose**:
+
 ```bash
 gh auth status
 gh repo view
 ```
 
 **Lösung**:
+
 ```bash
 # Re-Authentifizierung
 gh auth login
@@ -1151,6 +1219,7 @@ git pull origin develop
 
 1. **Command erstellen**: `.claude/commands/category/new-command.md`
 2. **Frontmatter definieren**:
+
    ```yaml
    ---
    description: Kurze Beschreibung
@@ -1160,6 +1229,7 @@ git pull origin develop
      - Tool2
    ---
    ```
+
 3. **Testen**: Command in Claude Code aufrufen
 4. **Committen**: Mit `/commit`
 
@@ -1192,6 +1262,7 @@ git pull origin develop
 ### Support
 
 For issues and questions:
+
 1. Check the relevant troubleshooting guides
 2. Review git history for recent changes
 3. Verify symlinks and permissions
@@ -1237,7 +1308,26 @@ We welcome contributions to improve Claude Code configurations!
 4. Test agent functionality
 5. Submit PR
 
-**See [agents/claude/commands/develop/check-commands.md](agents/claude/commands/develop/check-commands.md) and [agents/claude/commands/develop/check-agents.md](agents/claude/commands/develop/check-agents.md) for validation.**
+### Adding New Skills
+
+1. Create skill directory in `agents/claude/skills/<skill-name>/`
+2. Create `SKILL.md` with YAML frontmatter (`name`, `description`)
+3. Add scripts and required files
+4. Document prerequisites and usage
+5. Test skill functionality
+6. Submit PR
+
+**Skill Structure**:
+
+```text
+skills/<skill-name>/
+├── SKILL.md              # Skill definition with YAML frontmatter
+├── scripts/              # Executable scripts
+│   └── main_script.py    # Main entry point
+└── README.md             # Optional detailed documentation
+```
+
+**See [agents/claude/commands/develop/check-commands.md](agents/claude/commands/develop/check-commands.md) and [agents/claude/commands/develop/check-agents.md](agents/claude/commands/develop/check-agents.md) for validation.
 
 ---
 
@@ -1258,17 +1348,20 @@ You are free to use, modify, and distribute this project. See [LICENSE](LICENSE)
 **Multi-User Support & Command Improvements**
 
 **Git Configuration:**
+
 - 🔧 **Template-based Git Configuration**: Removed hardcoded user data
 - ✨ **Automatic User Setup**: Installation prompts for name/email
 - 📚 **Cross-Platform Support**: Unix/macOS (`install.sh`) and Windows (`install.ps1`)
 - 📖 **Comprehensive Documentation**: New `git/README.md` with setup guide
 
 **Command Improvements:**
+
 - ♻️ **Consistent Naming**: Renamed `implement-linear-issue` → `implement-linear-task`
 - 🐛 **Copilot Fixes**: Path correction and slash-count logic improvements
 - ✨ **Copilot Symlinks**: Individual symlinks with `.prompt.md` rename
 
 **Files Changed:**
+
 - Added: `git/gitconfig.template` (template with placeholders)
 - Modified: `git/gitconfig` (placeholders instead of hardcoded data)
 - Modified: `install.sh` (added `configure_git_user()` function)
@@ -1278,6 +1371,7 @@ You are free to use, modify, and distribute this project. See [LICENSE](LICENSE)
 - Renamed: All `implement-linear-issue` files/references → `implement-linear-task`
 
 **Benefits:**
+
 - ✅ Repository usable by multiple users without conflicts
 - ✅ No personal data in version control
 - ✅ Automatic configuration during installation
@@ -1285,6 +1379,7 @@ You are free to use, modify, and distribute this project. See [LICENSE](LICENSE)
 - ✅ Improved Copilot integration
 
 **Migration:**
+
 - Existing users: Run `./install.sh` or `.\install.ps1` to configure Git user
 - New users: Installation automatically prompts for Git configuration
 - No breaking changes - fully backward compatible
@@ -1296,13 +1391,15 @@ You are free to use, modify, and distribute this project. See [LICENSE](LICENSE)
 **Major Refactoring: DRY Architecture with Shared Commands**
 
 **Architecture:**
+
 - ♻️ **DRY Implementation**: Zentralisierung aller gemeinsamen Commands in `agents/_shared/`
-- 🔗 **Symlink-basierte Struktur**: Alle Agents (Claude, Augment, Copilot, Windsurf) verwenden Symlinks zu `_shared/commands/`
-- 📉 **73% Reduktion**: Von ~184 duplizierten Dateien zu 46 unique files + 4 Symlinks
+- 🔗 **Symlink-basierte Struktur**: Alle Agents (Claude, Augment, Copilot, Windsurf, Antigravity) verwenden Symlinks zu `_shared/commands/`
+- 📉 **73% Reduktion**: Von ~184 duplizierten Dateien zu 46 unique files + 5 Symlinks
 - 🗑️ **Cleanup**: Entfernung alter Root-Level Strukturen (`/claude/`, `/augment/`, `/copilot/`)
 - 📚 **Neue Dokumentation**: `agents/_shared/README.md` beschreibt DRY-Architektur
 
 **Benefits:**
+
 - ✅ Single Source of Truth für alle Commands
 - ✅ Keine Version-Drift zwischen Agents
 - ✅ Wartung an einer Stelle statt vier
@@ -1310,13 +1407,16 @@ You are free to use, modify, and distribute this project. See [LICENSE](LICENSE)
 - ✅ Klare Trennung: Shared vs. Agent-spezifisch
 
 **Migration:**
+
 - Automatisch via Git-History erhalten
 - Symlinks funktionieren out-of-the-box
 - Alte Strukturen in `.gitignore` für Rückwärtskompatibilität
 
 **Files Changed:**
+
 - Added: `agents/_shared/` (46 shared command files)
 - Modified: `agents/{claude,augment,copilot,windsurf}/` (now use symlinks)
+- Added: `agents/antigravity` symlink to `agents/windsurf`
 - Removed: `/claude/`, `/augment/`, `/copilot/` (134 duplicate files)
 - Updated: `.gitignore`, `CLAUDE.md`
 
@@ -1325,8 +1425,9 @@ You are free to use, modify, and distribute this project. See [LICENSE](LICENSE)
 **Major Release: Open Source + Multi-Agent System**
 
 **New Features:**
+
 - ✨ Open Source mit MIT License
-- ✨ Multi-Agent Support (Augment, Claude, Copilot, Windsurf)
+- ✨ Multi-Agent Support (Augment, Claude, Copilot, Windsurf, Antigravity)
 - ✨ Cross-Platform (macOS, Linux, Windows)
 - ✨ Interactive Installation mit Agent-Auswahl
 - ✨ Contributing Guidelines und Community Standards
@@ -1334,12 +1435,14 @@ You are free to use, modify, and distribute this project. See [LICENSE](LICENSE)
 - 📚 CONTRIBUTING.md, CODE_OF_CONDUCT.md, SECURITY.md
 
 **Architecture:**
+
 - ♻️ Umstrukturierung: `claude/` → `agents/claude/`
 - 🏗️ Modulares Installer-System (`install/lib/`, `install/agents/`)
 - 🪟 PowerShell-Support für Windows
 - 📦 Agent-spezifische Installer-Module
 
 **Documentation:**
+
 - 📚 Neue README.md für Open Source
 - 📚 INSTALLATION.md aktualisiert
 - 📚 WINDOWS_INSTALLATION.md hinzugefügt
@@ -1351,6 +1454,7 @@ You are free to use, modify, and distribute this project. See [LICENSE](LICENSE)
 ### Version 2.1.0 (November 2024)
 
 **Hauptänderungen**:
+
 - ✨ `/project:create-plan` Command hinzugefügt
 - ✨ Linear-Integration für EPIC-basierte Projektplanung
 - ✨ Agent-Empfehlungs-System für Task-Zuordnung
@@ -1361,6 +1465,7 @@ You are free to use, modify, and distribute this project. See [LICENSE](LICENSE)
 ### Version 2.0.0 (Oktober 2024)
 
 **Hauptänderungen**:
+
 - ✨ Progressive Disclosure Implementation
 - ✨ PRD Best Practices (~2,800 Zeilen)
 - ✨ 4 PRD-Templates

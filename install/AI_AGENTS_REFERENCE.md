@@ -14,6 +14,7 @@ All four AI agents support **both** Home (user-space) and Workspace (project-spe
 | **Claude Code** | `~/.claude/commands/` & `~/.claude/agents/` | `%USERPROFILE%\.claude\commands\` & `agents\` | `./.claude/commands/` & `agents/` | `<name>.md` |
 | **GitHub Copilot** | `~/Library/Application Support/Code/User/prompts` | `%APPDATA%\Code\User\prompts` | `./.github/prompts/` | `<name>.prompt.md` |
 | **Windsurf** | `~/.codeium/windsurf/global_workflows` | `%USERPROFILE%\.codeium\windsurf\global_workflows` | `./.windsurf/workflows/` | `<name>.md` |
+| **Antigravity** | `~/.gemini/antigravity/global_workflows` | `%USERPROFILE%\.gemini\antigravity\global_workflows` | `./.antigravity/workflows/` | `<name>.md` |
 
 ## Detailed Agent Information
 
@@ -151,6 +152,23 @@ Add to `.vscode/settings.json`:
 
 ---
 
+### Antigravity
+
+**Note**: Antigravity is a fork of Windsurf and uses the same workflow format.
+
+**Paths**:
+- **macOS Home**: `~/.gemini/antigravity/global_workflows`
+- **Windows Home**: `%USERPROFILE%\.gemini\antigravity\global_workflows`
+- **Workspace**: `./.antigravity/workflows/`
+
+**File Format**: Markdown (`.md`)
+
+**Features**: Same as Windsurf (see above)
+
+**Source**: Uses `agents/antigravity` symlink → `agents/windsurf`
+
+---
+
 ## Installation Priority & Conflict Resolution
 
 ### Priority Order
@@ -159,7 +177,7 @@ When the same command/prompt exists in multiple locations:
 
 1. **Augment & Claude**: Home > Workspace
 2. **Copilot**: Workspace likely takes precedence (per-project customization)
-3. **Windsurf**: Workspace > Parent dirs > Global
+3. **Windsurf & Antigravity**: Workspace > Parent dirs > Global
 
 ### Best Practices
 
@@ -190,6 +208,7 @@ When the same command/prompt exists in multiple locations:
 ~/.claude/commands/ and ~/.claude/agents/
 ~/Library/Application Support/Code/User/prompts
 ~/.codeium/windsurf/global_workflows
+~/.gemini/antigravity/global_workflows
 ```
 
 ### Windows Paths
@@ -199,6 +218,7 @@ When the same command/prompt exists in multiple locations:
 %USERPROFILE%\.claude\commands\ and agents\
 %APPDATA%\Code\User\prompts
 %USERPROFILE%\.codeium\windsurf\global_workflows
+%USERPROFILE%\.gemini\antigravity\global_workflows
 ```
 
 **Typical Windows Expansions**:
@@ -215,6 +235,7 @@ When the same command/prompt exists in multiple locations:
 | Claude | `.md` | YAML (optional) | Agents + Commands |
 | Copilot | `.prompt.md` | No | VS Code integration required |
 | Windsurf | `.md` | No | 12k character limit |
+| Antigravity | `.md` | No | 12k character limit (Windsurf fork) |
 
 ---
 

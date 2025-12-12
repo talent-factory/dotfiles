@@ -10,31 +10,57 @@ This directory contains commands, scripts, and templates that are **identical ac
 
 ```text
 _shared/
-├── commands/              # Shared commands (identical for all agents)
-│   ├── develop/           # Development commands
-│   │   ├── commit.md
-│   │   ├── commit/        # Progressive disclosure details
-│   │   ├── create-pr.md
-│   │   ├── create-pr/
-│   │   ├── implement-fs-task.md
-│   │   ├── implement-fs-task/
-│   │   ├── implement-linear-task.md
-│   │   ├── implement-linear-task/
-│   │   ├── check-agents.md
-│   │   ├── check-commands.md
-│   │   └── ruff-check.md
-│   ├── project/           # Project management commands
-│   │   ├── create-prd.md
-│   │   ├── create-prd/
-│   │   ├── create-plan.md
-│   │   └── create-plan/
-│   └── skills/            # Skill builder system
-│       ├── build-skill.md
-│       ├── package-skill.md
-│       ├── scripts/       # Python validation scripts
-│       └── templates/     # Skill templates
+├── commands/              # Alle Commands flach (Cross-Agent-Kompatibilität)
+│   ├── commit.md          # Git commits
+│   ├── create-pr.md       # Pull requests
+│   ├── implement-task.md  # Task implementation (--linear Flag)
+│   ├── check-agents.md    # Agent validation
+│   ├── check-commands.md  # Command validation
+│   ├── ruff-check.md      # Python linting
+│   ├── create-plan.md     # Project planning (--linear Flag)
+│   ├── create-prd.md      # PRD creation
+│   ├── build-skill.md     # Skill building
+│   ├── package-skill.md   # Skill packaging
+│   ├── scripts/           # Python validation scripts
+│   └── templates/         # Skill templates
+│
+├── references/            # Support-Dokumentation (Progressive Disclosure)
+│   ├── commit/            # Referenz-Docs für /commit
+│   │   ├── best-practices.md
+│   │   ├── commit-types.md
+│   │   ├── pre-commit-checks.md
+│   │   └── troubleshooting.md
+│   ├── create-pr/         # Referenz-Docs für /create-pr
+│   │   ├── code-formatting.md
+│   │   ├── commit-workflow.md
+│   │   ├── pr-template.md
+│   │   └── troubleshooting.md
+│   ├── create-plan/       # Referenz-Docs für /create-plan
+│   │   ├── agent-mapping.md
+│   │   ├── best-practices.md
+│   │   ├── filesystem.md      # Filesystem-spezifisch (Templates)
+│   │   ├── linear-integration.md  # Linear-spezifisch
+│   │   └── task-breakdown.md
+│   ├── create-prd/        # Referenz-Docs für /create-prd
+│   │   ├── best-practices.md
+│   │   ├── sections-guide.md
+│   │   └── templates.md
+│   └── implement-task/    # Referenz-Docs für /implement-task
+│       ├── best-practices.md
+│       ├── filesystem.md      # Filesystem-spezifisch
+│       ├── linear.md          # Linear-spezifisch
+│       ├── troubleshooting.md
+│       └── workflow.md
+│
 └── README.md              # This file
 ```
+
+### Vorteile dieser Struktur
+
+- **Cross-Agent-Kompatibilität**: Flache Commands funktionieren bei allen Agenten
+- **Progressive Disclosure**: Details werden bei Bedarf aus `references/` nachgeladen
+- **Einfache Pfade**: `../references/<command>/` für alle Referenzen
+- **Identische Struktur**: Alle Zielsysteme (Claude, Copilot, Augment, Windsurf) sehen gleich aus
 
 ## How It Works
 

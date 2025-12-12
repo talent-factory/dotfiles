@@ -34,7 +34,7 @@ Mit Optionen:
 1. **Pre-Commit-Checks** (optional mit `--no-verify` überspringen)
    - Automatische Projekterkennung (Java, Python, React, Docs)
    - Relevante Checks ausführen (Build, Tests, Linting)
-   - Details siehe: [commit/pre-commit-checks.md](commit/pre-commit-checks.md)
+   - Details siehe: [pre-commit-checks.md](../references/commit/pre-commit-checks.md)
 
 2. **Staging-Analyse**
    - Prüfe gestakte Dateien mit `git status`
@@ -50,10 +50,11 @@ Mit Optionen:
    - Verwende Emoji Conventional Commit Format
    - Automatische Typerkennung basierend auf Änderungen
    - Deutsche, imperative Beschreibung
-   - Referenz: [commit/commit-types.md](commit/commit-types.md)
+   - Referenz: [commit-types.md](../references/commit/commit-types.md)
 
 5. **Commit erstellen**
    - Erstelle Commit mit aussagekräftiger Nachricht
+   - **WICHTIG:** KEINE "Co-Authored-By" oder "Generated with Claude Code" Zusätze hinzufügen
    - Optional: Push zum Remote-Repository anbieten
 
 ## Commit-Typen (Auswahl)
@@ -67,7 +68,7 @@ Mit Optionen:
 - 🧪 `test`: Tests hinzufügen/korrigieren
 - 🔧 `chore`: Build, Tools, Konfiguration
 
-**Vollständige Liste**: [commit/commit-types.md](commit/commit-types.md)
+**Vollständige Liste**: [commit-types.md](../references/commit/commit-types.md)
 
 ## Unterstützte Projekttypen
 
@@ -76,9 +77,19 @@ Mit Optionen:
 - **React/Node.js**: ESLint, Prettier, TypeScript, Jest/Vitest
 - **Dokumentation**: LaTeX, Markdown, AsciiDoc
 
-**Details zu Checks**: [commit/pre-commit-checks.md](commit/pre-commit-checks.md)
+**Details zu Checks**: [pre-commit-checks.md](../references/commit/pre-commit-checks.md)
+
+## Commit-Nachricht Format
+
+**WICHTIG:** Commit-Nachrichten dürfen KEINE der folgenden Zusätze enthalten:
+
+- ❌ `🤖 Generated with [Claude Code](https://claude.com/claude-code)`
+- ❌ `Co-Authored-By: Claude <noreply@anthropic.com>`
+- ❌ Ähnliche automatische Signaturen
+
+Die Commit-Nachricht soll nur den eigentlichen Commit-Inhalt beschreiben.
 
 ## Weitere Informationen
 
-- **Best Practices**: [commit/best-practices.md](commit/best-practices.md)
-- **Troubleshooting**: [commit/troubleshooting.md](commit/troubleshooting.md)
+- **Best Practices**: [best-practices.md](../references/commit/best-practices.md)
+- **Troubleshooting**: [troubleshooting.md](../references/commit/troubleshooting.md)

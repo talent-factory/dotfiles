@@ -130,6 +130,25 @@ function Install-CopilotToTarget {
         }
     }
 
+    # Install references (support documentation for commands)
+    $sharedDir = Join-Path $sourceParent "_shared"
+    $referencesSource = Join-Path $sharedDir "references"
+    $referencesTarget = Join-Path (Split-Path -Parent $TargetDir) "references"
+
+    if (Test-Path $referencesSource) {
+        if ($Method -eq "symlink") {
+            if (-not $script:DryRun) {
+                New-Item -ItemType Directory -Path (Split-Path -Parent $referencesTarget) -Force | Out-Null
+            }
+            New-SymbolicLinkSafe -Source $referencesSource -Target $referencesTarget | Out-Null
+        } else {
+            if (-not $script:DryRun) {
+                New-Item -ItemType Directory -Path (Split-Path -Parent $referencesTarget) -Force | Out-Null
+            }
+            Copy-FilesSafe -Source $referencesSource -Target $referencesTarget | Out-Null
+        }
+    }
+
     return $true
 }
 

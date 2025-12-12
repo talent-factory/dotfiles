@@ -122,16 +122,19 @@ main() {
 
 # Configure git user information
 configure_git_user() {
+    local gitconfig_local="$HOME/.gitconfig.local"
+
     log_info "Configuring Git user information..."
 
-    # Get current git config values if they exist
-    local current_name=$(git config --global user.name 2>/dev/null || echo "")
-    local current_email=$(git config --global user.email 2>/dev/null || echo "")
+    # Check if ~/.gitconfig.local already exists with valid user data
+    if [[ -f "$gitconfig_local" ]]; then
+        local current_name=$(git config --file "$gitconfig_local" user.name 2>/dev/null || echo "")
+        local current_email=$(git config --file "$gitconfig_local" user.email 2>/dev/null || echo "")
 
-    # Skip if already configured with valid values
-    if [[ -n "$current_name" && -n "$current_email" && "$current_name" != "YOUR_NAME" ]]; then
-        log_info "Git user already configured: $current_name <$current_email>"
-        return 0
+        if [[ -n "$current_name" && -n "$current_email" ]]; then
+            log_info "Git user already configured in ~/.gitconfig.local: $current_name <$current_email>"
+            return 0
+        fi
     fi
 
     # Prompt for user information
@@ -144,30 +147,27 @@ configure_git_user() {
     # Validate input
     if [[ -z "$git_name" || -z "$git_email" ]]; then
         log_warn "Git user information not provided. Skipping git user configuration."
-        log_warn "You can configure it later with:"
-        log_warn "  git config --global user.name \"Your Name\""
-        log_warn "  git config --global user.email \"your.email@example.com\""
+        log_warn "You can configure it later by editing: ~/.gitconfig.local"
+        log_warn "  Example:"
+        log_warn "    [user]"
+        log_warn "        name = Your Name"
+        log_warn "        email = your.email@example.com"
         return 0
     fi
 
-    # Update gitconfig template
-    if [[ -f "$DOTFILES_DIR/git/gitconfig.template" ]]; then
-        if [[ "$DRY_RUN" != true ]]; then
-            sed "s/{{GIT_USER_NAME}}/$git_name/g; s/{{GIT_USER_EMAIL}}/$git_email/g" \
-                "$DOTFILES_DIR/git/gitconfig.template" > "$DOTFILES_DIR/git/gitconfig"
-            log_info "Git configuration updated with your information"
-        else
-            log_dry_run "Would update git/gitconfig with: $git_name <$git_email>"
-        fi
+    # Create ~/.gitconfig.local with user information
+    if [[ "$DRY_RUN" != true ]]; then
+        cat > "$gitconfig_local" << EOF
+# Local Git configuration (user-specific settings)
+# This file is included by ~/.gitconfig and is NOT tracked in version control
+[user]
+    name = $git_name
+    email = $git_email
+EOF
+        log_success "Created ~/.gitconfig.local with your user information"
+        log_info "Note: Edit ~/.gitconfig.local to add additional personal settings"
     else
-        # Fallback: Set via git config commands
-        if [[ "$DRY_RUN" != true ]]; then
-            git config --global user.name "$git_name"
-            git config --global user.email "$git_email"
-            log_info "Git user configured: $git_name <$git_email>"
-        else
-            log_dry_run "Would configure git user: $git_name <$git_email>"
-        fi
+        log_dry_run "Would create ~/.gitconfig.local with: $git_name <$git_email>"
     fi
 
     echo ""
@@ -185,9 +185,11 @@ install_legacy_dotfiles() {
 
     log_info "Setting up git configurations..."
 
-    # Configure git user if not already set
-    if [[ ! -f "$HOME/.gitconfig" ]] || ! grep -q "name = " "$HOME/.gitconfig" 2>/dev/null || grep -q "YOUR_NAME" "$HOME/.gitconfig" 2>/dev/null; then
+    # Configure git user if ~/.gitconfig.local doesn't exist
+    if [[ ! -f "$HOME/.gitconfig.local" ]]; then
         configure_git_user
+    else
+        log_info "Found existing ~/.gitconfig.local - skipping user configuration"
     fi
 
     create_symlink "$DOTFILES_DIR/git/gitconfig" "$HOME/.gitconfig"
@@ -274,6 +276,9 @@ install_agents_interactive() {
                 ;;
             windsurf)
                 install_windsurf "$target" "$method"
+                ;;
+            antigravity)
+                install_antigravity "$target" "$method"
                 ;;
             *)
                 log_error "Unknown agent: $agent"

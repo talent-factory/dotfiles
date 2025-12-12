@@ -5,8 +5,18 @@ Der `/create-pr` Command integriert sich mit dem `/commit` Command für professi
 ## Workflow-Übersicht
 
 ```text
-Uncommitted Changes?
+Aktueller Branch prüfen
         │
+        ├─ Geschützt (main/master/develop)?
+        │       │
+        │       └─ JA → Neuer Branch MUSS erstellt werden
+        │
+        └─ Feature-Branch?
+                │
+                └─ NEIN → Verwende aktuellen Branch
+                          │
+Uncommitted Changes?      │
+        │                 │
         ├─ JA  → Rufe /commit auf
         │           │
         │           ├─ Pre-Commit Checks
@@ -16,9 +26,71 @@ Uncommitted Changes?
         │
         └─ NEIN → Verwende bestehende Commits
                       │
-                      └─ Branch erstellen
+                      └─ Branch erstellen (falls nötig)
                          Push to remote
                          PR erstellen
+```
+
+## Branch-Status Prüfung ⚠️ WICHTIG
+
+**ERSTER SCHRITT** vor jeder PR-Erstellung!
+
+### Geschützte Branches erkennen
+
+```bash
+# Aktuellen Branch ermitteln
+current_branch=$(git branch --show-current)
+
+# Geschützte Branches definieren
+protected_branches=("main" "master" "develop")
+
+# Prüfen ob aktueller Branch geschützt ist
+if [[ " ${protected_branches[*]} " =~ " ${current_branch} " ]]; then
+  echo "⚠️ Auf geschütztem Branch: $current_branch"
+  echo "➡️ Neuer Feature-Branch wird erstellt"
+else
+  echo "✅ Auf Feature-Branch: $current_branch"
+  echo "➡️ Verwende aktuellen Branch"
+fi
+```
+
+### Warum diese Prüfung?
+
+**Geschützte Branches** (`main`, `master`, `develop`):
+
+- ❌ Direkte Commits sind verboten
+- ❌ PRs auf sich selbst sind nicht möglich
+- ✅ Neuer Branch MUSS erstellt werden
+- ✅ PR wird gegen geschützten Branch erstellt
+
+**Feature-Branches** (z.B. `feature/xyz`, `bugfix/abc`):
+
+- ✅ Bereits auf einem separaten Branch
+- ✅ Kein neuer Branch nötig
+- ✅ PR kann direkt erstellt werden
+
+### Beispiel-Szenarien
+
+**Auf `main` Branch:**
+
+```bash
+$ git branch --show-current
+main
+
+# /create-pr erkennt: geschützter Branch!
+# → Erstellt: feature/neue-funktion-2024-12-12
+# → PR: feature/neue-funktion → main
+```
+
+**Auf `feature/login` Branch:**
+
+```bash
+$ git branch --show-current
+feature/login
+
+# /create-pr erkennt: Feature-Branch!
+# → Kein neuer Branch nötig
+# → PR: feature/login → main
 ```
 
 ## Integration mit /commit

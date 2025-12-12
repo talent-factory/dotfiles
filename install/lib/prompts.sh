@@ -43,9 +43,9 @@ prompt_agent_selection() {
     echo "Which AI agents do you use?" >&2
     echo "" >&2
 
-    local agents=("augment" "claude" "copilot" "windsurf")
-    local agent_names=("Augment Code" "Claude Code" "GitHub Copilot" "Windsurf")
-    local agent_dirs=("~/.augment" "~/.claude" ".github/prompts" ".windsurf/workflows")
+    local agents=("augment" "claude" "copilot" "windsurf" "antigravity")
+    local agent_names=("Augment Code" "Claude Code" "GitHub Copilot" "Windsurf" "Antigravity")
+    local agent_dirs=("~/.augment" "~/.claude" ".github/prompts" "~/.codeium/windsurf" "~/.gemini/antigravity")
     local selected=()
 
     # Default: Claude is pre-selected
@@ -72,7 +72,7 @@ prompt_agent_selection() {
         done
     else
         # Interactive mode with visual selection
-        echo "Instructions: Toggle by number (comma-separated, e.g., 1,2,4)" >&2
+        echo "Instructions: Toggle by number (comma-separated, e.g., 1,2,5)" >&2
         echo "" >&2
 
         for i in "${!agents[@]}"; do
@@ -87,7 +87,7 @@ prompt_agent_selection() {
         IFS=',' read -ra CHOICE_ARRAY <<< "$choices"
         for choice in "${CHOICE_ARRAY[@]}"; do
             choice=$(echo "$choice" | xargs) # trim whitespace
-            if [[ "$choice" =~ ^[1-4]$ ]]; then
+            if [[ "$choice" =~ ^[1-5]$ ]]; then
                 local idx=$((choice - 1))
                 if [[ "${selected[$idx]}" == "true" ]]; then
                     selected[$idx]=false
@@ -181,6 +181,14 @@ display_installation_plan() {
                 fi
                 if [[ "$target" == "workspace" || "$target" == "both" ]]; then
                     echo "  ✓ Windsurf → ./.windsurf/workflows/" >&2
+                fi
+                ;;
+            antigravity)
+                if [[ "$target" == "home" || "$target" == "both" ]]; then
+                    echo "  ✓ Antigravity → ~/.gemini/antigravity/global_workflows" >&2
+                fi
+                if [[ "$target" == "workspace" || "$target" == "both" ]]; then
+                    echo "  ✓ Antigravity → ./.antigravity/workflows/" >&2
                 fi
                 ;;
         esac
