@@ -14,8 +14,7 @@ _shared/
 │   ├── develop/           # Development commands
 │   │   ├── commit.md
 │   │   ├── create-pr.md
-│   │   ├── implement-fs-task.md
-│   │   ├── implement-linear-task.md
+│   │   ├── implement-task.md    # Konsolidiert (--linear Flag)
 │   │   ├── check-agents.md
 │   │   ├── check-commands.md
 │   │   └── ruff-check.md
@@ -49,14 +48,10 @@ _shared/
 │   │   ├── best-practices.md
 │   │   ├── sections-guide.md
 │   │   └── templates.md
-│   ├── implement-fs-task/ # Referenz-Docs für /implement-fs-task
-│   │   ├── best-practices.md
-│   │   ├── task-management.md
-│   │   ├── troubleshooting.md
-│   │   └── workflow.md
-│   └── implement-linear-task/  # Referenz-Docs für /implement-linear-task
+│   └── implement-task/    # Referenz-Docs für /implement-task
 │       ├── best-practices.md
-│       ├── linear-integration.md
+│       ├── filesystem.md      # Filesystem-spezifisch
+│       ├── linear.md          # Linear-spezifisch
 │       ├── troubleshooting.md
 │       └── workflow.md
 │
