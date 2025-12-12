@@ -20,8 +20,7 @@ _shared/
 │   │   └── ruff-check.md
 │   ├── project/           # Project management commands
 │   │   ├── create-prd.md
-│   │   ├── create-plan.md
-│   │   └── create-plan-fs.md
+│   │   └── create-plan.md       # Konsolidiert (--linear Flag)
 │   └── skills/            # Skill builder system
 │       ├── build-skill.md
 │       ├── package-skill.md
@@ -42,7 +41,8 @@ _shared/
 │   ├── create-plan/       # Referenz-Docs für /create-plan
 │   │   ├── agent-mapping.md
 │   │   ├── best-practices.md
-│   │   ├── linear-integration.md
+│   │   ├── filesystem.md      # Filesystem-spezifisch (Templates)
+│   │   ├── linear-integration.md  # Linear-spezifisch
 │   │   └── task-breakdown.md
 │   ├── create-prd/        # Referenz-Docs für /create-prd
 │   │   ├── best-practices.md

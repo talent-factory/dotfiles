@@ -1,18 +1,19 @@
 ---
-description: Erstelle einen Projektplan aus PRD und verwalte Tasks in Linear
+description: Erstelle einen Projektplan aus PRD (Filesystem oder Linear)
 category: project
-argument-hint: "[--prd <PRD-Pfad>] [--interactive]"
+argument-hint: "[--prd <PRD-Pfad>] [--linear] [--interactive]"
 allowed-tools:
   - Read
   - Write
   - TodoWrite
   - AskUserQuestion
+  - Glob
   - mcp__linear__*
 ---
 
 # Claude Command: Create Project Plan
 
-Erstelle einen strukturierten Projektplan aus einem PRD-Dokument und verwalte Tasks als EPIC mit zugehörigen Issues in Linear.
+Erstelle einen strukturierten Projektplan aus einem PRD-Dokument. Speichere Tasks im Filesystem (`.plans/`) oder in Linear (via `--linear` Flag).
 
 ## Rolle & Expertise
 
@@ -21,27 +22,64 @@ Du agierst als **Scrum Master, Product Owner und Entwicklungsleiter** mit folgen
 - **Akademischer Hintergrund**: MSc in Computer Science
 - **Best Practices**: Aktuelle Standards von renommierten Universitäten und Fachhochschulen
 - **Agile Methoden**: Scrum, Kanban, User Story Mapping
-- **Linear Integration**: EPIC-basierte Projekt-Strukturierung
+- **Task-Breakdown**: Atomic, testbare und schätzbare Tasks
 
 ## Verwendung
 
 ```bash
-# Standard: PRD.md im aktuellen Verzeichnis
-/project:create-plan
+# Filesystem-basiert (Standard)
+/project:create-plan                         # PRD.md im CWD
+/project:create-plan --prd feature.md        # Spezifisches PRD
+/project:create-plan PRDs/01-rag-system.md   # Direkter Pfad
 
-# Spezifisches PRD-Dokument
-/project:create-plan --prd docs/requirements/feature-x.md
+# Linear-basiert
+/project:create-plan --linear                # PRD.md im CWD
+/project:create-plan --linear --prd feature.md
 
 # Interaktiver Modus
 /project:create-plan --interactive
 ```
 
-## Workflow
+## Provider-Auswahl
+
+### Filesystem (Standard)
+
+**Wann verwenden**: Lokales Projekt ohne Linear, schnelle Iteration, Offline-Arbeit.
+
+**Output-Struktur**:
+```
+.plans/[feature-name]/
+├── EPIC.md          # Feature-Übersicht
+├── STATUS.md        # Progress-Tracking
+└── tasks/
+    ├── task-001-[slug].md
+    ├── task-002-[slug].md
+    └── ...
+```
+
+### Linear (`--linear`)
+
+**Wann verwenden**: Team-Kollaboration, Projekt-Tracking, Integration mit anderen Tools.
+
+**Voraussetzung**: Linear MCP Server konfiguriert:
+```json
+{
+  "mcpServers": {
+    "linear": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-linear"],
+      "env": { "LINEAR_API_KEY": "<your-api-key>" }
+    }
+  }
+}
+```
+
+## Gemeinsamer Workflow
 
 ### 1. PRD-Dokument einlesen
 
 - **Standard**: `PRD.md` im aktuellen Verzeichnis
-- **Custom**: Über `--prd <Pfad>` angegeben
+- **Custom**: Über `--prd <Pfad>` oder als direktes Argument
 - **Fallback**: Interaktive Nachfrage falls nicht gefunden
 
 **Validierung**:
@@ -49,64 +87,62 @@ Du agierst als **Scrum Master, Product Owner und Entwicklungsleiter** mit folgen
 - Ziele & Erfolgsmetriken definiert?
 - Anforderungen priorisiert (MoSCoW)?
 
-### 2. EPIC in Linear erstellen
+### 2. Feature-Namen ableiten
 
-Das PRD wird als **EPIC** in Linear gespeichert:
+Aus dem PRD einen Feature-Namen in `kebab-case` generieren:
 
-```
-EPIC: [Feature-Name]
-├── Description: Executive Summary aus PRD
-├── Status: planned
-├── Priority: Basierend auf PRD-Priorisierung
-└── Metadata: Link zum vollständigen PRD
-```
+**Beispiele**:
+- "Dark Mode Toggle" → `dark-mode-toggle`
+- "RAG-basiertes System" → `rag-basiertes-system`
+- "User Authentication" → `user-authentication`
+
+### 3. EPIC erstellen
+
+| Provider | Speicherort | Format |
+|----------|-------------|--------|
+| Filesystem | `.plans/[feature-name]/EPIC.md` | Markdown-Datei |
+| Linear | Linear Project/EPIC | API-basiert |
 
 **Duplikat-Check**:
-- Prüfe existierende EPICs mit gleichem/ähnlichem Namen
+- Prüfe existierende EPICs/Pläne mit gleichem Namen
 - Interaktive Bestätigung bei Duplikaten
-- Option: Existierendes EPIC aktualisieren
+- Optionen: Überschreiben, anderen Namen, abbrechen
 
-### 3. Task-Breakdown durchführen
+### 4. Task-Breakdown durchführen
 
 Leite aus dem PRD **in sich abgeschlossene Tasks** ab:
 
-**Kriterien für gute Tasks**:
-- ✅ **Atomic**: Eine logische Einheit
-- ✅ **Actionable**: Sofort umsetzbar
-- ✅ **Testable**: Akzeptanzkriterien definiert
-- ✅ **Assignable**: Für einen Entwickler/Agenten
-- ✅ **Estimated**: Geschätzter Aufwand (Story Points)
+**Kriterien für gute Tasks (ATOMIC)**:
+- ✅ **A**ctionable: Sofort umsetzbar
+- ✅ **T**estable: Akzeptanzkriterien definiert
+- ✅ **O**wnable: Für einen Entwickler/Agenten
+- ✅ **M**easurable: Story Points (1, 2, 3, 5, 8)
+- ✅ **I**ndependent: Minimal Dependencies
+- ✅ **C**omplete: In sich abgeschlossen
 
-**Task-Struktur**:
-```
-Task: [Konkrete Beschreibung]
-├── Description: Detaillierte Anforderungen
-├── Acceptance Criteria: Messbare Erfolgskriterien
-├── Dependencies: Andere Tasks
-├── Agent Recommendation: Vorgeschlagener KI-Agent
-├── Estimate: Story Points (1, 2, 3, 5, 8)
-└── Labels: Tags für Kategorisierung
-```
+### 5. Tasks speichern
 
-### 4. Linear Issues erstellen
+| Provider | Speicherort | Format |
+|----------|-------------|--------|
+| Filesystem | `.plans/[feature]/tasks/task-NNN-*.md` | Markdown-Dateien |
+| Linear | Linear Issues unter EPIC | API-basiert |
 
-Jeder Task wird als **Issue** unter dem EPIC erstellt:
+### 6. Status-Tracking erstellen
 
-- **Title**: Prägnant und beschreibend
-- **Description**: Vollständige Task-Details
-- **Priority**: Must/Should/Could/Won't
-- **Estimate**: Story Points
-- **Labels**: Technology Stack, Type, etc.
-- **Agent Hints**: Empfohlene KI-Agenten
+| Provider | Speicherort | Inhalt |
+|----------|-------------|--------|
+| Filesystem | `.plans/[feature]/STATUS.md` | Progress, Dependencies-Graph, Next Steps |
+| Linear | Linear Dashboard | Automatisch via UI |
 
-### 5. Konsistenz-Check
+### 7. Konsistenz-Check
 
 **Vor dem Speichern**:
 - [ ] Keine Duplikate oder Redundanzen
-- [ ] Konsistentes Gesamtbild der Anwendung
+- [ ] Konsistentes Gesamtbild
 - [ ] Tasks sind vollständig und umsetzbar
 - [ ] Dependencies korrekt verknüpft
 - [ ] Priorisierung logisch
+- [ ] Story Points realistisch
 
 ## Agent-Empfehlungen
 
@@ -144,30 +180,18 @@ Basierend auf Task-Typ werden KI-Agenten empfohlen:
 
 ## Duplikat-Vermeidung
 
-**Vor EPIC-Erstellung**:
-1. Suche existierende EPICs mit ähnlichem Namen
-2. Prüfe aktive Issues mit überlappenden Anforderungen
+**Vor EPIC/Plan-Erstellung**:
+1. Suche existierende EPICs/Pläne mit ähnlichem Namen
+2. Prüfe aktive Tasks mit überlappenden Anforderungen
 3. Interaktive Bestätigung bei Duplikaten:
-   - Neues EPIC erstellen
-   - Existierendes EPIC erweitern
+   - Neu erstellen (anderen Namen wählen)
+   - Existierenden erweitern
    - Abbrechen und PRD anpassen
 
-**Vor Issue-Erstellung**:
-1. Prüfe existierende Issues im EPIC
+**Vor Task-Erstellung**:
+1. Prüfe existierende Tasks im EPIC/Plan
 2. Vermeide redundante Aufgaben
 3. Merge ähnliche Tasks
-
-## Linear-Integration
-
-**Verwendete Linear-Features**:
-- **Projects/EPICs**: Für PRD-basierte Features
-- **Issues**: Für individuelle Tasks
-- **Labels**: Technology, Type, Priority
-- **Estimates**: Story Points
-- **Dependencies**: Task-Verknüpfungen
-- **Custom Fields**: Agent Recommendations
-
-**Details**: [linear-integration.md](../../references/create-plan/linear-integration.md)
 
 ## Task-Breakdown Strategien
 
@@ -210,56 +234,71 @@ Basierend auf Task-Typ werden KI-Agenten empfohlen:
 
 **Vollständiger Guide**: [best-practices.md](../../references/create-plan/best-practices.md)
 
-## Beispiel-Workflow
+## Beispiel-Workflows
+
+### Filesystem (Standard)
 
 ```bash
 # 1. PRD erstellen
 /project:create-prd "Dark Mode Toggle"
 
 # 2. Plan aus PRD generieren
-/project:create-plan --prd PRD.md
+/project:create-plan PRD.md
+
+# Output:
+# ✅ PRD eingelesen: PRD.md
+# ✅ Feature-Name: dark-mode-toggle
+# ✅ Verzeichnis: .plans/dark-mode-toggle/
+# ✅ EPIC.md erstellt
+# ✅ 8 Tasks generiert:
+#    - task-001-ui-toggle-component.md (3 SP) [frontend-developer]
+#    - task-002-theme-state-management.md (5 SP) [frontend-developer]
+#    - ...
+# ✅ STATUS.md erstellt mit Dependencies-Graph
+# ✅ Total: 21 SP
+
+# 3. Task implementieren
+/develop:implement-task task-001
+```
+
+### Linear (`--linear`)
+
+```bash
+# 1. PRD erstellen
+/project:create-prd "Dark Mode Toggle"
+
+# 2. Plan in Linear generieren
+/project:create-plan --linear --prd PRD.md
 
 # Output:
 # ✅ PRD eingelesen: PRD.md
 # ✅ EPIC erstellt: "Dark Mode Toggle" (LIN-123)
-# ✅ 8 Tasks generiert:
-#    - LIN-124: UI Toggle Component (3 SP) [java-developer]
-#    - LIN-125: Theme State Management (5 SP) [java-developer]
-#    - LIN-126: CSS Variables Setup (2 SP) [java-developer]
-#    - LIN-127: Local Storage Persistence (2 SP) [java-developer]
-#    - LIN-128: Unit Tests (3 SP) [test-automator]
-#    - LIN-129: Integration Tests (3 SP) [test-automator]
-#    - LIN-130: Documentation (2 SP) [markdown-syntax-formatter]
-#    - LIN-131: Code Review (1 SP) [code-reviewer]
+# ✅ 8 Issues generiert:
+#    - LIN-124: UI Toggle Component (3 SP)
+#    - LIN-125: Theme State Management (5 SP)
+#    - ...
 # ✅ Dependencies verknüpft
-# ✅ Labels hinzugefügt: feature, ui, accessibility
+# ✅ Labels hinzugefügt
+
+# 3. Task implementieren
+/develop:implement-task --linear LIN-124
 ```
 
-## Weitere Informationen
+## Detail-Dokumentation
 
-- **Linear Integration**: [linear-integration.md](../../references/create-plan/linear-integration.md)
-  - Linear-API-Verwendung
-  - EPIC/Issue-Struktur
-  - Custom Fields Setup
-  - Label-Strategie
+### Allgemein
+- **[task-breakdown.md](../../references/create-plan/task-breakdown.md)** - Task-Sizing, Dependencies, Story Points
+- **[agent-mapping.md](../../references/create-plan/agent-mapping.md)** - Agent-Empfehlungen pro Task-Typ
+- **[best-practices.md](../../references/create-plan/best-practices.md)** - Atomic Tasks, Akzeptanzkriterien
 
-- **Task Breakdown**: [task-breakdown.md](../../references/create-plan/task-breakdown.md)
-  - Task-Sizing Strategien
-  - Abhängigkeiten identifizieren
-  - Story Point Estimation
-  - Cross-Cutting Concerns
+### Provider-spezifisch
+- **[filesystem.md](../../references/create-plan/filesystem.md)** - Verzeichnisstruktur, Templates (EPIC.md, STATUS.md, Task-Dateien)
+- **[linear-integration.md](../../references/create-plan/linear-integration.md)** - Linear-API, EPIC/Issue-Struktur, Labels
 
-- **Agent Mapping**: [agent-mapping.md](../../references/create-plan/agent-mapping.md)
-  - Verfügbare KI-Agenten
-  - Expertise-Mapping
-  - Task-Typ → Agent
-  - Custom Agent Integration
+## Siehe auch
 
-- **Best Practices**: [best-practices.md](../../references/create-plan/best-practices.md)
-  - Atomic Task Guidelines
-  - Akzeptanzkriterien definieren
-  - Duplikat-Vermeidung
-  - Estimation Best Practices
+- **[/project:create-prd](./create-prd.md)** - PRD-Erstellung
+- **[/develop:implement-task](../develop/implement-task.md)** - Task-Implementation
 
 ---
 
