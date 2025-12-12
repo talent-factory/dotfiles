@@ -83,6 +83,19 @@ function Install-WindsurfToTarget {
         }
     }
 
+    # Install references (support documentation for commands)
+    $sharedDir = Join-Path $script:DotfilesDir "agents\_shared"
+    $referencesSource = Join-Path $sharedDir "references"
+    $referencesTarget = Join-Path (Split-Path -Parent $TargetDir) "references"
+
+    if (Test-Path $referencesSource) {
+        if ($Method -eq "symlink") {
+            New-SymbolicLinkSafe -Source $referencesSource -Target $referencesTarget | Out-Null
+        } else {
+            Copy-FilesSafe -Source $referencesSource -Target $referencesTarget | Out-Null
+        }
+    }
+
     return $true
 }
 

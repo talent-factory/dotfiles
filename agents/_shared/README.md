@@ -10,31 +10,65 @@ This directory contains commands, scripts, and templates that are **identical ac
 
 ```text
 _shared/
-├── commands/              # Shared commands (identical for all agents)
+├── commands/              # Nur echte Commands (Anthropic Best Practice)
 │   ├── develop/           # Development commands
 │   │   ├── commit.md
-│   │   ├── commit/        # Progressive disclosure details
 │   │   ├── create-pr.md
-│   │   ├── create-pr/
 │   │   ├── implement-fs-task.md
-│   │   ├── implement-fs-task/
 │   │   ├── implement-linear-task.md
-│   │   ├── implement-linear-task/
 │   │   ├── check-agents.md
 │   │   ├── check-commands.md
 │   │   └── ruff-check.md
 │   ├── project/           # Project management commands
 │   │   ├── create-prd.md
-│   │   ├── create-prd/
 │   │   ├── create-plan.md
-│   │   └── create-plan/
+│   │   └── create-plan-fs.md
 │   └── skills/            # Skill builder system
 │       ├── build-skill.md
 │       ├── package-skill.md
 │       ├── scripts/       # Python validation scripts
 │       └── templates/     # Skill templates
+│
+├── references/            # Support-Dokumentation (Progressive Disclosure)
+│   ├── commit/            # Referenz-Docs für /commit
+│   │   ├── best-practices.md
+│   │   ├── commit-types.md
+│   │   ├── pre-commit-checks.md
+│   │   └── troubleshooting.md
+│   ├── create-pr/         # Referenz-Docs für /create-pr
+│   │   ├── code-formatting.md
+│   │   ├── commit-workflow.md
+│   │   ├── pr-template.md
+│   │   └── troubleshooting.md
+│   ├── create-plan/       # Referenz-Docs für /create-plan
+│   │   ├── agent-mapping.md
+│   │   ├── best-practices.md
+│   │   ├── linear-integration.md
+│   │   └── task-breakdown.md
+│   ├── create-prd/        # Referenz-Docs für /create-prd
+│   │   ├── best-practices.md
+│   │   ├── sections-guide.md
+│   │   └── templates.md
+│   ├── implement-fs-task/ # Referenz-Docs für /implement-fs-task
+│   │   ├── best-practices.md
+│   │   ├── task-management.md
+│   │   ├── troubleshooting.md
+│   │   └── workflow.md
+│   └── implement-linear-task/  # Referenz-Docs für /implement-linear-task
+│       ├── best-practices.md
+│       ├── linear-integration.md
+│       ├── troubleshooting.md
+│       └── workflow.md
+│
 └── README.md              # This file
 ```
+
+### Vorteile dieser Struktur (Anthropic Best Practices)
+
+- **Saubere Trennung**: Commands enthalten nur die Hauptlogik
+- **Progressive Disclosure**: Details werden bei Bedarf nachgeladen
+- **Bessere Performance**: Kürzere Command-Dateien = schnellere Verarbeitung
+- **Klar definierte Pfade**: `../../references/<command>/` für alle Referenzen
 
 ## How It Works
 

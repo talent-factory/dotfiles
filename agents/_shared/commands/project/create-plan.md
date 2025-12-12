@@ -122,7 +122,7 @@ Basierend auf Task-Typ werden KI-Agenten empfohlen:
 | **Documentation** | `markdown-syntax-formatter` | Docs, READMEs |
 | **Testing** | `test-automator` | Unit/Integration Tests |
 
-**Details**: [create-plan/agent-mapping.md](create-plan/agent-mapping.md)
+**Details**: [agent-mapping.md](../../references/create-plan/agent-mapping.md)
 
 ## Qualitätskriterien
 
@@ -167,7 +167,7 @@ Basierend auf Task-Typ werden KI-Agenten empfohlen:
 - **Dependencies**: Task-Verknüpfungen
 - **Custom Fields**: Agent Recommendations
 
-**Details**: [create-plan/linear-integration.md](create-plan/linear-integration.md)
+**Details**: [linear-integration.md](../../references/create-plan/linear-integration.md)
 
 ## Task-Breakdown Strategien
 
@@ -187,7 +187,7 @@ Basierend auf Task-Typ werden KI-Agenten empfohlen:
 - CI/CD Setup
 - Monitoring & Observability
 
-**Details**: [create-plan/task-breakdown.md](create-plan/task-breakdown.md)
+**Details**: [task-breakdown.md](../../references/create-plan/task-breakdown.md)
 
 ## Best Practices
 
@@ -208,7 +208,7 @@ Basierend auf Task-Typ werden KI-Agenten empfohlen:
 - Dependencies ignorieren
 - Linear ohne Duplikat-Check befüllen
 
-**Vollständiger Guide**: [create-plan/best-practices.md](create-plan/best-practices.md)
+**Vollständiger Guide**: [best-practices.md](../../references/create-plan/best-practices.md)
 
 ## Beispiel-Workflow
 
@@ -237,25 +237,25 @@ Basierend auf Task-Typ werden KI-Agenten empfohlen:
 
 ## Weitere Informationen
 
-- **Linear Integration**: [create-plan/linear-integration.md](create-plan/linear-integration.md)
+- **Linear Integration**: [linear-integration.md](../../references/create-plan/linear-integration.md)
   - Linear-API-Verwendung
   - EPIC/Issue-Struktur
   - Custom Fields Setup
   - Label-Strategie
 
-- **Task Breakdown**: [create-plan/task-breakdown.md](create-plan/task-breakdown.md)
+- **Task Breakdown**: [task-breakdown.md](../../references/create-plan/task-breakdown.md)
   - Task-Sizing Strategien
   - Abhängigkeiten identifizieren
   - Story Point Estimation
   - Cross-Cutting Concerns
 
-- **Agent Mapping**: [create-plan/agent-mapping.md](create-plan/agent-mapping.md)
+- **Agent Mapping**: [agent-mapping.md](../../references/create-plan/agent-mapping.md)
   - Verfügbare KI-Agenten
   - Expertise-Mapping
   - Task-Typ → Agent
   - Custom Agent Integration
 
-- **Best Practices**: [create-plan/best-practices.md](create-plan/best-practices.md)
+- **Best Practices**: [best-practices.md](../../references/create-plan/best-practices.md)
   - Atomic Task Guidelines
   - Akzeptanzkriterien definieren
   - Duplikat-Vermeidung

@@ -41,13 +41,13 @@ Mit Optionen:
      - Keine Commits direkt auf geschützten Branches
    - **Feature-Branch** (z.B. `feature/xyz`, `bugfix/abc`):
      - ➡️ Kein neuer Branch nötig, verwende aktuellen Branch
-   - Details: [create-pr/commit-workflow.md](create-pr/commit-workflow.md)
+   - Details: [commit-workflow.md](../../references/create-pr/commit-workflow.md)
 
 2. **Änderungen prüfen**
    - Erkenne uncommitted oder bereits committete Änderungen
    - Falls uncommitted Changes → Rufe `/commit` auf
    - Falls Commits vorhanden → Verwende diese
-   - Details: [create-pr/commit-workflow.md](create-pr/commit-workflow.md)
+   - Details: [commit-workflow.md](../../references/create-pr/commit-workflow.md)
 
 3. **Branch erstellen** (nur wenn auf geschütztem Branch)
    - Generiere aussagekräftigen Branch-Namen: `<type>/<description>-<date>`
@@ -61,7 +61,7 @@ Mit Optionen:
    - **Python**: Black, isort, Ruff
    - **Java**: Google Java Format
    - **Markdown**: markdownlint
-   - Details: [create-pr/code-formatting.md](create-pr/code-formatting.md)
+   - Details: [code-formatting.md](../../references/create-pr/code-formatting.md)
 
 5. **Pull Request erstellen**
    - Push Branch zum Remote
@@ -69,7 +69,7 @@ Mit Optionen:
    - Erstelle detaillierte PR-Beschreibung mit Test-Plan
    - Verlinke relevante Issues
    - Setze passende Labels
-   - Template: [create-pr/pr-template.md](create-pr/pr-template.md)
+   - Template: [pr-template.md](../../references/create-pr/pr-template.md)
 
 ## Integration mit /commit
 
@@ -79,7 +79,7 @@ Mit Optionen:
 - **Bestehende Commits**: Verwendet diese für PR
 - **Keine Commit-Duplikation**: Commit-Logik nur in `/commit`
 
-**Workflow-Details**: [create-pr/commit-workflow.md](create-pr/commit-workflow.md)
+**Workflow-Details**: [commit-workflow.md](../../references/create-pr/commit-workflow.md)
 
 ## PR-Template
 
@@ -104,7 +104,7 @@ Mit Optionen:
 [Falls vorhanden]
 ```
 
-**Vollständiges Template**: [create-pr/pr-template.md](create-pr/pr-template.md)
+**Vollständiges Template**: [pr-template.md](../../references/create-pr/pr-template.md)
 
 ## Best Practices
 
@@ -114,11 +114,11 @@ Mit Optionen:
 - **Kleine PRs**: Halte PRs fokussiert und reviewbar (150-400 Zeilen)
 - **Klare Commits**: Jeder Commit sollte eigenständig verständlich sein
 
-**Weitere Best Practices**: [create-pr/pr-template.md](create-pr/pr-template.md)
+**Weitere Best Practices**: [pr-template.md](../../references/create-pr/pr-template.md)
 
 ## Weitere Informationen
 
-- **Code-Formatierung**: [create-pr/code-formatting.md](create-pr/code-formatting.md)
-- **Commit-Workflow**: [create-pr/commit-workflow.md](create-pr/commit-workflow.md)
-- **PR-Template & Best Practices**: [create-pr/pr-template.md](create-pr/pr-template.md)
-- **Troubleshooting**: [create-pr/troubleshooting.md](create-pr/troubleshooting.md)
+- **Code-Formatierung**: [code-formatting.md](../../references/create-pr/code-formatting.md)
+- **Commit-Workflow**: [commit-workflow.md](../../references/create-pr/commit-workflow.md)
+- **PR-Template & Best Practices**: [pr-template.md](../../references/create-pr/pr-template.md)
+- **Troubleshooting**: [troubleshooting.md](../../references/create-pr/troubleshooting.md)

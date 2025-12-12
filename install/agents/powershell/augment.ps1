@@ -27,6 +27,8 @@ function Install-AugmentCode {
 function Install-AugmentToTarget {
     param([string]$TargetDir, [string]$SourceDir, [string]$Method)
 
+    $sharedDir = Join-Path $script:DotfilesDir "agents\_shared"
+
     Backup-Existing -Path $TargetDir | Out-Null
 
     if (-not $script:DryRun) {
@@ -40,7 +42,21 @@ function Install-AugmentToTarget {
         if ($Method -eq "symlink") {
             New-SymbolicLinkSafe -Source $commandsSource -Target $commandsTarget | Out-Null
         } else {
-            Copy-FilesSafe -Source $commandsSource -Target $commandsTarget | Out-Null
+            # For copy mode: copy actual content from shared
+            $sharedCommands = Join-Path $sharedDir "commands"
+            Copy-FilesSafe -Source $sharedCommands -Target $commandsTarget | Out-Null
+        }
+    }
+
+    # Install references (support documentation for commands)
+    $referencesSource = Join-Path $sharedDir "references"
+    $referencesTarget = Join-Path $TargetDir "references"
+
+    if (Test-Path $referencesSource) {
+        if ($Method -eq "symlink") {
+            New-SymbolicLinkSafe -Source $referencesSource -Target $referencesTarget | Out-Null
+        } else {
+            Copy-FilesSafe -Source $referencesSource -Target $referencesTarget | Out-Null
         }
     }
 

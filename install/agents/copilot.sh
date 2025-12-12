@@ -176,6 +176,26 @@ _install_copilot_to_target() {
         log_warn "Shared commands directory not found: $shared_commands_dir"
     fi
 
+    # Install references (support documentation for commands)
+    local shared_references="$DOTFILES_DIR/agents/_shared/references"
+    if [[ -d "$shared_references" ]]; then
+        local ref_target="$target_dir/../references"
+        case $method in
+            symlink)
+                if [[ "$DRY_RUN" != true ]]; then
+                    mkdir -p "$(dirname "$ref_target")"
+                fi
+                create_symlink "$shared_references" "$ref_target"
+                ;;
+            copy)
+                if [[ "$DRY_RUN" != true ]]; then
+                    mkdir -p "$(dirname "$ref_target")"
+                fi
+                copy_files "$shared_references" "$ref_target"
+                ;;
+        esac
+    fi
+
     # Verify installation
     _verify_copilot_installation "$target_dir"
 

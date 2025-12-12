@@ -318,10 +318,10 @@ Vor Abschluss des Commands verifizieren:
 
 Für weiterführende Informationen siehe:
 
-- **[workflow.md](./implement-fs-task/workflow.md)** - Detaillierter Workflow mit Beispielen
-- **[task-management.md](./implement-fs-task/task-management.md)** - Task-Status-Updates, STATUS.md Regenerierung
-- **[best-practices.md](./implement-fs-task/best-practices.md)** - Branch-Naming, Commit-Messages, PR-Gestaltung
-- **[troubleshooting.md](./implement-fs-task/troubleshooting.md)** - Häufige Probleme, Lösungen, Debugging
+- **[workflow.md](../../references/implement-fs-task/workflow.md)** - Detaillierter Workflow mit Beispielen
+- **[task-management.md](../../references/implement-fs-task/task-management.md)** - Task-Status-Updates, STATUS.md Regenerierung
+- **[best-practices.md](../../references/implement-fs-task/best-practices.md)** - Branch-Naming, Commit-Messages, PR-Gestaltung
+- **[troubleshooting.md](../../references/implement-fs-task/troubleshooting.md)** - Häufige Probleme, Lösungen, Debugging
 
 ## Beispiele
 

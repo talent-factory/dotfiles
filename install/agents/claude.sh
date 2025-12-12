@@ -37,6 +37,7 @@ _install_claude_to_target() {
     local target_dir="$1"
     local source_dir="$2"
     local method="$3"
+    local shared_dir="$DOTFILES_DIR/agents/_shared"
 
     # Backup existing installation
     backup_existing "$target_dir"
@@ -53,7 +54,8 @@ _install_claude_to_target() {
                 create_symlink "$source_dir/commands" "$target_dir/commands"
                 ;;
             copy)
-                copy_files "$source_dir/commands" "$target_dir/commands"
+                # For copy mode: copy actual content, resolving symlinks
+                copy_files "$shared_dir/commands" "$target_dir/commands"
                 ;;
             *)
                 log_error "Invalid installation method: $method"
@@ -62,6 +64,20 @@ _install_claude_to_target() {
         esac
     else
         log_warn "Commands directory not found: $source_dir/commands"
+    fi
+
+    # Install references (support documentation for commands)
+    if [[ -d "$shared_dir/references" ]]; then
+        case $method in
+            symlink)
+                create_symlink "$shared_dir/references" "$target_dir/references"
+                ;;
+            copy)
+                copy_files "$shared_dir/references" "$target_dir/references"
+                ;;
+        esac
+    else
+        log_warn "References directory not found: $shared_dir/references"
     fi
 
     # Install agents
@@ -125,6 +141,14 @@ _verify_claude_installation() {
     else
         log_error "Agents directory not found: $target_dir/agents"
         ((errors++))
+    fi
+
+    # Check references directory (support documentation)
+    if [[ -d "$target_dir/references" ]]; then
+        local ref_count=$(find -L "$target_dir/references" -name "*.md" -type f 2>/dev/null | wc -l)
+        log_success "References directory verified ($ref_count reference docs found)"
+    else
+        log_warn "References directory not found: $target_dir/references (optional but recommended)"
     fi
 
     # Check skills directory (optional)

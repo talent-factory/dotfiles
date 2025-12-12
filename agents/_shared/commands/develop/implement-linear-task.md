@@ -157,7 +157,7 @@ Vor Abschluss des Commands verifizieren:
 
 **Erforderlich**: Linear MCP Server muss konfiguriert sein.
 
-**Installation** (siehe [linear-integration.md](./implement-linear-task/linear-integration.md)):
+**Installation** (siehe [linear-integration.md](../../references/implement-linear-task/linear-integration.md)):
 
 ```json
 {
@@ -201,16 +201,16 @@ Vor Abschluss des Commands verifizieren:
 **Linear MCP nicht verfügbar**:
 
 - Fehlermeldung mit Setup-Anleitung
-- Verweis auf [linear-integration.md](./implement-linear-task/linear-integration.md)
+- Verweis auf [linear-integration.md](../../references/implement-linear-task/linear-integration.md)
 
 ## Detail-Dokumentation
 
 Für weiterführende Informationen siehe:
 
-- **[linear-integration.md](./implement-linear-task/linear-integration.md)** - Linear MCP Server Setup, API-Details, GraphQL-Queries
-- **[workflow.md](./implement-linear-task/workflow.md)** - Detaillierter Workflow, Best Practices, Beispiele
-- **[troubleshooting.md](./implement-linear-task/troubleshooting.md)** - Häufige Probleme, Lösungen, Debugging
-- **[best-practices.md](./implement-linear-task/best-practices.md)** - Branch-Naming, Commit-Messages, PR-Gestaltung
+- **[linear-integration.md](../../references/implement-linear-task/linear-integration.md)** - Linear MCP Server Setup, API-Details, GraphQL-Queries
+- **[workflow.md](../../references/implement-linear-task/workflow.md)** - Detaillierter Workflow, Best Practices, Beispiele
+- **[troubleshooting.md](../../references/implement-linear-task/troubleshooting.md)** - Häufige Probleme, Lösungen, Debugging
+- **[best-practices.md](../../references/implement-linear-task/best-practices.md)** - Branch-Naming, Commit-Messages, PR-Gestaltung
 
 ## Beispiele
 

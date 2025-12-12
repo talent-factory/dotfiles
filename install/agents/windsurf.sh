@@ -107,6 +107,21 @@ _install_windsurf_to_target() {
         log_warn "Workflows directory not found: $source_dir/workflows"
     fi
 
+    # Install references (support documentation for commands)
+    local shared_references="$DOTFILES_DIR/agents/_shared/references"
+    if [[ -d "$shared_references" ]]; then
+        # For windsurf, put references at parent level of workflows
+        local ref_target="$(dirname "$target_dir")/references"
+        case $method in
+            symlink)
+                create_symlink "$shared_references" "$ref_target"
+                ;;
+            copy)
+                copy_files "$shared_references" "$ref_target"
+                ;;
+        esac
+    fi
+
     # Verify installation
     _verify_windsurf_installation "$target_dir"
 
