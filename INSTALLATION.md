@@ -339,17 +339,58 @@ Same as macOS. Paths may differ slightly:
 
 ### Windows
 
-⚠️ **Planned (Phase 3)**
+✅ **Fully supported** (PowerShell installer)
 
-PowerShell installer in development (`install.ps1`). For now, use manual installation:
+The PowerShell installer (`install.ps1`) provides full support for all agents on Windows.
 
 ```powershell
-# Manual Symlink (requires Admin rights or Developer Mode)
-New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.claude" -Target "path\to\dotfiles\agents\claude"
-
-# Or manual Copy
-Copy-Item -Path "agents\claude\commands" -Destination "$env:USERPROFILE\.claude\commands" -Recurse
+# Interactive installation
+.\install.ps1 -Interactive
 ```
+
+#### Symlinks on Windows
+
+Symlinks on Windows require either **Administrator rights** or **Developer Mode**. The installer automatically detects and handles both scenarios.
+
+**Option 1: Enable Developer Mode (Recommended)**
+
+Developer Mode allows symlinks without Administrator rights:
+
+```powershell
+# Enable Developer Mode (no admin required)
+New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Force | Out-Null
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowDevelopmentWithoutDevLicense" -Value 1 -Type DWord
+```
+
+Then **restart PowerShell** and run the installer:
+
+```powershell
+.\install.ps1 -Interactive
+# → Select "Symlink (recommended)" when prompted
+```
+
+**Option 2: Run as Administrator**
+
+If you prefer not to enable Developer Mode:
+
+```powershell
+# Right-click PowerShell → "Run as Administrator"
+.\install.ps1 -Interactive
+# → Select "Symlink (recommended)" when prompted
+```
+
+**Option 3: Use Copy Method**
+
+If you don't want to enable Developer Mode or run as Admin:
+
+```powershell
+.\install.ps1 -Interactive
+# → Select "Copy files" when prompted
+```
+
+#### Automatic Fallback
+
+The installer automatically falls back to **Copy** if symlinks fail, so installation will always succeed regardless of permissions.
 
 ---
 
@@ -476,17 +517,37 @@ chmod +x install.sh
 **Issue**: Windows requires Administrator rights or Developer Mode for symlinks.
 
 **Solutions**:
-1. **Enable Developer Mode** (Windows 10/11):
-   - Settings → Update & Security → For developers → Developer Mode
 
-2. **Run as Administrator**:
+1. **Enable Developer Mode via PowerShell (Recommended)**:
+
+   Run this command in PowerShell (no admin required):
+   ```powershell
+   New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Force | Out-Null
+   Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\AppModelUnlock" -Name "AllowDevelopmentWithoutDevLicense" -Value 1 -Type DWord
+   ```
+
+   Then **restart PowerShell** and run the installer:
+   ```powershell
+   .\install.ps1 -Interactive
+   ```
+
+2. **Enable Developer Mode via Settings** (Windows 10/11):
+   - Settings → System → For developers → Developer Mode (toggle on)
+   - Restart PowerShell
+   - Run installer
+
+3. **Run as Administrator**:
    - Right-click PowerShell → "Run as Administrator"
+   - Run: `.\install.ps1 -Interactive`
+   - Select "Symlink (recommended)" when prompted
 
-3. **Use Copy instead**:
-   ```bash
-   ./install.sh --interactive
+4. **Use Copy instead** (no permissions needed):
+   ```powershell
+   .\install.ps1 -Interactive
    # → Select "Copy files" method
    ```
+
+**Note**: The installer automatically falls back to Copy if symlinks fail, so installation will always succeed.
 
 ---
 
@@ -625,5 +686,6 @@ For issues or questions:
 
 ---
 
-**Last Updated**: November 2024
-**Version**: 2.0
+**Last Updated**: December 2024
+**Version**: 2.1
+**Windows Support**: ✅ Full PowerShell installer with Developer Mode support
