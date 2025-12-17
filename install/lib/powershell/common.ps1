@@ -67,8 +67,14 @@ function Backup-Existing {
                 if (-not (Test-Path $BackupDir)) {
                     New-Item -ItemType Directory -Path $BackupDir -Force | Out-Null
                 }
-                Write-Warn "Backing up existing $Path to $BackupDir"
-                Move-Item -Path $Path -Destination $BackupDir -Force | Out-Null
+
+                # Create unique backup name with timestamp to avoid conflicts
+                $itemName = Split-Path -Leaf $Path
+                $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+                $backupPath = Join-Path $BackupDir "${itemName}_${timestamp}"
+
+                Write-Warn "Backing up existing $Path to $backupPath"
+                Move-Item -Path $Path -Destination $backupPath -Force | Out-Null
             }
             return $true
         } else {
