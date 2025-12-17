@@ -73,6 +73,11 @@ function Backup-Existing {
                 $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
                 $backupPath = Join-Path $BackupDir "${itemName}_${timestamp}"
 
+                # If backup path already exists, remove it first
+                if (Test-Path $backupPath) {
+                    Remove-Item -Path $backupPath -Recurse -Force | Out-Null
+                }
+
                 Write-Warn "Backing up existing $Path to $backupPath"
                 Move-Item -Path $Path -Destination $backupPath -Force | Out-Null
             }
