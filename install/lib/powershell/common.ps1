@@ -130,10 +130,20 @@ function New-SymbolicLinkSafe {
             # Check if Developer Mode is enabled (allows symlinks without admin)
             $devModeEnabled = $false
             try {
-                $regPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock"
-                if (Test-Path $regPath) {
-                    $value = Get-ItemProperty -Path $regPath -Name "AllowDevelopmentWithoutDevLicense" -ErrorAction SilentlyContinue
-                    $devModeEnabled = ($value.AllowDevelopmentWithoutDevLicense -eq 1)
+                # Check both system and user registry for Developer Mode
+                $regPaths = @(
+                    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock",
+                    "HKCU:\Software\Microsoft\Windows\CurrentVersion\AppModelUnlock"
+                )
+
+                foreach ($regPath in $regPaths) {
+                    if (Test-Path $regPath) {
+                        $value = Get-ItemProperty -Path $regPath -Name "AllowDevelopmentWithoutDevLicense" -ErrorAction SilentlyContinue
+                        if ($value.AllowDevelopmentWithoutDevLicense -eq 1) {
+                            $devModeEnabled = $true
+                            break
+                        }
+                    }
                 }
             } catch {
                 # Ignore registry errors

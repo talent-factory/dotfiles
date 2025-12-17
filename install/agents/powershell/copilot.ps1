@@ -75,9 +75,15 @@ function Install-CopilotToTarget {
                             New-Item -ItemType Directory -Path $targetSubdir -Force | Out-Null
                         }
 
-                        # Create symlink
-                        New-Item -ItemType SymbolicLink -Path $targetFile -Target $sourceFile -Force | Out-Null
-                        Write-Debug "Created symlink: $(Split-Path -Leaf $targetFile) → $sourceFile"
+                        # Try to create symlink, fall back to copy if it fails
+                        try {
+                            New-Item -ItemType SymbolicLink -Path $targetFile -Target $sourceFile -Force -ErrorAction Stop | Out-Null
+                            Write-Debug "Created symlink: $(Split-Path -Leaf $targetFile) → $sourceFile"
+                        } catch {
+                            # Symlink failed, fall back to copy
+                            Write-Debug "Symlink failed, falling back to copy: $(Split-Path -Leaf $targetFile)"
+                            Copy-Item -Path $sourceFile -Destination $targetFile -Force | Out-Null
+                        }
                     }
                     Write-Info "Created individual symlinks with .prompt.md extension"
                 } else {
