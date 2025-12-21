@@ -21,6 +21,18 @@
 - [Skills](#skills)
   - [PDF to Markdown Converter](#pdf-to-markdown-converter)
   - [Professional Commit Workflow](#professional-commit-workflow)
+
+### Professional PR Workflow
+
+**Location**: `agents/claude/skills/professional-pr-workflow/`
+
+**New in v3.3.0**: Skill-Refactoring des `/create-pr` Commands.
+
+Automatisiert PR-Erstellung mit Branch-Management, Code-Formatierung und GitHub CLI Integration.
+
+**Features:** Intelligentes Branch-Management, Integration mit professional-commit-workflow, Code-Formatierung (Biome/Black/Prettier), GitHub CLI, Draft-PR Support, Zero Python Dependencies.
+
+**Vollständige Dokumentation**: [README.md](agents/claude/skills/professional-pr-workflow/README.md)
 - [Skill-Builder System](#skill-builder-system)
 - [Progressive Disclosure](#progressive-disclosure)
 - [Best Practices](#best-practices)
@@ -893,6 +905,18 @@ output_dir/
 
 ### Professional Commit Workflow
 
+### Professional PR Workflow
+
+**Location**: `agents/claude/skills/professional-pr-workflow/`
+
+**New in v3.3.0**: Skill-Refactoring des `/create-pr` Commands.
+
+Automatisiert PR-Erstellung mit Branch-Management, Code-Formatierung und GitHub CLI Integration.
+
+**Features:** Intelligentes Branch-Management, Integration mit professional-commit-workflow, Code-Formatierung (Biome/Black/Prettier), GitHub CLI, Draft-PR Support, Zero Python Dependencies.
+
+**Vollständige Dokumentation**: [README.md](agents/claude/skills/professional-pr-workflow/README.md)
+
 **Location**: `agents/claude/skills/professional-commit-workflow/`
 
 **New in v3.2.0**: Skill-Refactoring des `/commit` Commands für bessere Performance und Wiederverwendbarkeit.
@@ -1440,9 +1464,21 @@ You are free to use, modify, and distribute this project. See [LICENSE](LICENSE)
 
 ### Version 3.3.0 (December 2024)
 
-**Professional Commit Workflow Skill**
+**Professional Skills: Commit & PR Workflow**
 
-**Major Refactoring: `/commit` Command → Skill**
+### Professional PR Workflow
+
+**Location**: `agents/claude/skills/professional-pr-workflow/`
+
+**New in v3.3.0**: Skill-Refactoring des `/create-pr` Commands.
+
+Automatisiert PR-Erstellung mit Branch-Management, Code-Formatierung und GitHub CLI Integration.
+
+**Features:** Intelligentes Branch-Management, Integration mit professional-commit-workflow, Code-Formatierung (Biome/Black/Prettier), GitHub CLI, Draft-PR Support, Zero Python Dependencies.
+
+**Vollständige Dokumentation**: [README.md](agents/claude/skills/professional-pr-workflow/README.md)
+
+**Major Refactoring: `/commit` & `/create-pr` Commands → Skills**
 
 - ✨ **New Skill**: `professional-commit-workflow` für bessere Performance
 - ⚡ **Performance**: 70% weniger Token-Verbrauch (~300 vs. ~1.4k Zeilen)
