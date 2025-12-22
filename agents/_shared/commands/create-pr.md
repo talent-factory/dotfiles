@@ -30,9 +30,23 @@ Mit Optionen:
 /create-pr --no-format      # Überspringt Code-Formatierung
 /create-pr --single-commit  # Alle Änderungen in einem Commit
 /create-pr --target main    # Ziel-Branch angeben (Standard: main)
+/create-pr --with-skills    # Erstelle einen Pull Request mit professional-pr-workflow
 ```
 
 ## Workflow
+
+### Bei `--with-skills` Option
+
+Wenn `--with-skills` verwendet wird, wird der **professional-pr-workflow Skill** aktiviert und der restliche Command-Workflow wird ignoriert:
+
+1. **Skill-Ausführung**: Nutze den professional-pr-workflow Skill
+   - Location: `../skills/professional-pr-workflow/`
+   - Features: Intelligentes Branch-Management, Code-Formatierung, GitHub CLI Integration
+   - Integration mit professional-commit-workflow für Commits
+
+2. **Skill-Details**: Siehe [professional-pr-workflow README](../skills/professional-pr-workflow/README.md)
+
+### Standard Workflow (ohne `--with-skills`)
 
 1. **Branch-Status prüfen** ⚠️ WICHTIG
    - Prüfe aktuellen Branch: `git branch --show-current`
@@ -115,6 +129,43 @@ Mit Optionen:
 - **Klare Commits**: Jeder Commit sollte eigenständig verständlich sein
 
 **Weitere Best Practices**: [pr-template.md](../references/create-pr/pr-template.md)
+
+## Professional PR Workflow Skill
+
+Die `--with-skills` Option nutzt den **professional-pr-workflow Skill** für verbesserte Performance und erweiterte Features.
+
+### Vorteile vs. Standard Command
+
+| Feature | Standard Command | Skill (`--with-skills`) |
+|---------|------------------|------------------------|
+| Performance | Standard | ✅ Optimiert |
+| Branch-Management | Manuell | ✅ Intelligent |
+| Code-Formatierung | Optional | ✅ Integriert |
+| GitHub CLI | Manuell | ✅ Automatisiert |
+| Draft-PR Support | Basic | ✅ Erweitert |
+| Dependencies | Python | ✅ Zero Dependencies |
+
+### Skill Features
+
+- **Intelligentes Branch-Management**: Automatische Branch-Erstellung mit aussagekräftigen Namen
+- **Integration mit professional-commit-workflow**: Nahtlose Commit-Integration
+- **Code-Formatierung**: Biome, Black, Prettier, Google Java Format
+- **GitHub CLI Integration**: Automatische PR-Erstellung mit Labels und Templates
+- **Draft-PR Support**: Erweiterte Draft-PR Funktionalität
+- **Zero Python Dependencies**: Nur Python Standard Library
+
+### Skill Verwendung
+
+```bash
+# Direkte Skill-Ausführung (Alternative)
+cd ../skills/professional-pr-workflow
+python scripts/main.py
+
+# Oder via Command mit --with-skills
+/create-pr --with-skills
+```
+
+**Skill-Dokumentation**: [professional-pr-workflow/README.md](../skills/professional-pr-workflow/README.md)
 
 ## Weitere Informationen
 
