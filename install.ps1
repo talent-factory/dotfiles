@@ -68,6 +68,7 @@ $script:DebugMode = $false
 . "$PSScriptRoot\install\agents\powershell\augment.ps1"
 . "$PSScriptRoot\install\agents\powershell\copilot.ps1"
 . "$PSScriptRoot\install\agents\powershell\windsurf.ps1"
+. "$PSScriptRoot\install\agents\powershell\opencode.ps1"
 
 # Main installation function
 function Invoke-Main {
@@ -235,6 +236,9 @@ function Install-AgentsInteractive {
             }
             "antigravity" {
                 Install-Antigravity -Mode $target -Method $method | Out-Null
+            }
+            "opencode" {
+                Install-OpenCode -Mode $target -Method $method | Out-Null
             }
             default {
                 Write-ErrorMessage "Unknown agent: $agent"

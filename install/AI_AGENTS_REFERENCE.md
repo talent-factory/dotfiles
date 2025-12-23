@@ -13,6 +13,7 @@ All four AI agents support **both** Home (user-space) and Workspace (project-spe
 | **Augment Code** | `~/.augment/commands/` | `%USERPROFILE%\.augment\commands\` | `./.augment/commands/` | `<name>.md` |
 | **Claude Code** | `~/.claude/commands/` & `~/.claude/agents/` | `%USERPROFILE%\.claude\commands\` & `agents\` | `./.claude/commands/` & `agents/` | `<name>.md` |
 | **GitHub Copilot** | `~/Library/Application Support/Code/User/prompts` | `%APPDATA%\Code\User\prompts` | `./.github/prompts/` | `<name>.prompt.md` |
+| **OpenCode** | `~/.config/opencode/command/` | `%USERPROFILE%\.config\opencode\command\` | `./.opencode/command/` | `<name>.md` |
 | **Windsurf** | `~/.codeium/windsurf/global_workflows` | `%USERPROFILE%\.codeium\windsurf\global_workflows` | `./.windsurf/workflows/` | `<name>.md` |
 | **Antigravity** | `~/.gemini/antigravity/global_workflows` | `%USERPROFILE%\.gemini\antigravity\global_workflows` | `./.antigravity/workflows/` | `<name>.md` |
 
@@ -116,6 +117,37 @@ Add to `.vscode/settings.json`:
 
 ---
 
+### OpenCode
+
+**Documentation**: https://opencode.ai/docs/commands/
+
+**Paths**:
+- **macOS/Linux Home**: `~/.config/opencode/command/`
+- **Windows Home**: `%USERPROFILE%\.config\opencode\command\`
+- **Workspace**: `./.opencode/command/`
+
+**File Format**: Markdown (`.md`)
+
+**Features**:
+- Supports YAML frontmatter for metadata (`description`, `agent`, `model`, `subtask`)
+- Argument placeholders (`$ARGUMENTS`, `$1`, `$2`, etc.)
+- Shell output inclusion with `` !`command` `` syntax
+- File references with `@path/to/file` syntax
+- TUI-based interface
+
+**Note**: Uses `command` (singular) instead of `commands` (plural)
+
+**Example**:
+```bash
+# Home installation
+~/.config/opencode/command/commit.md → /commit
+
+# Workspace installation
+./.opencode/command/commit.md → /commit
+```
+
+---
+
 ### Windsurf
 
 **Documentation**: https://docs.windsurf.com/windsurf/cascade/workflows
@@ -207,6 +239,7 @@ When the same command/prompt exists in multiple locations:
 ~/.augment/commands/
 ~/.claude/commands/ and ~/.claude/agents/
 ~/Library/Application Support/Code/User/prompts
+~/.config/opencode/command
 ~/.codeium/windsurf/global_workflows
 ~/.gemini/antigravity/global_workflows
 ```
@@ -217,6 +250,7 @@ When the same command/prompt exists in multiple locations:
 %USERPROFILE%\.augment\commands\
 %USERPROFILE%\.claude\commands\ and agents\
 %APPDATA%\Code\User\prompts
+%USERPROFILE%\.config\opencode\command
 %USERPROFILE%\.codeium\windsurf\global_workflows
 %USERPROFILE%\.gemini\antigravity\global_workflows
 ```
@@ -234,6 +268,7 @@ When the same command/prompt exists in multiple locations:
 | Augment | `.md` | YAML (optional) | Claude-compatible |
 | Claude | `.md` | YAML (optional) | Agents + Commands |
 | Copilot | `.prompt.md` | No | VS Code integration required |
+| OpenCode | `.md` | YAML (optional) | TUI, `$ARGUMENTS`, `` !`shell` ``, `@file` |
 | Windsurf | `.md` | No | 12k character limit |
 | Antigravity | `.md` | No | 12k character limit (Windsurf fork) |
 
@@ -244,6 +279,7 @@ When the same command/prompt exists in multiple locations:
 - [Augment Code Docs](https://docs.augmentcode.com/cli/custom-commands)
 - [Claude Code Docs](https://code.claude.com/docs/en/slash-commands)
 - [GitHub Copilot Docs](https://docs.github.com/en/copilot/customizing-copilot/adding-custom-instructions-for-github-copilot)
+- [OpenCode Docs](https://opencode.ai/docs/commands/)
 - [Windsurf Docs](https://docs.windsurf.com/windsurf/cascade/workflows)
 
 ---

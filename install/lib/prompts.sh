@@ -43,9 +43,9 @@ prompt_agent_selection() {
     echo "Which AI agents do you use?" >&2
     echo "" >&2
 
-    local agents=("augment" "claude" "copilot" "windsurf" "antigravity")
-    local agent_names=("Augment Code" "Claude Code" "GitHub Copilot" "Windsurf" "Antigravity")
-    local agent_dirs=("~/.augment" "~/.claude" ".github/prompts" "~/.codeium/windsurf" "~/.gemini/antigravity")
+    local agents=("augment" "claude" "copilot" "windsurf" "antigravity" "opencode")
+    local agent_names=("Augment Code" "Claude Code" "GitHub Copilot" "Windsurf" "Antigravity" "OpenCode")
+    local agent_dirs=("~/.augment" "~/.claude" ".github/prompts" "~/.codeium/windsurf" "~/.gemini/antigravity" "~/.config/opencode")
     local selected=()
 
     # Default: Claude is pre-selected
@@ -87,7 +87,7 @@ prompt_agent_selection() {
         IFS=',' read -ra CHOICE_ARRAY <<< "$choices"
         for choice in "${CHOICE_ARRAY[@]}"; do
             choice=$(echo "$choice" | xargs) # trim whitespace
-            if [[ "$choice" =~ ^[1-5]$ ]]; then
+            if [[ "$choice" =~ ^[1-6]$ ]]; then
                 local idx=$((choice - 1))
                 if [[ "${selected[$idx]}" == "true" ]]; then
                     selected[$idx]=false
@@ -189,6 +189,14 @@ display_installation_plan() {
                 fi
                 if [[ "$target" == "workspace" || "$target" == "both" ]]; then
                     echo "  ✓ Antigravity → ./.antigravity/workflows/" >&2
+                fi
+                ;;
+            opencode)
+                if [[ "$target" == "home" || "$target" == "both" ]]; then
+                    echo "  ✓ OpenCode → ~/.config/opencode/command/" >&2
+                fi
+                if [[ "$target" == "workspace" || "$target" == "both" ]]; then
+                    echo "  ✓ OpenCode → ./.opencode/command/" >&2
                 fi
                 ;;
         esac

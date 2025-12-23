@@ -82,6 +82,7 @@ source "$DOTFILES_DIR/install/agents/claude.sh"
 source "$DOTFILES_DIR/install/agents/augment.sh"
 source "$DOTFILES_DIR/install/agents/copilot.sh"
 source "$DOTFILES_DIR/install/agents/windsurf.sh"
+source "$DOTFILES_DIR/install/agents/opencode.sh"
 
 # Main installation function
 main() {
@@ -279,6 +280,9 @@ install_agents_interactive() {
                 ;;
             antigravity)
                 install_antigravity "$target" "$method"
+                ;;
+            opencode)
+                install_opencode "$target" "$method"
                 ;;
             *)
                 log_error "Unknown agent: $agent"

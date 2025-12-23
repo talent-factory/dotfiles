@@ -41,9 +41,9 @@ function Read-AgentSelection {
     Write-Host "Which AI agents do you use?"
     Write-Host ""
 
-    $agents = @("augment", "claude", "copilot", "windsurf", "antigravity")
-    $agentNames = @("Augment Code", "Claude Code", "GitHub Copilot", "Windsurf", "Antigravity")
-    $selected = @($false, $true, $false, $false, $false)  # Default: Claude is pre-selected
+    $agents = @("augment", "claude", "copilot", "windsurf", "antigravity", "opencode")
+    $agentNames = @("Augment Code", "Claude Code", "GitHub Copilot", "Windsurf", "Antigravity", "OpenCode")
+    $selected = @($false, $true, $false, $false, $false, $false)  # Default: Claude is pre-selected
 
     Write-Host "Instructions: Toggle by number (comma-separated, e.g., 1,2,5)"
     Write-Host ""
@@ -164,6 +164,14 @@ function Show-InstallationPlan {
                 }
                 if ($Target -eq "workspace" -or $Target -eq "both") {
                     Write-Host "  [+] Antigravity -> .\.windsurf\workflows\"
+                }
+            }
+            "opencode" {
+                if ($Target -eq "home" -or $Target -eq "both") {
+                    Write-Host "  [+] OpenCode -> %USERPROFILE%\.config\opencode\command\"
+                }
+                if ($Target -eq "workspace" -or $Target -eq "both") {
+                    Write-Host "  [+] OpenCode -> .\.opencode\command\"
                 }
             }
         }
