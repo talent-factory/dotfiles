@@ -78,8 +78,31 @@ function Backup-Existing {
                     Remove-Item -Path $backupPath -Recurse -Force | Out-Null
                 }
 
-                Write-Warn "Backing up existing $Path to $backupPath"
-                Move-Item -Path $Path -Destination $backupPath -Force | Out-Null
+Write-Warn "Backing up existing $Path to $backupPath"
+                try {
+                    # First ensure parent directory exists
+                    $backupParent = Split-Path -Parent $backupPath
+                    if (-not (Test-Path $backupParent)) {
+                        New-Item -ItemType Directory -Path $backupParent -Force | Out-Null
+                    }
+                    
+                    # Remove existing backup if it exists
+                    if (Test-Path $backupPath) {
+                        Remove-Item -Path $backupPath -Recurse -Force | Out-Null
+                    }
+                    
+                    Move-Item -Path $Path -Destination $backupPath -Force | Out-Null
+                } catch {
+                    Write-Warn "Failed to move $Path. Trying copy and delete approach..."
+                    try {
+                        Copy-Item -Path $Path -Destination $backupPath -Recurse -Force | Out-Null
+                        Start-Sleep -Milliseconds 500  # Brief pause before deletion
+                        Remove-Item -Path $Path -Recurse -Force | Out-Null
+                    } catch {
+                        Write-Warn "Failed to backup $Path. Skipping backup and proceeding with installation."
+                        Write-Warn "Error: $($_.Exception.Message)"
+                    }
+                }
             }
             return $true
         } else {
