@@ -49,20 +49,46 @@ _install_opencode_to_target() {
         mkdir -p "$target_dir"
     fi
 
+    # Install agents (OpenCode-specific AI agents)
+    if [[ -d "$source_dir/agent" ]]; then
+        case $method in
+            symlink)
+                create_symlink "$source_dir/agent" "$target_dir/agent"
+                ;;
+            copy)
+                copy_files "$source_dir/agent" "$target_dir/agent"
+                ;;
+            *)
+                log_error "Invalid installation method: $method"
+                return 1
+                ;;
+        esac
+        log_debug "OpenCode agent source: $source_dir/agent"
+    else
+        log_warn "OpenCode agent directory not found: $source_dir/agent"
+        ls -la "$source_dir/" 2>/dev/null || log_debug "Cannot list $source_dir directory"
+    fi
+
     # Install commands (OpenCode uses "command" singular, not "commands")
-    case $method in
-        symlink)
-            create_symlink "$shared_dir/commands" "$target_dir/command"
-            ;;
-        copy)
-            # For copy mode: copy actual content, resolving symlinks
-            copy_files "$shared_dir/commands" "$target_dir/command"
-            ;;
-        *)
-            log_error "Invalid installation method: $method"
-            return 1
-            ;;
-    esac
+    if [[ -d "$shared_dir/commands" ]]; then
+        case $method in
+            symlink)
+                create_symlink "$shared_dir/commands" "$target_dir/command"
+                ;;
+            copy)
+                # For copy mode: copy actual content, resolving symlinks
+                copy_files "$shared_dir/commands" "$target_dir/command"
+                ;;
+            *)
+                log_error "Invalid installation method: $method"
+                return 1
+                ;;
+        esac
+        log_debug "Commands source: $shared_dir/commands"
+    else
+        log_warn "Shared commands directory not found: $shared_dir/commands"
+        ls -la "$shared_dir/" 2>/dev/null || log_debug "Cannot list $shared_dir directory"
+    fi
 
     # Install references (support documentation for commands)
     if [[ -d "$shared_dir/references" ]]; then
@@ -74,8 +100,10 @@ _install_opencode_to_target() {
                 copy_files "$shared_dir/references" "$target_dir/references"
                 ;;
         esac
+        log_debug "References source: $shared_dir/references"
     else
         log_warn "References directory not found: $shared_dir/references"
+        ls -la "$shared_dir/" 2>/dev/null || log_debug "Cannot list $shared_dir directory"
     fi
 
     # Verify installation
@@ -94,6 +122,15 @@ _verify_opencode_installation() {
     fi
 
     local errors=0
+
+    # Check agent directory (OpenCode-specific AI agents)
+    if [[ -d "$target_dir/agent" ]]; then
+        local agent_count=$(find -L "$target_dir/agent" -name "*.md" -type f 2>/dev/null | wc -l)
+        log_success "Agent directory verified ($agent_count agents found)"
+    else
+        log_error "Agent directory not found: $target_dir/agent"
+        ((errors++))
+    fi
 
     # Check command directory (singular for OpenCode)
     if [[ -d "$target_dir/command" ]]; then
@@ -129,6 +166,23 @@ list_opencode_commands() {
         log_warn "Command directory not found: $target_dir/command"
         return 1
     fi
+
+    echo ""
+    echo "Available OpenCode agents:"
+    echo ""
+
+    # Find all agent files
+    find -L "$target_dir/agent" -maxdepth 1 -name "*.md" -type f | sort | while read -r file; do
+        local agent_name=$(basename "$file" .md)
+
+        echo "  • $agent_name"
+
+        # Try to extract description from frontmatter
+        local description=$(grep -A 1 '^description:' "$file" 2>/dev/null | tail -1 | sed 's/^[[:space:]]*//')
+        if [[ -n "$description" ]]; then
+            echo "    $description"
+        fi
+    done
 
     echo ""
     echo "Available OpenCode commands:"

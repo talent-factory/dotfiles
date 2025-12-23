@@ -35,6 +35,22 @@ function Install-OpenCodeToTarget {
         New-Item -ItemType Directory -Path $TargetDir -Force | Out-Null
     }
 
+    # Install agents (OpenCode-specific AI agents)
+    $agentSource = Join-Path $sourceDir "agent"
+    $agentTarget = Join-Path $TargetDir "agent"
+
+    if (Test-Path $agentSource) {
+        if ($Method -eq "symlink") {
+            New-SymbolicLinkSafe -Source $agentSource -Target $agentTarget | Out-Null
+        } else {
+            Copy-FilesSafe -Source $agentSource -Target $agentTarget | Out-Null
+        }
+        Write-Debug "OpenCode agent source: $agentSource"
+    } else {
+        Write-Warn "OpenCode agent directory not found: $agentSource"
+        Get-ChildItem $sourceDir -ErrorAction SilentlyContinue | ForEach-Object { Write-Debug "Found in source: $($_.FullName)" }
+    }
+
     # OpenCode uses "command" (singular) instead of "commands"
     $sharedCommands = Join-Path $sharedDir "commands"
     $commandTarget = Join-Path $TargetDir "command"
@@ -45,6 +61,10 @@ function Install-OpenCodeToTarget {
         } else {
             Copy-FilesSafe -Source $sharedCommands -Target $commandTarget | Out-Null
         }
+        Write-Debug "Commands source: $sharedCommands"
+    } else {
+        Write-Warn "Shared commands directory not found: $sharedCommands"
+        Get-ChildItem $sharedDir -ErrorAction SilentlyContinue | ForEach-Object { Write-Debug "Found in shared: $($_.FullName)" }
     }
 
     # Install references (support documentation for commands)
@@ -57,6 +77,10 @@ function Install-OpenCodeToTarget {
         } else {
             Copy-FilesSafe -Source $referencesSource -Target $referencesTarget | Out-Null
         }
+        Write-Debug "References source: $referencesSource"
+    } else {
+        Write-Warn "References directory not found: $referencesSource"
+        Get-ChildItem $sharedDir -ErrorAction SilentlyContinue | ForEach-Object { Write-Debug "Found in shared: $($_.FullName)" }
     }
 
     return $true
