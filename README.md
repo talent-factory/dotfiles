@@ -233,11 +233,11 @@ After installing Claude Code configurations, the following commands are availabl
 |---------|-------------|
 | `/commit` | Professional git commits with pre-commit checks |
 | `/create-pr` | Create pull requests with branch management |
-| `/project:create-prd` | Generate Product Requirements Documents |
-| `/project:create-plan` | Create project plans from PRDs with Linear integration |
-| `/develop:check-agents` | Validate agent configurations |
-| `/develop:check-commands` | Validate command files |
-| `/skills:build-skill` | Build custom Claude Code skills |
+| `/create-prd` | Generate Product Requirements Documents |
+| `/create-plan` | Create project plans from PRDs with Linear integration |
+| `/check-agents` | Validate agent configurations |
+| `/check-commands` | Validate command files |
+| `/build-skill` | Build custom Claude Code skills |
 
 **See [CLAUDE.md](CLAUDE.md) for complete command documentation.**
 

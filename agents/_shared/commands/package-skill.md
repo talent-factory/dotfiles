@@ -51,7 +51,7 @@ This command validates and packages an existing skill for distribution. Follow t
 1. **Execute packaging script**
 
    ```bash
-   python .claude/commands/skills/scripts/package_skill.py <skill-path> [output-dir]
+   python .claude/commands/skills/references/scripts/package_skill.py <skill-path> [output-dir]
    ```
 
 2. **Package creation process**
@@ -97,7 +97,7 @@ ls .claude/skills/
 ### Step 2: Quick Validation
 
 ```bash
-python .claude/commands/skills/scripts/quick_validate.py <skill-path>
+python .claude/commands/skills/references/scripts/quick_validate.py <skill-path>
 ```
 
 Expected output:
@@ -108,7 +108,7 @@ Expected output:
 ### Step 3: Comprehensive Validation (Optional)
 
 ```bash
-.claude/commands/skills/scripts/validate-skill.sh <skill-path>
+.claude/commands/skills/references/scripts/validate-skill.sh <skill-path>
 ```
 
 Expected output:
@@ -120,10 +120,10 @@ Expected output:
 
 ```bash
 # Package to current directory
-python .claude/commands/skills/scripts/package_skill.py ~/.claude/skills/my-skill
+python .claude/commands/skills/references/scripts/package_skill.py ~/.claude/skills/my-skill
 
 # Package to specific directory
-python .claude/commands/skills/scripts/package_skill.py ~/.claude/skills/my-skill ./dist
+python .claude/commands/skills/references/scripts/package_skill.py ~/.claude/skills/my-skill ./dist
 ```
 
 Expected output:
@@ -266,10 +266,10 @@ chmod +x <skill-path>/scripts/*.sh
 
 ```bash
 # Validate first
-python .claude/commands/skills/scripts/quick_validate.py ~/.claude/skills/commit-helper
+python .claude/commands/skills/references/scripts/quick_validate.py ~/.claude/skills/commit-helper
 
 # Package if valid
-python .claude/commands/skills/scripts/package_skill.py ~/.claude/skills/commit-helper
+python .claude/commands/skills/references/scripts/package_skill.py ~/.claude/skills/commit-helper
 
 # Result: commit-helper.zip created
 ```
@@ -281,7 +281,7 @@ python .claude/commands/skills/scripts/package_skill.py ~/.claude/skills/commit-
 mkdir -p ~/skill-packages
 
 # Package to specific location
-python .claude/commands/skills/scripts/package_skill.py \
+python .claude/commands/skills/references/scripts/package_skill.py \
   ~/.claude/skills/pdf-processor \
   ~/skill-packages
 
@@ -292,18 +292,18 @@ python .claude/commands/skills/scripts/package_skill.py \
 
 ```bash
 # Initial validation fails
-python .claude/commands/skills/scripts/quick_validate.py ~/.claude/skills/my-skill
+python .claude/commands/skills/references/scripts/quick_validate.py ~/.claude/skills/my-skill
 # ❌ Description contains TODO markers
 
 # Fix the issue
 # Edit SKILL.md to complete TODOs
 
 # Re-validate
-python .claude/commands/skills/scripts/quick_validate.py ~/.claude/skills/my-skill
+python .claude/commands/skills/references/scripts/quick_validate.py ~/.claude/skills/my-skill
 # ✅ Skill validation passed!
 
 # Package
-python .claude/commands/skills/scripts/package_skill.py ~/.claude/skills/my-skill
+python .claude/commands/skills/references/scripts/package_skill.py ~/.claude/skills/my-skill
 # ✅ Successfully packaged!
 ```
 

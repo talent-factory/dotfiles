@@ -112,10 +112,16 @@ _install_copilot_to_target() {
                             base_name=$(basename "$relative_path" .md)
                             target_file="$target_dir/${base_name}.prompt.md"
                         else
-                            # Subdirectory: develop/commit/best-practices.md → commit/best-practices.md
-                            # Remove category prefix (develop/, project/, skills/)
+                            # Subdirectory: develop/commit/best-practices.md → commit/best-practices.prompt.md
+                            # Remove category prefix (develop/, project/, skills/) and add .prompt.md
                             rest_of_path=$(echo "$relative_path" | cut -d/ -f2-)
-                            target_file="$target_dir/$rest_of_path"
+                            base_name=$(basename "$rest_of_path" .md)
+                            subdir=$(dirname "$rest_of_path")
+                            if [[ "$subdir" == "." ]]; then
+                                target_file="$target_dir/${base_name}.prompt.md"
+                            else
+                                target_file="$target_dir/${subdir}/${base_name}.prompt.md"
+                            fi
                         fi
 
                         # Create subdirectories if needed
@@ -150,9 +156,16 @@ _install_copilot_to_target() {
                             base_name=$(basename "$relative_path" .md)
                             target_file="$target_dir/${base_name}.prompt.md"
                         else
-                            # Subdirectory: develop/commit/best-practices.md → commit/best-practices.md
+                            # Subdirectory: develop/commit/best-practices.md → commit/best-practices.prompt.md
+                            # Remove category prefix (develop/, project/, skills/) and add .prompt.md
                             rest_of_path=$(echo "$relative_path" | cut -d/ -f2-)
-                            target_file="$target_dir/$rest_of_path"
+                            base_name=$(basename "$rest_of_path" .md)
+                            subdir=$(dirname "$rest_of_path")
+                            if [[ "$subdir" == "." ]]; then
+                                target_file="$target_dir/${base_name}.prompt.md"
+                            else
+                                target_file="$target_dir/${subdir}/${base_name}.prompt.md"
+                            fi
                         fi
 
                         # Create subdirectories if needed

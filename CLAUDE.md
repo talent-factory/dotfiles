@@ -1054,7 +1054,7 @@ Validiert und verpackt Skills in distributable ZIP-Files.
 
 ### Scripts
 
-**Location**: `.claude/commands/skills/scripts/`
+**Location**: `.claude/commands/skills/references/scripts/`
 
 - **init_skill.py**: Skill-Initialisierung aus Template
 - **package_skill.py**: ZIP-Packaging

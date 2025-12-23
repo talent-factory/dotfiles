@@ -175,14 +175,14 @@ The elicitation agent will ask which you prefer.
 
 **A**: Yes! Just edit the files directly. Use the validation script to check:
 ```bash
-.claude/commands/skills/scripts/validate-skill.sh ~/.claude/skills/my-skill
+.claude/commands/skills/references/scripts/validate-skill.sh ~/.claude/skills/my-skill
 ```
 
 ### Q: How do I know if my skill will trigger?
 
 **A**: Test it with:
 ```bash
-.claude/commands/skills/scripts/test-skill-trigger.sh ~/.claude/skills/my-skill
+.claude/commands/skills/references/scripts/test-skill-trigger.sh ~/.claude/skills/my-skill
 ```
 
 ### Q: What if validation fails?
@@ -191,7 +191,7 @@ The elicitation agent will ask which you prefer.
 
 ### Q: Can I use templates directly?
 
-**A**: Yes! Templates are in `commands/templates/`. But using `/build-skill` is recommended as it ensures quality.
+**A**: Yes! Templates are in `../references/templates/`. But using `/build-skill` is recommended as it ensures quality.
 
 ## Tips for Success
 
@@ -245,7 +245,7 @@ head -20 ~/.claude/skills/my-skill/SKILL.md
 
 **Test triggers**:
 ```bash
-.claude/commands/skills/scripts/test-skill-trigger.sh ~/.claude/skills/my-skill
+.claude/commands/skills/references/scripts/test-skill-trigger.sh ~/.claude/skills/my-skill
 ```
 
 **Use explicit invocation**:
@@ -257,7 +257,7 @@ head -20 ~/.claude/skills/my-skill/SKILL.md
 
 **Run validator**:
 ```bash
-.claude/commands/skills/scripts/validate-skill.sh ~/.claude/skills/my-skill
+.claude/commands/skills/references/scripts/validate-skill.sh ~/.claude/skills/my-skill
 ```
 
 **Fix issues** listed in the report, then re-validate
@@ -295,14 +295,14 @@ For quick prototyping:
 
 ```bash
 # Copy template
-cp commands/templates/simple-skill-template.md \
+cp ../references/templates/simple-skill-template.md \
    ~/.claude/skills/my-skill/SKILL.md
 
 # Replace placeholders
 sed -i 's/{{SKILL_NAME}}/My Skill/g' ~/.claude/skills/my-skill/SKILL.md
 
 # Validate
-.claude/commands/skills/scripts/validate-skill.sh ~/.claude/skills/my-skill
+.claude/commands/skills/references/scripts/validate-skill.sh ~/.claude/skills/my-skill
 ```
 
 But `/build-skill` is recommended for production use.

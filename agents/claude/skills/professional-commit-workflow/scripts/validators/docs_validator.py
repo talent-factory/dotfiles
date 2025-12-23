@@ -2,7 +2,7 @@
 """Documentation project validator (LaTeX, Markdown, AsciiDoc)."""
 
 import os
-from typing import List
+from typing import List, Optional
 from .base_validator import BaseValidator, ValidationResult
 
 

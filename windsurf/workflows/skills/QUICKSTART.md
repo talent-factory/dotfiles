@@ -175,14 +175,14 @@ The elicitation agent will ask which you prefer.
 
 **A**: Yes! Just edit the files directly. Use the validation script to check:
 ```bash
-.claude/commands/skills/scripts/validate-skill.sh ~/.claude/skills/my-skill
+.claude/commands/skills/references/scripts/validate-skill.sh ~/.claude/skills/my-skill
 ```
 
 ### Q: How do I know if my skill will trigger?
 
 **A**: Test it with:
 ```bash
-.claude/commands/skills/scripts/test-skill-trigger.sh ~/.claude/skills/my-skill
+.claude/commands/skills/references/scripts/test-skill-trigger.sh ~/.claude/skills/my-skill
 ```
 
 ### Q: What if validation fails?
@@ -245,7 +245,7 @@ head -20 ~/.claude/skills/my-skill/SKILL.md
 
 **Test triggers**:
 ```bash
-.claude/commands/skills/scripts/test-skill-trigger.sh ~/.claude/skills/my-skill
+.claude/commands/skills/references/scripts/test-skill-trigger.sh ~/.claude/skills/my-skill
 ```
 
 **Use explicit invocation**:
@@ -257,7 +257,7 @@ head -20 ~/.claude/skills/my-skill/SKILL.md
 
 **Run validator**:
 ```bash
-.claude/commands/skills/scripts/validate-skill.sh ~/.claude/skills/my-skill
+.claude/commands/skills/references/scripts/validate-skill.sh ~/.claude/skills/my-skill
 ```
 
 **Fix issues** listed in the report, then re-validate
@@ -302,7 +302,7 @@ cp .claude/commands/skills/templates/simple-skill-template.md \
 sed -i 's/{{SKILL_NAME}}/My Skill/g' ~/.claude/skills/my-skill/SKILL.md
 
 # Validate
-.claude/commands/skills/scripts/validate-skill.sh ~/.claude/skills/my-skill
+.claude/commands/skills/references/scripts/validate-skill.sh ~/.claude/skills/my-skill
 ```
 
 But `/skills:build-skill` is recommended for production use.
