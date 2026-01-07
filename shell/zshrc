@@ -207,3 +207,6 @@ export SDKMAN_DIR="$HOME/.sdkman"
 # Create ~/.zshrc.local for your personal settings
 # See shell/zshrc.local.example for a template
 [ -f "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"
+
+# bun completions
+[ -s "/Users/daniel/.bun/_bun" ] && source "/Users/daniel/.bun/_bun"
