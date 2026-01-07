@@ -4,22 +4,24 @@ Detaillierter Workflow für die Implementierung von Tasks (Filesystem oder Linea
 
 ## Übersicht
 
-Der Workflow ist in 7 Phasen unterteilt:
+Der Workflow ist in 8 Phasen unterteilt:
 
 ```
 1. Task-Identifikation
    ↓
 2. Task-Daten einlesen
    ↓
-3. Branch-Erstellung
+3. Worktree-Erstellung
    ↓
-4. Task-Status Update
+4. Branch-Erstellung (inkl. Submodule)
    ↓
-5. Implementierung
+5. Task-Status Update
    ↓
-6. PR-Erstellung
+6. Implementierung
    ↓
-7. Finalisierung
+7. PR-Erstellung
+   ↓
+8. Finalisierung & Cleanup
 ```
 
 ## Phase 1: Task-Identifikation
@@ -80,7 +82,49 @@ task = {
 }
 ```
 
-## Phase 3: Branch-Erstellung
+## Phase 3: Worktree-Erstellung
+
+> ⚠️ **WICHTIG**: Für paralleles Arbeiten an mehreren Tasks werden Git Worktrees verwendet!
+
+### Worktree-Konzept
+
+Jeder Task wird in einem eigenen Worktree bearbeitet:
+- **Verzeichnis**: `.worktrees/task-<task-id>/`
+- **Ermöglicht**: Parallele Arbeit an mehreren Tasks ohne Branch-Wechsel
+- **Isoliert**: Jeder Task hat seine eigene Arbeitskopie
+
+### Pre-Worktree-Checks
+
+```bash
+# 1. Working Directory sauber?
+git status --porcelain
+
+# 2. Remote up-to-date?
+git fetch origin
+
+# 3. Worktree-Verzeichnis existiert?
+mkdir -p .worktrees
+
+# 4. Worktree für diese Task existiert noch nicht?
+git worktree list | grep "task-<task-id>"
+```
+
+### Worktree erstellen
+
+```bash
+# Branch-Name bestimmen
+TASK_ID="task-001"  # oder "proj-123" für Linear
+DESCRIPTION="ui-toggle-component"
+BRANCH_NAME="feature/${TASK_ID}-${DESCRIPTION}"
+
+# Worktree mit neuem Branch erstellen
+git worktree add -b "$BRANCH_NAME" ".worktrees/task-${TASK_ID}" origin/main
+
+# In Worktree wechseln
+cd ".worktrees/task-${TASK_ID}"
+```
+
+## Phase 4: Branch-Erstellung (inkl. Submodule)
 
 ### Branch-Naming
 
@@ -95,30 +139,33 @@ feature/<ISSUE-ID>-<description>
 | Filesystem | `feature/task-001-ui-toggle-component` |
 | Linear | `feature/proj-123-user-authentication` |
 
-### Pre-Branch-Checks
+### Submodule-Handling
+
+> ⚠️ **Bei Projekten mit Submodulen**: Auch diese müssen in eigene Branches ausgecheckt werden!
 
 ```bash
-# 1. Working Directory sauber?
-git status --porcelain
+# 1. Prüfen ob Submodule vorhanden sind
+git submodule status
 
-# 2. Auf main/develop?
-git branch --show-current
+# 2. Falls ja: Submodule initialisieren
+git submodule update --init --recursive
 
-# 3. Remote up-to-date?
-git fetch origin
+# 3. Für jedes Submodul: Branch erstellen
+git submodule foreach --recursive '
+  echo "Creating branch in submodule: $name"
+  git fetch origin
+  git checkout -b "feature/<task-id>-<description>" origin/main
+'
 ```
 
-### Branch erstellen
+### Submodule-Validierung
 
 ```bash
-# Filesystem
-git checkout -b feature/task-001-ui-toggle-component
-
-# Linear
-git checkout -b feature/proj-123-user-authentication
+# Alle Submodule auf korrektem Branch?
+git submodule foreach --recursive 'git branch --show-current'
 ```
 
-## Phase 4: Task-Status Update
+## Phase 5: Task-Status Update
 
 ### Filesystem
 
@@ -137,12 +184,13 @@ git checkout -b feature/proj-123-user-authentication
 
 Via MCP: `linear_update_issue_state()` → "In Progress"
 
-**Optional Comment**: 
+**Optional Comment**:
 ```markdown
-🚀 Implementation gestartet in Branch: `feature/proj-123-...`
+🚀 Implementation gestartet in Worktree: `.worktrees/task-proj-123/`
+Branch: `feature/proj-123-...`
 ```
 
-## Phase 5: Implementierung
+## Phase 6: Implementierung
 
 ### Strategie
 
@@ -174,7 +222,7 @@ git commit -m "✨ feat: Add ThemeToggle component"
 git commit -m "🧪 test: Add ThemeToggle tests"
 ```
 
-## Phase 6: PR-Erstellung
+## Phase 7: PR-Erstellung
 
 ### PR-Body Template
 
@@ -198,22 +246,57 @@ git commit -m "🧪 test: Add ThemeToggle tests"
 ### PR erstellen
 
 ```bash
+# Aus dem Worktree heraus
+cd .worktrees/task-<task-id>
 git push -u origin <branch-name>
 gh pr create --title "[ID]: [Titel]" --body "..."
 ```
 
-## Phase 7: Finalisierung
+## Phase 8: Finalisierung & Cleanup
 
-### Filesystem
+### Task-Status Update
+
+#### Filesystem
 
 1. Task-Status → `completed`
 2. STATUS.md aktualisieren
 3. Commit: `✅ chore: Mark task-001 as completed`
 
-### Linear
+#### Linear
 
 1. Issue-Status → `In Review` oder `Done`
 2. Optional: PR-Link als Comment
+
+### Worktree-Cleanup (nach PR-Merge)
+
+Nach erfolgreichem Merge kann der Worktree aufgeräumt werden:
+
+```bash
+# Vom Hauptrepo aus (nicht aus dem Worktree!)
+cd <projekt-root>
+
+# 1. Worktree entfernen
+git worktree remove .worktrees/task-<task-id>
+
+# 2. Lokalen Branch löschen (falls gewünscht)
+git branch -d feature/<task-id>-<description>
+
+# 3. Bei Submodulen: Branches dort auch löschen
+git submodule foreach --recursive '
+  git checkout main
+  git branch -d "feature/<task-id>-<description>" 2>/dev/null || true
+'
+```
+
+### Worktree-Übersicht
+
+```bash
+# Alle aktiven Worktrees anzeigen
+git worktree list
+
+# Verwaiste Worktrees aufräumen
+git worktree prune
+```
 
 ## Siehe auch
 
