@@ -112,8 +112,16 @@ git status  # Muss sauber sein
 # 2. Worktree-Verzeichnis erstellen (falls nicht vorhanden)
 mkdir -p .worktrees
 
-# 3. Branch-Name bestimmen
-BRANCH_NAME="feature/<task-id>-<description>"
+# 3. Branch-Name bestimmen (basierend auf Issue-Type/Labels)
+# Labels → Branch-Prefix Mapping:
+# - bug, fix → bugfix/<task-id>-<description>
+# - feature, enhancement → feature/<task-id>-<description>
+# - docs, documentation → docs/<task-id>-<description>
+# - refactor → refactor/<task-id>-<description>
+# - performance → perf/<task-id>-<description>
+# - test → test/<task-id>-<description>
+# Default: feature/<task-id>-<description>
+BRANCH_NAME="<type>/<task-id>-<description>"
 
 # 4. Worktree mit neuem Branch erstellen
 git worktree add -b "$BRANCH_NAME" ".worktrees/task-<task-id>" origin/main
@@ -131,10 +139,10 @@ cd ".worktrees/task-<task-id>"
 cd ".worktrees/task-<task-id>"
 git submodule update --init --recursive
 
-# 2. Für jedes Submodul: Branch erstellen
+# 2. Für jedes Submodul: Branch erstellen (gleicher Type wie Hauptrepo)
 git submodule foreach --recursive '
   git fetch origin
-  git checkout -b "feature/<task-id>-<description>" origin/main
+  git checkout -b "<type>/<task-id>-<description>" origin/main
 '
 ```
 
@@ -146,16 +154,27 @@ git submodule status
 
 #### Branch-Naming
 
-**Einheitliches Format für alle Provider**:
+**Format basierend auf Issue-Type/Labels**:
 
 ```
-feature/<ISSUE-ID>-<description>
+<type>/<ISSUE-ID>-<description>
 ```
 
-| Provider | Beispiel |
-|----------|----------|
-| Filesystem | `feature/task-001-ui-toggle-component` |
-| Linear | `feature/proj-123-user-auth` |
+**Labels → Branch-Prefix Mapping**:
+- `bug`, `fix` → `bugfix/`
+- `feature`, `enhancement` → `feature/`
+- `docs`, `documentation` → `docs/`
+- `refactor` → `refactor/`
+- `performance` → `perf/`
+- `test` → `test/`
+- Default: `feature/`
+
+| Type | Filesystem | Linear |
+|------|------------|--------|
+| Feature | `feature/task-001-ui-toggle-component` | `feature/proj-123-user-auth` |
+| Bug | `bugfix/task-002-login-crash` | `bugfix/proj-124-api-error` |
+| Docs | `docs/task-003-api-documentation` | `docs/proj-125-readme-update` |
+| Refactor | `refactor/task-004-auth-module` | `refactor/proj-126-db-layer` |
 
 #### Pre-Worktree-Checks
 
@@ -210,7 +229,7 @@ Nach erfolgreichem Merge kann der Worktree aufgeräumt werden:
 ```bash
 # Vom Hauptrepo aus
 git worktree remove .worktrees/task-<task-id>
-git branch -d feature/<task-id>-<description>  # lokaler Branch
+git branch -d <type>/<task-id>-<description>  # lokaler Branch
 
 # Bei Submodulen: Branches dort auch löschen (falls nicht gemerged)
 ```
