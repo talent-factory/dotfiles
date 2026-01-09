@@ -68,14 +68,11 @@ _install_windsurf_to_target() {
 
     log_debug "Installing Windsurf to: $target_dir (method: $method, structure: $structure)"
 
-    # Backup existing installation
-    backup_existing "$target_dir"
-
-    # Create target directory
+    # Create target directory if it doesn't exist (preserves existing files)
     if [[ "$DRY_RUN" != true ]]; then
         mkdir -p "$target_dir"
     else
-        log_dry_run "Would create directory: $target_dir"
+        log_dry_run "Would ensure directory exists: $target_dir"
     fi
 
     # Install workflows

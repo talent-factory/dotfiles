@@ -76,8 +76,12 @@ _install_copilot_to_target() {
 
     log_debug "Installing Copilot to: $target_dir (method: $method)"
 
-    # Backup existing installation
-    backup_existing "$target_dir"
+    # Create target directory if it doesn't exist (preserves existing files)
+    if [[ "$DRY_RUN" != true ]]; then
+        mkdir -p "$target_dir"
+    else
+        log_dry_run "Would ensure directory exists: $target_dir"
+    fi
 
     # Install prompts
     # Note: GitHub Copilot uses .prompt.md extension instead of .md
