@@ -36,7 +36,7 @@ All four AI agents support both **Home** (user-space) and **Workspace** (project
 
 | AI Agent | Home Directory (macOS) | Home Directory (Windows) | Workspace Directory |
 |----------|------------------------|--------------------------|---------------------|
-| **Augment Code** | `~/.augment/commands/` | `%USERPROFILE%\.augment\commands\` | `./.augment/commands/` |
+| **Augment Code** | `~/.augment/commands/` & `agents/` | `%USERPROFILE%\.augment\commands\` & `agents\` | `./.augment/commands/` & `agents/` |
 | **Claude Code** | `~/.claude/commands/` & `agents/` | `%USERPROFILE%\.claude\commands\` & `agents\` | `./.claude/commands/` & `agents/` |
 | **GitHub Copilot** | `~/Library/Application Support/Code/User/prompts` | `%APPDATA%\Code\User\prompts` | `./.github/prompts/` |
 | **Windsurf** | `~/.codeium/windsurf/global_workflows` | `%USERPROFILE%\.codeium\windsurf\global_workflows` | `./.windsurf/workflows/` |
@@ -453,6 +453,7 @@ ls -la ~/.claude/agents
 
 # Augment Code
 ls -la ~/.augment/commands
+ls -la ~/.augment/agents
 
 # GitHub Copilot (macOS)
 ls -la ~/Library/Application\ Support/Code/User/prompts
@@ -560,6 +561,7 @@ chmod +x install.sh
 **Augment Code**:
 - Restart Augment
 - Check: `ls ~/.augment/commands`
+- Check: `ls ~/.augment/agents`
 
 **GitHub Copilot**:
 - Enable in workspace settings: `"chat.promptFiles": true`

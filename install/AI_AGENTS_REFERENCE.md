@@ -10,7 +10,7 @@ All four AI agents support **both** Home (user-space) and Workspace (project-spe
 
 | AI Agent | Home Directory (macOS) | Home Directory (Windows) | Workspace Directory | File Format |
 |----------|------------------------|--------------------------|---------------------|-------------|
-| **Augment Code** | `~/.augment/commands/` | `%USERPROFILE%\.augment\commands\` | `./.augment/commands/` | `<name>.md` |
+| **Augment Code** | `~/.augment/commands/` & `agents/` | `%USERPROFILE%\.augment\commands\` & `agents\` | `./.augment/commands/` & `agents/` | `<name>.md` |
 | **Claude Code** | `~/.claude/commands/` & `~/.claude/agents/` | `%USERPROFILE%\.claude\commands\` & `agents\` | `./.claude/commands/` & `agents/` | `<name>.md` |
 | **GitHub Copilot** | `~/Library/Application Support/Code/User/prompts` | `%APPDATA%\Code\User\prompts` | `./.github/prompts/` | `<name>.prompt.md` |
 | **OpenCode** | `~/.config/opencode/command/` | `%USERPROFILE%\.config\opencode\command\` | `./.opencode/command/` | `<name>.md` |
@@ -21,29 +21,46 @@ All four AI agents support **both** Home (user-space) and Workspace (project-spe
 
 ### Augment Code
 
-**Documentation**: https://docs.augmentcode.com/cli/custom-commands
+**Documentation**:
+- Commands: https://docs.augmentcode.com/cli/custom-commands
+- Subagents: https://docs.augmentcode.com/cli/subagents
 
 **Paths**:
-- **macOS Home**: `~/.augment/commands/`
-- **Windows Home**: `%USERPROFILE%\.augment\commands\`
-- **Workspace**: `./.augment/commands/`
+- **macOS Home**: `~/.augment/commands/` and `~/.augment/agents/`
+- **Windows Home**: `%USERPROFILE%\.augment\commands\` and `agents\`
+- **Workspace**: `./.augment/commands/` and `./.augment/agents/`
 
 **File Format**: Markdown (`.md`)
 
 **Features**:
 - Supports YAML frontmatter for metadata
 - Hierarchical commands via subdirectories (e.g., `/frontend:component`)
-- Claude Code compatibility (can read `.claude/commands/`)
+- Claude Code compatibility (can read `.claude/commands/` and `.claude/agents/`)
+- **NEW**: Subagents support for specialized AI assistants
 
 **Priority**: Home commands take precedence over workspace commands
+
+**Subagent Configuration**:
+```yaml
+---
+name: agent-identifier
+description: Purpose of the agent
+color: purple
+model: claude-sonnet-4-5
+---
+
+# Agent instructions in markdown
+```
 
 **Example**:
 ```bash
 # Home installation
 ~/.augment/commands/commit.md → /commit
+~/.augment/agents/code-reviewer.md → code-reviewer agent
 
 # Workspace installation
 ./project/.augment/commands/commit.md → /commit
+./project/.augment/agents/test-generator.md → test-generator agent
 ```
 
 ---

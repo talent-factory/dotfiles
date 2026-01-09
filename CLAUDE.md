@@ -61,47 +61,48 @@ Professional Claude Code configuration with comprehensive commands, agents, and 
 
 ```text
 agents/
-├── _shared/                     # Single Source of Truth (NEW)
-│   ├── README.md                # DRY architecture documentation
-│   └── commands/                # Shared commands (46 files)
+├── _shared/                            # Single Source of Truth (NEW)
+│   ├── README.md                       # DRY architecture documentation
+│   └── commands/                       # Shared commands (46 files)
 │       ├── develop/
-│       │   ├── commit.md        # 85 lines (main command)
-│       │   ├── commit/          # 1,246 lines (details)
-│       │   ├── create-pr.md     # 115 lines (main command)
-│       │   ├── create-pr/       # 2,067 lines (details)
+│       │   ├── commit.md               # 85 lines (main command)
+│       │   ├── commit/                 # 1,246 lines (details)
+│       │   ├── create-pr.md            # 115 lines (main command)
+│       │   ├── create-pr/              # 2,067 lines (details)
 │       │   ├── implement-fs-task.md
 │       │   ├── implement-linear-task.md
 │       │   ├── check-agents.md
 │       │   ├── check-commands.md
 │       │   └── ruff-check.md
 │       ├── project/
-│       │   ├── create-prd.md    # 232 lines (main command)
-│       │   ├── create-prd/      # 2,213 lines (details)
-│       │   ├── create-plan.md   # 266 lines (main command)
-│       │   └── create-plan/     # 2,492 lines (details)
+│       │   ├── create-prd.md           # 232 lines (main command)
+│       │   ├── create-prd/             # 2,213 lines (details)
+│       │   ├── create-plan.md          # 266 lines (main command)
+│       │   └── create-plan/            # 2,492 lines (details)
 │       └── skills/
 │           ├── build-skill.md
 │           ├── package-skill.md
-│           ├── scripts/         # Validation & packaging
-│           └── templates/       # 5 skill templates
+│           ├── scripts/                 # Validation & packaging
+│           └── templates/               # 5 skill templates
 │
 ├── claude/
 │   ├── README.md
-│   ├── agents/                  # Claude-specific agents
+│   ├── agents/                          # Claude-specific agents
 │   │   ├── code-reviewer.md
 │   │   ├── agent-expert.md
 │   │   ├── ai-engineer.md
 │   │   ├── frontend-developer.md
 │   │   ├── java-developer.md
 │   │   ├── python-expert.md
-│   │   └── skill-builder/       # Skill builder agents
+│   │   └── skill-builder/               # Skill builder agents
 │   ├── commands -> ../_shared/commands  # Symlink to shared
-│   └── skills/                  # Claude Code skills
-│       └── pdf-to-markdown-converter/  # PDF to Markdown converter
+│   └── skills/                          # Claude Code skills
+│       └── pdf-to-markdown-converter/   # PDF to Markdown converter
 │
 ├── augment/
 │   ├── README.md
-│   └── commands -> ../_shared/commands  # Symlink to shared
+│   ├── commands -> ../_shared/commands  # Symlink to shared
+│   └── agents/                          # NEW: Augment now supports subagents
 │
 ├── copilot/
 │   ├── README.md

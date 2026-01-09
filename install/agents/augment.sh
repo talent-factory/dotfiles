@@ -68,6 +68,20 @@ _install_augment_to_target() {
         log_warn "Commands directory not found: $source_dir/commands"
     fi
 
+    # Install agents (subagents) - NEW: Augment Code now supports subagents
+    if [[ -d "$source_dir/agents" ]]; then
+        case $method in
+            symlink)
+                create_symlink "$source_dir/agents" "$target_dir/agents"
+                ;;
+            copy)
+                copy_files "$source_dir/agents" "$target_dir/agents"
+                ;;
+        esac
+    else
+        log_debug "Agents directory not found: $source_dir/agents (optional)"
+    fi
+
     # Install references (support documentation for commands)
     if [[ -d "$shared_dir/references" ]]; then
         case $method in
@@ -106,6 +120,14 @@ _verify_augment_installation() {
     else
         log_error "Commands directory not found: $target_dir/commands"
         ((errors++))
+    fi
+
+    # Check agents directory (subagents) - NEW: Augment Code now supports subagents
+    if [[ -d "$target_dir/agents" ]]; then
+        local agent_count=$(find -L "$target_dir/agents" -name "*.md" -type f 2>/dev/null | wc -l)
+        log_success "Agents directory verified ($agent_count subagents found)"
+    else
+        log_debug "Agents directory not found: $target_dir/agents (optional)"
     fi
 
     # Check references directory (support documentation)
