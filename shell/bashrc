@@ -23,3 +23,5 @@ fi
 # Load local customizations (not tracked in git)
 # Create ~/.bashrc.local for your personal settings
 [ -f "$HOME/.bashrc.local" ] && source "$HOME/.bashrc.local"
+
+alias claude-mem='bun "/Users/daniel/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs"'
