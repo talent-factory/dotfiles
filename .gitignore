@@ -35,6 +35,9 @@ Thumbs.db
 # Note: *.local.example files ARE tracked as templates
 !*.local.example
 
+.headroom/
+.serena/
+
 # Environment variables (contains sensitive data like API keys)
 .env
 .env.local
