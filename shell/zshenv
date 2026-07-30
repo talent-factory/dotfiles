@@ -1,2 +1,2 @@
-. "$HOME/.cargo/env"
-. "$HOME/.env"
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
+[ -f "$HOME/.env" ] && . "$HOME/.env"
