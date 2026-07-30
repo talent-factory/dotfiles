@@ -151,3 +151,6 @@ export PATH=/Users/daniel/.kilo/bin:$PATH
 
 # mise: alle Configs unter diesen Pfaden automatisch vertrauen (Supacode-Worktrees + Hauptrepos)
 export MISE_TRUSTED_CONFIG_PATHS="$HOME/.supacode/repos:$HOME/GitRepository"
+
+# sentry
+fpath=("/Users/daniel/.local/share/zsh/site-functions" $fpath)
