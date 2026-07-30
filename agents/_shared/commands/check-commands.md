@@ -1,6 +1,5 @@
 ---
 description: Validiert Command-Dateien, Dokumentation und Best Practices
-category: develop
 allowed-tools:
   - Read
   - Glob
@@ -21,10 +20,10 @@ Dieser Command validiert Claude Code Commands auf:
 
 ```bash
 # Spezifischen Command prüfen
-/develop:check-commands .claude/commands/develop/commit.md
+/check-commands agents/_shared/commands/commit.md
 
 # Oder ohne Pfad für interaktive Auswahl
-/develop:check-commands
+/check-commands
 ```
 
 ## Validierungs-Checks
@@ -63,20 +62,21 @@ allowed-tools:
 
 **Für umfangreiche Commands (Progressive Disclosure)**:
 
-- Command-Unterordner mit gleichem Namen
-- Detail-Dateien im Unterordner
-- Referenzen im Haupt-Command auf Detail-Dateien
+- Detail-Dateien in `references/<command-name>/`
+- Referenzen im Haupt-Command auf Detail-Dateien via `../references/`
 
 **Beispiel-Struktur**:
 
 ```text
-develop/
-├── commit.md                    # Haupt-Command
-└── commit/                      # Detail-Ordner
-    ├── pre-commit-checks.md
-    ├── commit-types.md
-    ├── best-practices.md
-    └── troubleshooting.md
+_shared/
+├── commands/
+│   └── commit.md                    # Haupt-Command
+└── references/
+    └── commit/                      # Detail-Ordner
+        ├── pre-commit-checks.md
+        ├── commit-types.md
+        ├── best-practices.md
+        └── troubleshooting.md
 ```
 
 ### 4. Best Practices
@@ -111,7 +111,7 @@ develop/
 Wenn du diesen Command ausführst, solltest du:
 
 1. **Command-Pfad ermitteln**:
-   - Falls kein Pfad angegeben: Alle `.md`-Dateien in `.claude/commands/` listen
+   - Falls kein Pfad angegeben: Alle `.md`-Dateien in `agents/_shared/commands/` listen
    - User wählt Command aus
 
 2. **Datei einlesen**:
@@ -120,7 +120,7 @@ Wenn du diesen Command ausführst, solltest du:
 
 3. **YAML-Frontmatter parsen**:
    - Ersten Block zwischen `---` extrahieren
-   - Required-Felder prüfen: `description`, `category`
+   - Required-Felder prüfen: `description`
    - Optional-Felder validieren: `allowed-tools`
    - Format-Validierung (keine Syntax-Fehler)
 
@@ -131,18 +131,17 @@ Wenn du diesen Command ausführst, solltest du:
 
 5. **Dokumentations-Check**:
    - Falls Command > 250 Zeilen: Warnung für Progressive Disclosure
-   - Falls Unterordner existiert: Detail-Dateien prüfen
+   - Falls References existieren: Prüfe `../references/<command>/`
    - Falls Referenzen vorhanden: Existenz der Dateien prüfen
 
 6. **Best Practices Check**:
    - Dateiname: Lowercase mit Bindestrichen
-   - Category: Muss existierendem Ordner entsprechen
    - Description: 1-100 Zeichen
 
 7. **Report ausgeben**:
 
    ```markdown
-   ## Validation Report: /develop:commit
+   ## Validation Report: /commit
 
    ✅ YAML-Frontmatter: Valid
    ✅ Markdown-Struktur: Valid
@@ -151,10 +150,9 @@ Wenn du diesen Command ausführst, solltest du:
    ✅ Progressive Disclosure: Implemented (85 lines main, 1246 lines details)
 
    ### Details:
-   - Category: develop (exists ✓)
    - Description: "Erstellt professionelle Git-Commits..." (Valid length)
-   - Detail files: 4 found (all referenced ✓)
-   - Naming: check-commands.md (compliant ✓)
+   - Detail files: 4 found in references/commit/ (all referenced ✓)
+   - Naming: commit.md (compliant ✓)
 
    ✨ Command is fully compliant!
    ```
@@ -162,7 +160,7 @@ Wenn du diesen Command ausführst, solltest du:
    Bei Problemen:
 
    ```markdown
-   ## Validation Report: /develop:example
+   ## Validation Report: /example
 
    ❌ YAML-Frontmatter: Missing 'description' field
    ⚠️  Markdown-Struktur: No H1 heading found
@@ -177,7 +175,7 @@ Wenn du diesen Command ausführst, solltest du:
    ### Recommended actions:
    - Add description: "Brief command description"
    - Add # heading after frontmatter
-   - Create detail folder: .claude/commands/develop/example/
+   - Create detail folder: references/example/
    ```
 
 ## Error Handling
@@ -185,7 +183,6 @@ Wenn du diesen Command ausführst, solltest du:
 - **Datei nicht gefunden**: Klare Fehlermeldung mit Pfad
 - **YAML-Parse-Fehler**: Zeige Zeile und Fehler
 - **Fehlende Required-Felder**: Liste alle fehlenden Felder
-- **Kategorie existiert nicht**: Zeige verfügbare Kategorien
 
 ## Integration mit anderen Commands
 
@@ -200,21 +197,21 @@ Dieser Command ist nützlich:
 **Erfolgreiche Validierung**:
 
 ```text
-/develop:check-commands .claude/commands/develop/commit.md
+/check-commands agents/_shared/commands/commit.md
 → ✅ Alle Checks bestanden
 ```
 
 **Fehlerhafte Validierung**:
 
 ```text
-/develop:check-commands .claude/commands/develop/broken.md
+/check-commands agents/_shared/commands/broken.md
 → ❌ 3 Issues gefunden (siehe Report)
 ```
 
 **Interaktive Auswahl**:
 
 ```text
-/develop:check-commands
+/check-commands
 → Zeigt Liste aller Commands
 → User wählt aus
 → Validierung läuft

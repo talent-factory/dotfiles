@@ -7,7 +7,7 @@ Build production-ready Claude Code Skills in minutes!
 ### Step 1: Start Building
 
 ```bash
-/skills:build-skill
+/build-skill
 ```
 
 That's it! The system will guide you through everything.
@@ -90,7 +90,7 @@ Your skill is ready to use!
 **What**: Skill for commit messages
 
 ```bash
-/skills:build-skill
+/build-skill
 ```
 
 **Questions You'll Answer**:
@@ -114,7 +114,7 @@ Your skill is ready to use!
 **What**: PDF form filling skill
 
 ```bash
-/skills:build-skill
+/build-skill
 ```
 
 **Questions You'll Answer**:
@@ -143,7 +143,7 @@ Your skill is ready to use!
 **What**: Security code analyzer
 
 ```bash
-/skills:build-skill
+/build-skill
 ```
 
 **Questions You'll Answer**:
@@ -175,14 +175,14 @@ The elicitation agent will ask which you prefer.
 
 **A**: Yes! Just edit the files directly. Use the validation script to check:
 ```bash
-.claude/commands/skills/scripts/validate-skill.sh ~/.claude/skills/my-skill
+.claude/commands/skills/references/scripts/validate-skill.sh ~/.claude/skills/my-skill
 ```
 
 ### Q: How do I know if my skill will trigger?
 
 **A**: Test it with:
 ```bash
-.claude/commands/skills/scripts/test-skill-trigger.sh ~/.claude/skills/my-skill
+.claude/commands/skills/references/scripts/test-skill-trigger.sh ~/.claude/skills/my-skill
 ```
 
 ### Q: What if validation fails?
@@ -191,7 +191,7 @@ The elicitation agent will ask which you prefer.
 
 ### Q: Can I use templates directly?
 
-**A**: Yes! Templates are in `.claude/commands/skills/templates/`. But using `/skills:build-skill` is recommended as it ensures quality.
+**A**: Yes! Templates are in `../references/templates/`. But using `/build-skill` is recommended as it ensures quality.
 
 ## Tips for Success
 
@@ -245,7 +245,7 @@ head -20 ~/.claude/skills/my-skill/SKILL.md
 
 **Test triggers**:
 ```bash
-.claude/commands/skills/scripts/test-skill-trigger.sh ~/.claude/skills/my-skill
+.claude/commands/skills/references/scripts/test-skill-trigger.sh ~/.claude/skills/my-skill
 ```
 
 **Use explicit invocation**:
@@ -257,7 +257,7 @@ head -20 ~/.claude/skills/my-skill/SKILL.md
 
 **Run validator**:
 ```bash
-.claude/commands/skills/scripts/validate-skill.sh ~/.claude/skills/my-skill
+.claude/commands/skills/references/scripts/validate-skill.sh ~/.claude/skills/my-skill
 ```
 
 **Fix issues** listed in the report, then re-validate
@@ -283,7 +283,7 @@ Team members get the skill automatically on pull.
 
 For distribution via plugins:
 
-1. Create skill with `/skills:build-skill`
+1. Create skill with `/build-skill`
 2. Move to plugin structure
 3. Publish plugin to marketplace
 
@@ -295,17 +295,17 @@ For quick prototyping:
 
 ```bash
 # Copy template
-cp .claude/commands/skills/templates/simple-skill-template.md \
+cp ../references/templates/simple-skill-template.md \
    ~/.claude/skills/my-skill/SKILL.md
 
 # Replace placeholders
 sed -i 's/{{SKILL_NAME}}/My Skill/g' ~/.claude/skills/my-skill/SKILL.md
 
 # Validate
-.claude/commands/skills/scripts/validate-skill.sh ~/.claude/skills/my-skill
+.claude/commands/skills/references/scripts/validate-skill.sh ~/.claude/skills/my-skill
 ```
 
-But `/skills:build-skill` is recommended for production use.
+But `/build-skill` is recommended for production use.
 
 ## What's Next?
 
@@ -320,7 +320,7 @@ But `/skills:build-skill` is recommended for production use.
 Ready? Let's go:
 
 ```bash
-/skills:build-skill
+/build-skill
 ```
 
 The agents will guide you through everything!

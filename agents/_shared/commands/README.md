@@ -8,7 +8,7 @@ The Skills namespace provides commands for creating comprehensive, production-re
 
 ## Available Commands
 
-### `/skills:build-skill`
+### `/build-skill`
 
 **Primary command for creating new Claude Code Skills**
 
@@ -26,7 +26,7 @@ Creates skills through a structured 4-phase process:
 
 **Example**:
 ```
-/skills:build-skill
+/build-skill
 
 "I need a skill for managing database migrations"
 "Create a skill that helps with PDF form filling"
@@ -199,7 +199,7 @@ Creates skills through a structured 4-phase process:
 
 ```bash
 # Start the process
-/skills:build-skill
+/build-skill
 
 # Elicitation phase
 Q: What commit message format? (Conventional Commits)
@@ -225,7 +225,7 @@ Q: Example commits to reference? (Yes, from CHANGELOG)
 
 ```bash
 # Start the process
-/skills:build-skill
+/build-skill
 
 # Elicitation phase
 Q: What PDF operations? (Fill forms, extract fields)
@@ -258,7 +258,7 @@ Q: Safety restrictions? (None, can write files)
 
 ```bash
 # Start the process
-/skills:build-skill
+/build-skill
 
 # Elicitation phase
 Q: Analysis scope? (OWASP Top 10 vulnerabilities)
@@ -286,7 +286,7 @@ Q: Output format? (Detailed report)
 
 ## Quality Standards
 
-Every skill created through `/skills:build-skill` meets these standards:
+Every skill created through `/build-skill` meets these standards:
 
 ✅ **Structure**
 - Valid YAML frontmatter
@@ -352,7 +352,7 @@ Every skill created through `/skills:build-skill` meets these standards:
 
 Skills work seamlessly with other commands:
 
-- `/project:*` - Project skills auto-load for projects
+- `/*` - Project skills auto-load for projects
 - `/dev:*` - Dev tools can leverage skill capabilities
 - `/test:*` - Skills can include testing workflows
 - `/docs:*` - Skills can generate documentation
@@ -398,7 +398,7 @@ Skills work seamlessly with other commands:
 
 ### Support
 - Ask Claude: "How do I create a skill for [task]?"
-- Use `/skills:build-skill` for guided creation
+- Use `/build-skill` for guided creation
 - Check validation reports for issues
 
 ## Future Enhancements
@@ -416,7 +416,7 @@ Coming soon:
 Ready to build your first skill?
 
 ```bash
-/skills:build-skill
+/build-skill
 ```
 
 The skill-elicitation-agent will guide you through the process!

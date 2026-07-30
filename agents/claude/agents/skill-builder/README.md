@@ -293,12 +293,12 @@ This command orchestrates all four agents in sequence to build complete skills.
 
 ### Supporting Resources
 
-**Templates** (`.claude/commands/skills/templates/`):
+**Templates** (`.claude/commands/skills/references/templates/`):
 - `simple-skill-template.md` - For instruction-only skills
 - `multi-file-skill-template.md` - For complex skills
 - `tool-restricted-skill-template.md` - For safety-critical skills
 
-**Scripts** (`.claude/commands/skills/scripts/`):
+**Scripts** (`.claude/commands/skills/references/scripts/`):
 - `validate-skill.sh` - Standalone validation script
 - `test-skill-trigger.sh` - Trigger testing and analysis
 

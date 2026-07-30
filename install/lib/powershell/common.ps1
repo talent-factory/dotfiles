@@ -67,8 +67,42 @@ function Backup-Existing {
                 if (-not (Test-Path $BackupDir)) {
                     New-Item -ItemType Directory -Path $BackupDir -Force | Out-Null
                 }
-                Write-Warn "Backing up existing $Path to $BackupDir"
-                Move-Item -Path $Path -Destination $BackupDir -Force | Out-Null
+
+                # Create unique backup name with timestamp to avoid conflicts
+                $itemName = Split-Path -Leaf $Path
+                $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+                $backupPath = Join-Path $BackupDir "${itemName}_${timestamp}"
+
+                # If backup path already exists, remove it first
+                if (Test-Path $backupPath) {
+                    Remove-Item -Path $backupPath -Recurse -Force | Out-Null
+                }
+
+Write-Warn "Backing up existing $Path to $backupPath"
+                try {
+                    # First ensure parent directory exists
+                    $backupParent = Split-Path -Parent $backupPath
+                    if (-not (Test-Path $backupParent)) {
+                        New-Item -ItemType Directory -Path $backupParent -Force | Out-Null
+                    }
+                    
+                    # Remove existing backup if it exists
+                    if (Test-Path $backupPath) {
+                        Remove-Item -Path $backupPath -Recurse -Force | Out-Null
+                    }
+                    
+                    Move-Item -Path $Path -Destination $backupPath -Force | Out-Null
+                } catch {
+                    Write-Warn "Failed to move $Path. Trying copy and delete approach..."
+                    try {
+                        Copy-Item -Path $Path -Destination $backupPath -Recurse -Force | Out-Null
+                        Start-Sleep -Milliseconds 500  # Brief pause before deletion
+                        Remove-Item -Path $Path -Recurse -Force | Out-Null
+                    } catch {
+                        Write-Warn "Failed to backup $Path. Skipping backup and proceeding with installation."
+                        Write-Warn "Error: $($_.Exception.Message)"
+                    }
+                }
             }
             return $true
         } else {
@@ -119,10 +153,20 @@ function New-SymbolicLinkSafe {
             # Check if Developer Mode is enabled (allows symlinks without admin)
             $devModeEnabled = $false
             try {
-                $regPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock"
-                if (Test-Path $regPath) {
-                    $value = Get-ItemProperty -Path $regPath -Name "AllowDevelopmentWithoutDevLicense" -ErrorAction SilentlyContinue
-                    $devModeEnabled = ($value.AllowDevelopmentWithoutDevLicense -eq 1)
+                # Check both system and user registry for Developer Mode
+                $regPaths = @(
+                    "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock",
+                    "HKCU:\Software\Microsoft\Windows\CurrentVersion\AppModelUnlock"
+                )
+
+                foreach ($regPath in $regPaths) {
+                    if (Test-Path $regPath) {
+                        $value = Get-ItemProperty -Path $regPath -Name "AllowDevelopmentWithoutDevLicense" -ErrorAction SilentlyContinue
+                        if ($value.AllowDevelopmentWithoutDevLicense -eq 1) {
+                            $devModeEnabled = $true
+                            break
+                        }
+                    }
                 }
             } catch {
                 # Ignore registry errors

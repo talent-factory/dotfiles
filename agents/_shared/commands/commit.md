@@ -27,9 +27,23 @@ Mit Optionen:
 /commit --no-verify     # Überspringt Pre-Commit-Checks
 /commit --force-push    # Führt force push aus (Vorsicht!)
 /commit --skip-tests    # Überspringt Testausführung
+/commit --with-skills   # Erstelle einen Commit mit professional-commit-workflow
 ```
 
 ## Workflow
+
+### Bei `--with-skills` Option
+
+Wenn `--with-skills` verwendet wird, wird der **professional-commit-workflow Skill** aktiviert und der restliche Command-Workflow wird ignoriert:
+
+1. **Skill-Ausführung**: Nutze den professional-commit-workflow Skill
+   - Location: `../skills/professional-commit-workflow/`
+   - Performance: ~70% schneller als der Command
+   - Features: Automatische Projekterkennung, Pre-Commit-Validierung, Emoji Conventional Commits
+
+2. **Skill-Details**: Siehe [professional-commit-workflow README](../skills/professional-commit-workflow/README.md)
+
+### Standard Workflow (ohne `--with-skills`)
 
 1. **Pre-Commit-Checks** (optional mit `--no-verify` überspringen)
    - Automatische Projekterkennung (Java, Python, React, Docs)
@@ -78,6 +92,33 @@ Mit Optionen:
 - **Dokumentation**: LaTeX, Markdown, AsciiDoc
 
 **Details zu Checks**: [pre-commit-checks.md](../references/commit/pre-commit-checks.md)
+
+## Professional Commit Workflow Skill
+
+Die `--with-skills` Option nutzt den **professional-commit-workflow Skill** für verbesserte Performance und Wiederverwendbarkeit.
+
+### Vorteile vs. Standard Command
+
+| Feature | Standard Command | Skill (`--with-skills`) |
+|---------|------------------|------------------------|
+| Performance | Langsam | ✅ ~70% schneller |
+| Token-Verbrauch | ~1.4k Zeilen | ✅ ~300 Zeilen |
+| Wiederverwendbarkeit | Pro Projekt | ✅ Global installiert |
+| Konfigurierbarkeit | Prompts | ✅ JSON-Config |
+| Erweiterbarkeit | Begrenzt | ✅ Python-Module |
+
+### Skill Verwendung
+
+```bash
+# Direkte Skill-Ausführung (Alternative)
+cd ../skills/professional-commit-workflow
+python scripts/main.py
+
+# Oder via Command mit --with-skills
+/commit --with-skills
+```
+
+**Skill-Dokumentation**: [professional-commit-workflow/README.md](../skills/professional-commit-workflow/README.md)
 
 ## Commit-Nachricht Format
 

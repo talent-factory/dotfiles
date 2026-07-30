@@ -419,8 +419,8 @@ def init_skill(skill_name: str, output_path: str = None) -> int:
         print("1. Edit SKILL.md to define your skill's purpose and instructions")
         print("2. Remove or modify example files as needed")
         print("3. Add your actual scripts, references, and assets")
-        print("4. Validate with: .claude/commands/skills/scripts/validate-skill.sh")
-        print("5. Package with: .claude/commands/skills/scripts/package_skill.py")
+        print("4. Validate with: .claude/commands/skills/references/scripts/validate-skill.sh")
+        print("5. Package with: .claude/commands/skills/references/scripts/package_skill.py")
 
         print("\n💡 Tips:")
         print("- Keep SKILL.md under 5,000 words")

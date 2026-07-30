@@ -54,7 +54,7 @@ function Install-CopilotToTarget {
 
                         # Count backslashes to determine depth
                         # develop\commit.md = 1 backslash = top-level → commit.prompt.md
-                        # develop\commit\best-practices.md = 2 backslashes → commit\best-practices.md
+                        # develop\commit\best-practices.md = 2 backslashes → commit\best-practices.prompt.md
                         $slashCount = ($relativePath.ToCharArray() | Where-Object { $_ -eq '\' }).Count
 
                         if ($slashCount -eq 1) {
@@ -62,11 +62,17 @@ function Install-CopilotToTarget {
                             $baseName = [System.IO.Path]::GetFileNameWithoutExtension($relativePath)
                             $targetFile = Join-Path $TargetDir "$baseName.prompt.md"
                         } else {
-                            # Subdirectory: develop\commit\best-practices.md → commit\best-practices.md
-                            # Remove category prefix (develop\, project\, skills\)
+                            # Subdirectory: develop\commit\best-practices.md → commit\best-practices.prompt.md
+                            # Remove category prefix (develop\, project\, skills\) and add .prompt.md
                             $parts = $relativePath -split '\\'
                             $restOfPath = $parts[1..($parts.Length - 1)] -join '\'
-                            $targetFile = Join-Path $TargetDir $restOfPath
+                            $baseName = [System.IO.Path]::GetFileNameWithoutExtension($restOfPath)
+                            $subdir = Split-Path $restOfPath -Parent
+                            if (-not $subdir -or $subdir -eq '.') {
+                                $targetFile = Join-Path $TargetDir "$baseName.prompt.md"
+                            } else {
+                                $targetFile = Join-Path $TargetDir "$subdir\$baseName.prompt.md"
+                            }
                         }
 
                         # Create subdirectories if needed
@@ -75,9 +81,15 @@ function Install-CopilotToTarget {
                             New-Item -ItemType Directory -Path $targetSubdir -Force | Out-Null
                         }
 
-                        # Create symlink
-                        New-Item -ItemType SymbolicLink -Path $targetFile -Target $sourceFile -Force | Out-Null
-                        Write-Debug "Created symlink: $(Split-Path -Leaf $targetFile) → $sourceFile"
+                        # Try to create symlink, fall back to copy if it fails
+                        try {
+                            New-Item -ItemType SymbolicLink -Path $targetFile -Target $sourceFile -Force -ErrorAction Stop | Out-Null
+                            Write-Debug "Created symlink: $(Split-Path -Leaf $targetFile) → $sourceFile"
+                        } catch {
+                            # Symlink failed, fall back to copy
+                            Write-Debug "Symlink failed, falling back to copy: $(Split-Path -Leaf $targetFile)"
+                            Copy-Item -Path $sourceFile -Destination $targetFile -Force | Out-Null
+                        }
                     }
                     Write-Info "Created individual symlinks with .prompt.md extension"
                 } else {
@@ -98,14 +110,21 @@ function Install-CopilotToTarget {
                         $slashCount = ($relativePath.ToCharArray() | Where-Object { $_ -eq '\' }).Count
 
                         if ($slashCount -eq 1) {
-                            # Top-level command
+                            # Top-level command: develop\commit.md → commit.prompt.md
                             $baseName = [System.IO.Path]::GetFileNameWithoutExtension($relativePath)
                             $targetFile = Join-Path $TargetDir "$baseName.prompt.md"
                         } else {
-                            # Subdirectory: remove category prefix
+                            # Subdirectory: develop\commit\best-practices.md → commit\best-practices.prompt.md
+                            # Remove category prefix (develop\, project\, skills\) and add .prompt.md
                             $parts = $relativePath -split '\\'
                             $restOfPath = $parts[1..($parts.Length - 1)] -join '\'
-                            $targetFile = Join-Path $TargetDir $restOfPath
+                            $baseName = [System.IO.Path]::GetFileNameWithoutExtension($restOfPath)
+                            $subdir = Split-Path $restOfPath -Parent
+                            if (-not $subdir -or $subdir -eq '.') {
+                                $targetFile = Join-Path $TargetDir "$baseName.prompt.md"
+                            } else {
+                                $targetFile = Join-Path $TargetDir "$subdir\$baseName.prompt.md"
+                            }
                         }
 
                         # Create subdirectories if needed

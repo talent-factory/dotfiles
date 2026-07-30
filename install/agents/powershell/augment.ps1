@@ -48,6 +48,18 @@ function Install-AugmentToTarget {
         }
     }
 
+    # Install agents (subagents) - NEW: Augment Code now supports subagents
+    $agentsSource = Join-Path $SourceDir "agents"
+    $agentsTarget = Join-Path $TargetDir "agents"
+
+    if (Test-Path $agentsSource) {
+        if ($Method -eq "symlink") {
+            New-SymbolicLinkSafe -Source $agentsSource -Target $agentsTarget | Out-Null
+        } else {
+            Copy-FilesSafe -Source $agentsSource -Target $agentsTarget | Out-Null
+        }
+    }
+
     # Install references (support documentation for commands)
     $referencesSource = Join-Path $sharedDir "references"
     $referencesTarget = Join-Path $TargetDir "references"

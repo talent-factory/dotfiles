@@ -72,6 +72,7 @@ Each AI agent has its own directory under `agents/`:
 - `agents/augment/` - Augment commands
 - `agents/copilot/` - GitHub Copilot prompts
 - `agents/windsurf/` - Windsurf workflows
+- `agents/opencode/` - OpenCode commands
 
 ### Symlinks
 
@@ -84,6 +85,9 @@ agents/augment/commands/develop -> ../../_shared/commands/develop
 
 # Copilot uses .prompt.md naming convention
 agents/copilot/prompts/commit.prompt.md -> ../../_shared/commands/develop/commit.md
+
+# OpenCode uses "command" (singular) instead of "commands"
+agents/opencode/command -> ../_shared/commands
 ```
 
 ### Agent-Specific Content
@@ -95,7 +99,7 @@ Only content that is **unique** to an agent stays in its directory:
 - `agent-expert.md`
 - `skill-builder/` - Specialized skill builder agents
 
-**Augment/Copilot/Windsurf**: Currently no agent-specific content.
+**Augment/Copilot/Windsurf/OpenCode**: Currently no agent-specific content.
 
 ## Benefits
 
@@ -149,6 +153,14 @@ The installer handles renaming via symlinks:
 ln -s ../../_shared/commands/develop/commit.md \
       agents/copilot/prompts/commit.prompt.md
 ```
+
+### OpenCode
+
+```text
+command-name.md
+```
+
+**Note**: OpenCode uses `command/` (singular) instead of `commands/` (plural).
 
 ## Installation
 

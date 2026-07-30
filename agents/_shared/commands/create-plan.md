@@ -28,16 +28,16 @@ Du agierst als **Scrum Master, Product Owner und Entwicklungsleiter** mit folgen
 
 ```bash
 # Filesystem-basiert (Standard)
-/project:create-plan                         # PRD.md im CWD
-/project:create-plan --prd feature.md        # Spezifisches PRD
-/project:create-plan PRDs/01-rag-system.md   # Direkter Pfad
+/create-plan                         # PRD.md im CWD
+/create-plan --prd feature.md        # Spezifisches PRD
+/create-plan PRDs/01-rag-system.md   # Direkter Pfad
 
 # Linear-basiert
-/project:create-plan --linear                # PRD.md im CWD
-/project:create-plan --linear --prd feature.md
+/create-plan --linear                # PRD.md im CWD
+/create-plan --linear --prd feature.md
 
 # Interaktiver Modus
-/project:create-plan --interactive
+/create-plan --interactive
 ```
 
 ## Provider-Auswahl
@@ -240,10 +240,10 @@ Basierend auf Task-Typ werden KI-Agenten empfohlen:
 
 ```bash
 # 1. PRD erstellen
-/project:create-prd "Dark Mode Toggle"
+/create-prd "Dark Mode Toggle"
 
 # 2. Plan aus PRD generieren
-/project:create-plan PRD.md
+/create-plan PRD.md
 
 # Output:
 # ✅ PRD eingelesen: PRD.md
@@ -258,17 +258,17 @@ Basierend auf Task-Typ werden KI-Agenten empfohlen:
 # ✅ Total: 21 SP
 
 # 3. Task implementieren
-/develop:implement-task task-001
+/implement-task task-001
 ```
 
 ### Linear (`--linear`)
 
 ```bash
 # 1. PRD erstellen
-/project:create-prd "Dark Mode Toggle"
+/create-prd "Dark Mode Toggle"
 
 # 2. Plan in Linear generieren
-/project:create-plan --linear --prd PRD.md
+/create-plan --linear --prd PRD.md
 
 # Output:
 # ✅ PRD eingelesen: PRD.md
@@ -281,7 +281,7 @@ Basierend auf Task-Typ werden KI-Agenten empfohlen:
 # ✅ Labels hinzugefügt
 
 # 3. Task implementieren
-/develop:implement-task --linear LIN-124
+/implement-task --linear LIN-124
 ```
 
 ## Detail-Dokumentation

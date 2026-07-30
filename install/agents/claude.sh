@@ -39,12 +39,11 @@ _install_claude_to_target() {
     local method="$3"
     local shared_dir="$DOTFILES_DIR/agents/_shared"
 
-    # Backup existing installation
-    backup_existing "$target_dir"
-
-    # Create target directory
+    # Create target directory if it doesn't exist (preserves existing files)
     if [[ "$DRY_RUN" != true ]]; then
         mkdir -p "$target_dir"
+    else
+        log_dry_run "Would ensure directory exists: $target_dir"
     fi
 
     # Install commands
